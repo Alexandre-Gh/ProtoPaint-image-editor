@@ -32,8 +32,18 @@ FetchContent_Declare(ImGui-SFML
     SYSTEM)
 FetchContent_MakeAvailable(ImGui-SFML)
 
+
+
+file(GLOB SRC_FILES
+    "../*.cpp"
+    "../Graphics/*.cpp"
+    "../Factory/*.cpp"
+    "../Core/*.cpp"
+    "../Interfaces/*.cpp"
+)
+
 add_executable(epigimp
-    ../main.cpp
+    ${SRC_FILES}
 )
 
 target_link_libraries(epigimp PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML)
