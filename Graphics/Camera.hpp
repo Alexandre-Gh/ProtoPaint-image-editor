@@ -21,9 +21,13 @@
                 ~Camera();
 
                 void setPosition(int x, int y);
+                void setPosition(sf::Vector2f pos);
                 const sf::Vector2f &getPosition();
-                void setSize(int x, int y);
+                void setSize(int w, int h);
+                void setSize(sf::Vector2f size);
                 const sf::Vector2f &getSize();
+                void moveCamera(float x, float y);
+                void moveCamera(sf::Vector2f translation);
 
                 const sf::View &getCoreCamera();
 

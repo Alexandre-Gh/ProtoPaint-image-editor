@@ -21,19 +21,28 @@
                 Window(std::string name, unsigned int x, unsigned int y);
                 ~Window();
                 void resetRender();
+                void drawSprite(const sf::Sprite &sprite);
                 void displayRender();
                 bool isOpen();
                 void checkResize();
                 void checkClose();
+                void checkMouse();
                 bool isLeftMousePressed();
+                bool isRightMousePressed();
                 const sf::Vector2f &getMousePosition();
-                const Graphic::Camera &getCamera();
+                const sf::Vector2f &getMouseTranslation();
+                const std::shared_ptr<Graphic::Camera> &getCamera();
 
+                sf::RenderWindow &getCoreWindow();
+                const sf::Event &getCoreEvent();
 
             private:
                 sf::RenderWindow _window;
                 sf::Event _event;
-                Graphic::Camera _camera;
+                std::shared_ptr<Graphic::Camera> _camera;
+                sf::Vector2f _mousePosition;
+                sf::Vector2f _previousMousePosition;
+                sf::Vector2f _mouseTranslation;
 
         };
     }

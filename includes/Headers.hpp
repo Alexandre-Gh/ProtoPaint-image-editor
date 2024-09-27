@@ -27,6 +27,7 @@
     #include <unordered_map>
 
     #include "GUI_SFML_Graphics.hpp"
+    #include "../Global/DataTransfer.hpp"
     #include "../ErrorException/ErrorException.hpp"
 
 #endif

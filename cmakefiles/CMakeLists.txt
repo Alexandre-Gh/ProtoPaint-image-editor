@@ -37,9 +37,10 @@ FetchContent_MakeAvailable(ImGui-SFML)
 file(GLOB SRC_FILES
     "../*.cpp"
     "../Graphics/*.cpp"
-    "../Factory/*.cpp"
+    "../Global/*.cpp"
     "../Core/*.cpp"
     "../Interfaces/*.cpp"
+    "../Gui/*.cpp"
 )
 
 add_executable(epigimp

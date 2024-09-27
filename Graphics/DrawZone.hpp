@@ -20,11 +20,17 @@
                 DrawZone(unsigned int w, unsigned int h);
                 ~DrawZone();
 
+                const sf::Sprite &getSprite();
+
                 void setPixel(sf::Vector2f pos, sf::Color color);
                 const sf::Color &getPixel(sf::Vector2u pos);
+                void addDraw(sf::Drawable &drawable);
+
+                void setAllPixel(sf::Color);
 
                 void setPosition(int x, int y);
                 const sf::Vector2f &getPosition();
+                const sf::Vector2f &getMouseRelatedPosition(sf::Vector2f pos);
                 void setSize(unsigned int x, unsigned int y);
 
             private:

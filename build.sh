@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
-(cd cmakefiles/ && cmake . && make)
+(cd cmakefiles/ && cmake . && make) &&
 ./epigimp

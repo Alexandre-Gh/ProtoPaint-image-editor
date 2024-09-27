@@ -23,14 +23,24 @@ void Graphic::Camera::setPosition(int x, int y)
     this->_camera.setCenter(x, y);
 }
 
+void Graphic::Camera::setPosition(sf::Vector2f pos)
+{
+    this->_camera.setCenter(pos);
+}
+
 const sf::Vector2f &Graphic::Camera::getPosition()
 {
     return this->_camera.getCenter();
 }
 
-void Graphic::Camera::setSize(int x, int y)
+void Graphic::Camera::setSize(int w, int h)
 {
-    this->_camera.setSize(x, y);
+    this->_camera.setSize(w, h);
+}
+
+void Graphic::Camera::setSize(sf::Vector2f size)
+{
+    this->_camera.setSize(size);
 }
 
 const sf::Vector2f &Graphic::Camera::getSize()
@@ -41,4 +51,14 @@ const sf::Vector2f &Graphic::Camera::getSize()
 const sf::View &Graphic::Camera::getCoreCamera()
 {
     return this->_camera;
+}
+
+void Graphic::Camera::moveCamera(float x, float y)
+{
+    this->_camera.move(x, y);
+}
+
+void Graphic::Camera::moveCamera(sf::Vector2f translation)
+{
+    this->_camera.move(translation);
 }
