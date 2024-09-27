@@ -10,9 +10,10 @@
 Graphic::Window::Window(std::string name, unsigned int w, unsigned int h)
 {
     this->_window.create(sf::VideoMode(w, h), name.c_str(), sf::Style::Default);
-    this->_window.setFramerateLimit(144);
+    this->_window.setFramerateLimit(1000);
     this->_camera = std::make_shared<Graphic::Camera>(0, 0, w, h);
     this->_window.setView(this->_camera->getCoreCamera());
+    this->_zoomMult = 1;
 }
 
 Graphic::Window::~Window()
@@ -23,12 +24,22 @@ Graphic::Window::~Window()
 void Graphic::Window::resetRender()
 {
     this->_window.clear(sf::Color(50, 50, 50));
+    this->_mouseJustPressed = false;
+    this->_mouseTranslation = sf::Vector2f{0, 0};
     while (this->_window.pollEvent(this->_event))
     {
-        std::cout << this->_event.type << std::endl;
-        this->checkClose();
-        this->checkResize();
-        this->checkMouse();
+        switch (this->_event.type) {
+            case sf::Event::Resized: checkResize(); break;
+            case sf::Event::Closed: checkClose(); break;
+            case sf::Event::MouseWheelScrolled: checkZoom(); break;
+            case sf::Event::MouseMoved: checkMouse(); break;
+            case sf::Event::MouseButtonPressed:
+                if (ImGui::GetIO().WantCaptureMouse) {
+                    break;
+                }
+                this->_mouseJustPressed = (this->_event.mouseButton.button == sf::Mouse::Left);
+                break;
+        }
     }
 }
 
@@ -50,32 +61,45 @@ bool Graphic::Window::isOpen()
 
 void Graphic::Window::checkResize()
 {
-    if (this->_event.type == sf::Event::Resized) {
-        this->_camera->setSize(this->_window.getSize().x, this->_window.getSize().y);
-    }
+    this->_camera->setSize(this->_window.getSize().x, this->_window.getSize().y);
 }
 
 void Graphic::Window::checkClose()
 {
-    if (this->_event.type == sf::Event::Closed) {
-        this->_window.close();
+    switch(this->_event.type) {
+        case sf::Event::Closed:
+            this->_window.close();
+            break;
+    }
+}
+
+void Graphic::Window::checkZoom()
+{
+    if (this->_event.mouseWheelScroll.delta > 0) {
+        this->_camera->zoom(0.9f);
+    } else {
+        this->_camera->zoom(1.1f);
     }
 }
 
 void Graphic::Window::checkMouse()
 {
-    this->_mousePosition = this->_window.mapPixelToCoords(sf::Mouse::getPosition(), this->_camera->getCoreCamera());
-    if (this->_event.type == sf::Event::MouseMoved) {
-        this->_mouseTranslation = this->_mousePosition - this->_previousMousePosition;
-    } else {
-        this->_mouseTranslation = {0, 0};
+    if (ImGui::GetIO().WantCaptureMouse) {
+        return;
     }
+    this->_mousePosition = this->_window.mapPixelToCoords(sf::Mouse::getPosition(this->_window));
+    this->_mouseTranslation = this->_mousePosition - this->_previousMousePosition;
     this->_previousMousePosition = this->_mousePosition;
 }
 
 bool Graphic::Window::isLeftMousePressed()
 {
     return sf::Mouse::isButtonPressed(sf::Mouse::Left);
+}
+
+bool Graphic::Window::isLeftMouseJustPressed()
+{
+    return this->_mouseJustPressed;
 }
 
 bool Graphic::Window::isRightMousePressed()

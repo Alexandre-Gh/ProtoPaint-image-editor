@@ -26,8 +26,10 @@
                 bool isOpen();
                 void checkResize();
                 void checkClose();
+                void checkZoom();
                 void checkMouse();
                 bool isLeftMousePressed();
+                bool isLeftMouseJustPressed();
                 bool isRightMousePressed();
                 const sf::Vector2f &getMousePosition();
                 const sf::Vector2f &getMouseTranslation();
@@ -40,9 +42,11 @@
                 sf::RenderWindow _window;
                 sf::Event _event;
                 std::shared_ptr<Graphic::Camera> _camera;
+                float _zoomMult;
                 sf::Vector2f _mousePosition;
                 sf::Vector2f _previousMousePosition;
                 sf::Vector2f _mouseTranslation;
+                bool _mouseJustPressed;
 
         };
     }

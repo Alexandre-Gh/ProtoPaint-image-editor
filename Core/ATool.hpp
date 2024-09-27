@@ -25,7 +25,7 @@
                 ATool();
                 ~ATool();
                 void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone);
-                void setValue(std::string valueName, int value);
+                void setValue(std::pair<std::string, int> value);
 
             protected:
                 std::unordered_map<std::string, int> _values;

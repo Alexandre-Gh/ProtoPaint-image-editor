@@ -20,6 +20,7 @@
 
                 TOOL_BRUSH = 1,
                 TOOL_ERASER = 2,
+                TOOL_BUCKET = 3
             };
         };
 
@@ -39,6 +40,9 @@
                 const EpiGimp::varTool &getCurrentTool() { return _currentTool; }
                 void setCurrentTool(EpiGimp::varTool toolType) { _currentTool = toolType; }
 
+                const EpiGimp::varTool &setCurrentToolValue(std::string valueName, int value);
+                const std::pair<std::string, int> &getCurrentToolValue();
+                bool wasCurrentToolValueModified();
 
                 //=======================
 
@@ -51,6 +55,9 @@
                 sf::Color _mainColor = sf::Color::Red;
                 sf::Color _secondColor = sf::Color::White;
                 EpiGimp::varTool _currentTool = EpiGimp::TOOL_BRUSH;
+
+                std::pair<std::string, int> _lastModifiedValue;
+                bool _wasModified = false;
                 //=======================
         };
 

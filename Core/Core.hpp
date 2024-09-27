@@ -30,8 +30,10 @@
                 std::shared_ptr<Graphic::Window> _window;
                 std::shared_ptr<Graphic::DrawZone> _canvasLayers; //when multiple layers
                 std::map<EpiGimp::varTool, std::unique_ptr<EpiGimp::ITool>> _tools;
+                std::map<EpiGimp::varTool, std::unique_ptr<GUI::IGUIWindow>> _toolsWindows;
 
                 std::unique_ptr<GUI::IGUIWindow> _toolWindow;
+                
 
         };
     }

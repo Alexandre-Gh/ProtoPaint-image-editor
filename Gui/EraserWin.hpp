@@ -7,19 +7,19 @@
 
 #pragma once
 
-#ifndef BRUSH_WIN_H_
-    #define BRUSH_WIN_H_
+#ifndef ERASER_WIN_H_
+    #define ERASER_WIN_H_
 
     #include "../includes/Headers.hpp"
     #include "AGUIWindow.hpp"
 
     namespace GUI
     {
-        class BrushWin : public GUI::AGUIWindow
+        class EraserWin : public GUI::AGUIWindow
         {
             public:
-                BrushWin();
-                ~BrushWin() = default;
+                EraserWin();
+                ~EraserWin() = default;
 
                 void content(); //Actual function to modify in inherited classes
 

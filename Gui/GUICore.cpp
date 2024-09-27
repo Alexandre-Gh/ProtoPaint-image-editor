@@ -28,3 +28,4 @@ void GUI::GUICore::display()
 {
     ImGui::SFML::Render(this->_window->getCoreWindow());
 }
+

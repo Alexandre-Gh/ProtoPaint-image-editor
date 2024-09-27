@@ -22,7 +22,7 @@
                 virtual ~ITool() = default;
 
                 virtual void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone) = 0;
-                virtual void setValue(std::string valueName, int value) = 0;
+                virtual void setValue(std::pair<std::string, int> value) = 0;
         };
     }
 

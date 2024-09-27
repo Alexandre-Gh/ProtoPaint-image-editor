@@ -10,7 +10,7 @@
 
 EpiGimp::ToolEraser::ToolEraser()
 {
-    this->_values["size"] = 24;
+    this->_values["size"] = 4;
     this->_brush;
 }
 
@@ -20,11 +20,13 @@ void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shar
         return;
     }
 
-    sf::Vector2f pos = zone->getSprite().getInverseTransform().transformPoint(win->getMousePosition());
+    sf::Vector2f pos = win->getMousePosition();
+    pos.y = -pos.y;
+    pos = zone->getSprite().getInverseTransform().transformPoint(pos);
     sf::Color brushColor = GlobalData.getSecondColor();
 
     this->_brush.setRadius(this->_values["size"]);
-    this->_brush.setOrigin(this->_values["size"] / 2, this->_values["size"] / 2);
+    this->_brush.setOrigin(this->_values["size"], this->_values["size"]);
     this->_brush.setFillColor(brushColor);
     this->_brush.setPosition(pos);
     zone->addDraw(this->_brush);

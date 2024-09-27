@@ -5,15 +5,15 @@
 ** Core
 */
 
-#include "BrushWin.hpp"
+#include "EraserWin.hpp"
 
-GUI::BrushWin::BrushWin() :
-    AGUIWindow("Brush")
+GUI::EraserWin::EraserWin() :
+    AGUIWindow("Eraser")
 {
     
 }
 
-void GUI::BrushWin::content()
+void GUI::EraserWin::content()
 {
     ImTextureID texture_id;
     ImGuiStyle colorButton = ImGui::GetStyle();

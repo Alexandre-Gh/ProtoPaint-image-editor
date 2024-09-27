@@ -7,24 +7,24 @@
 
 #pragma once
 
-#ifndef BRUSH_WIN_H_
-    #define BRUSH_WIN_H_
+#ifndef NAVBAR_H_
+    #define NAVBAR_H_
 
     #include "../includes/Headers.hpp"
     #include "AGUIWindow.hpp"
 
     namespace GUI
     {
-        class BrushWin : public GUI::AGUIWindow
+        class NavBar : public GUI::AGUIWindow
         {
             public:
-                BrushWin();
-                ~BrushWin() = default;
+                NavBar();
+                ~NavBar() = default;
 
                 void content(); //Actual function to modify in inherited classes
 
             private:
-                int _size = 4;
+
         };
     }
 

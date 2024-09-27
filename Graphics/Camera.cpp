@@ -11,6 +11,9 @@ Graphic::Camera::Camera(int x, int y, unsigned int w, unsigned int h)
 {
     this->_camera.setCenter(x, y);
     this->_camera.setSize(w, h);
+    this->_w = w;
+    this->_h = h;
+
 }
 
 Graphic::Camera::~Camera()
@@ -35,6 +38,8 @@ const sf::Vector2f &Graphic::Camera::getPosition()
 
 void Graphic::Camera::setSize(int w, int h)
 {
+    this->_w = w;
+    this->_h = h;
     this->_camera.setSize(w, h);
 }
 
@@ -61,4 +66,14 @@ void Graphic::Camera::moveCamera(float x, float y)
 void Graphic::Camera::moveCamera(sf::Vector2f translation)
 {
     this->_camera.move(translation);
+}
+
+void Graphic::Camera::zoom(float zoomMult)
+{
+    this->_camera.zoom(zoomMult);
+}
+
+void Graphic::Camera::resetZoom()
+{
+    this->setSize(this->_w, this->_h);
 }

@@ -28,6 +28,8 @@
 
                 void setAllPixel(sf::Color);
 
+                void fill(sf::Vector2f pos, sf::Color color);
+
                 void setPosition(int x, int y);
                 const sf::Vector2f &getPosition();
                 const sf::Vector2f &getMouseRelatedPosition(sf::Vector2f pos);

@@ -29,10 +29,15 @@
                 void moveCamera(float x, float y);
                 void moveCamera(sf::Vector2f translation);
 
+                void zoom(float zoomMult);
+                void resetZoom();
+
                 const sf::View &getCoreCamera();
 
             private:
                 sf::View _camera;
+                int _w;
+                int _h;
 
         };
     }

@@ -22,7 +22,7 @@ void EpiGimp::ATool::action(std::shared_ptr<Graphic::Window> win, std::shared_pt
     
 }
 
-void EpiGimp::ATool::setValue(std::string valueName, int value)
+void EpiGimp::ATool::setValue(std::pair<std::string, int> value)
 {
-    this->_values.at(valueName) = value;
+    this->_values.at(value.first) = value.second;
 }
