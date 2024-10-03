@@ -14,6 +14,7 @@ Graphic::DrawZone::DrawZone(unsigned int w, unsigned int h)
     this->_zone.clear(GlobalData.getSecondColor());
     this->_displayer.setTexture(this->_zone.getTexture(), true);
     this->setSize(w, h);
+    this->fill({0, 0}, sf::Color::Transparent);
 }
 
 Graphic::DrawZone::~DrawZone()
@@ -119,15 +120,23 @@ const sf::Vector2f &Graphic::DrawZone::getPosition()
 
 void Graphic::DrawZone::setSize(unsigned int w, unsigned int h)
 {
-    sf::Sprite oldSpr;
-    oldSpr.setTexture(this->_zone.getTexture(), true);
-    oldSpr.setScale(w / this->_zone.getSize().x, h / this->_zone.getSize().y);
+    sf::RenderTexture tempZone;
+    tempZone.create(this->_zone.getSize().x, this->_zone.getSize().y);
+    tempZone.clear(sf::Color::Transparent);
+
+    sf::Sprite oldSpr(this->_zone.getTexture());
+    tempZone.draw(oldSpr);
+    tempZone.display();
 
     this->_zone.create(w, h);
     this->_zone.clear(sf::Color::Transparent);
-    this->_zone.draw(oldSpr);
+
+    sf::Sprite newSpr(tempZone.getTexture());
+    newSpr.setScale(w / this->_zone.getSize().x, h / this->_zone.getSize().y);
+    this->_zone.draw(newSpr);
+
     this->_zone.display();
-    this->_displayer.setOrigin(w / 2, h / 2);
+
     this->_displayer.setTexture(this->_zone.getTexture(), true);
     this->_size.x = w;
     this->_size.y = h;
