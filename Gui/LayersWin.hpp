@@ -12,19 +12,26 @@
 
     #include "../includes/Headers.hpp"
     #include "AGUIWindow.hpp"
+    #include "../Graphics/DrawZone.hpp"
+    #include "../Core/Layer.hpp"
 
     namespace GUI
     {
         class LayersWin : public GUI::AGUIWindow
         {
             public:
-                LayersWin();
+                LayersWin(std::vector<std::shared_ptr<EpiGimp::Layer>> layers);
                 ~LayersWin() = default;
 
                 void content(); //Actual function to modify in inherited classes
+                std::vector<std::shared_ptr<EpiGimp::Layer>> getLayers();
+                const unsigned int &getCurrentLayerIndex();
 
             private:
+                 std::vector<std::shared_ptr<EpiGimp::Layer>> _layers;
+                 unsigned int _currentLayerIndex;
 
+                 void addLayer();
 
         };
     }

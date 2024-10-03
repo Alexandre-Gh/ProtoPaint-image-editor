@@ -82,6 +82,9 @@ void Graphic::Window::checkClose()
 
 void Graphic::Window::checkZoom()
 {
+    if (this->isMouseInUI()) {
+        return;
+    }
     if (this->_event.mouseWheelScroll.delta > 0) {
         this->_camera->zoom(0.9f);
     } else {
