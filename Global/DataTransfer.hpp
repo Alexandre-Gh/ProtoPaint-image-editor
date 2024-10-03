@@ -20,7 +20,8 @@
 
                 TOOL_BRUSH = 1,
                 TOOL_ERASER = 2,
-                TOOL_BUCKET = 3
+                TOOL_BUCKET = 3,
+                TOOL_COLORPICKER = 4
             };
         };
 
@@ -40,9 +41,15 @@
                 const EpiGimp::varTool &getCurrentTool() { return _currentTool; }
                 void setCurrentTool(EpiGimp::varTool toolType) { _currentTool = toolType; }
 
+                const sf::Vector2f &getCanvasSize() { return _canvasSize; }
+                void setCanvasSize(float w, float h) { _canvasSize = {w, h}; }
+
                 const EpiGimp::varTool &setCurrentToolValue(std::string valueName, int value);
                 const std::pair<std::string, int> &getCurrentToolValue();
                 bool wasCurrentToolValueModified();
+
+                const unsigned int &getCurrentCanvas() { return _currentCanvas; }
+                void setCurrentCanvas(unsigned int n) { _currentCanvas = n; }
 
                 //=======================
 
@@ -58,6 +65,8 @@
 
                 std::pair<std::string, int> _lastModifiedValue;
                 bool _wasModified = false;
+                sf::Vector2f _canvasSize = {400, 300};
+                unsigned int _currentCanvas = 0;
                 //=======================
         };
 

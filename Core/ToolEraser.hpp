@@ -18,9 +18,11 @@
                 ToolEraser();
                 ~ToolEraser() = default;
                 void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone);
+                void drawPreview(std::shared_ptr<Graphic::Window> win);
 
             private:
                 sf::CircleShape _brush;
+                sf::CircleShape _previewBrush;
         };
     }
 

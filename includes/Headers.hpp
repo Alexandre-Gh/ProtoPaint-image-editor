@@ -25,6 +25,7 @@
     #include <unistd.h>
     #include <regex>
     #include <unordered_map>
+    #include <math.h>
 
     #include "GUI_SFML_Graphics.hpp"
     #include "../Global/DataTransfer.hpp"

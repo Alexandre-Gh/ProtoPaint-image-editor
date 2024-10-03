@@ -18,8 +18,10 @@
                 ToolBrush();
                 ~ToolBrush() = default;
                 void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone);
+                void drawPreview(std::shared_ptr<Graphic::Window> win);
 
             private:
+                sf::CircleShape _previewBrush;
                 sf::CircleShape _brush;
         };
     }

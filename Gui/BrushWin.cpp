@@ -19,8 +19,11 @@ void GUI::BrushWin::content()
     ImGuiStyle colorButton = ImGui::GetStyle();
 
     ImGui::SetWindowCollapsed(false);
-    if (ImGui::SliderInt("Brush Size", &this->_size, 1, 50)) {
+    if (ImGui::SliderInt("Brush Size", &this->_size, 1, 100)) {
         GlobalData.setCurrentToolValue("size", this->_size);
+    }
+    if (ImGui::Checkbox("Gradient", &this->_gradient)) {
+        GlobalData.setCurrentToolValue("gradient", this->_gradient);
     }
 
 }

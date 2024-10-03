@@ -7,24 +7,25 @@
 
 #pragma once
 
-#ifndef BRUSH_WIN_H_
-    #define BRUSH_WIN_H_
+#ifndef LAYERSWIN_H_
+    #define LAYERSWIN_H_
 
+    #include "../includes/Headers.hpp"
     #include "AGUIWindow.hpp"
 
     namespace GUI
     {
-        class BrushWin : public GUI::AGUIWindow
+        class LayersWin : public GUI::AGUIWindow
         {
             public:
-                BrushWin();
-                ~BrushWin() = default;
+                LayersWin();
+                ~LayersWin() = default;
 
                 void content(); //Actual function to modify in inherited classes
 
             private:
-                int _size = 4;
-                bool _gradient = false;
+
+
         };
     }
 

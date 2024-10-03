@@ -10,7 +10,6 @@
 #ifndef ITOOL_H_
     #define ITOOL_H_
 
-    #include "../includes/Headers.hpp"
     #include "../Graphics/Window.hpp"
     #include "../Graphics/DrawZone.hpp"
 
@@ -23,6 +22,8 @@
 
                 virtual void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone) = 0;
                 virtual void setValue(std::pair<std::string, int> value) = 0;
+                virtual void drawPreview(std::shared_ptr<Graphic::Window> win) = 0;
+                virtual void displayGUI() = 0;
         };
     }
 

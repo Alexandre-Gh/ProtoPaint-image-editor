@@ -5,15 +5,14 @@
 ** Core
 */
 
-#include "ToolBucket.hpp"
+#include "ToolColorPicker.hpp"
 
-EpiGimp::ToolBucket::ToolBucket()
+EpiGimp::ToolColorPicker::ToolColorPicker()
 {
-    this->_values["size"] = 4;
-    this->_brush;
+
 }
 
-void EpiGimp::ToolBucket::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void EpiGimp::ToolColorPicker::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     if (!win->isLeftMouseJustPressed() || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())) {
         return;
@@ -22,5 +21,7 @@ void EpiGimp::ToolBucket::action(std::shared_ptr<Graphic::Window> win, std::shar
     sf::Vector2f pos = win->getMousePosition();
     pos = zone->getSprite().getInverseTransform().transformPoint(pos);
 
-    zone->fill(pos, this->getMainColor());
+    sf::Color picked(zone->getPixel(pos));
+
+    GlobalData.setMainColor(picked);
 }

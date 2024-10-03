@@ -7,12 +7,9 @@
 
 #pragma once
 
-#ifndef ATOOL_H_
-    #define ATOOL_H_
+#ifndef AGUIWINDOW_H_
+    #define AGUIWINDOW_H_
 
-    #include "../includes/Headers.hpp"
-    #include "../Graphics/Window.hpp"
-    #include "../Graphics/DrawZone.hpp"
     #include "../Interfaces/IGUIWindow.hpp"
 
     namespace GUI

@@ -34,7 +34,9 @@ void Graphic::Window::resetRender()
             case sf::Event::MouseWheelScrolled: checkZoom(); break;
             case sf::Event::MouseMoved: checkMouse(); break;
             case sf::Event::MouseButtonPressed:
-                if (ImGui::GetIO().WantCaptureMouse) {
+                if (this->_mouseInUI = ImGui::GetIO().WantCaptureMouse) {
+                    this->_mouseJustPressed = false;
+                    this->_mouseTranslation = {0, 0};
                     break;
                 }
                 this->_mouseJustPressed = (this->_event.mouseButton.button == sf::Mouse::Left);
@@ -46,6 +48,11 @@ void Graphic::Window::resetRender()
 void Graphic::Window::drawSprite(const sf::Sprite &sprite)
 {
     this->_window.draw(sprite);
+}
+
+void Graphic::Window::drawShape(const sf::Shape &shape)
+{
+    this->_window.draw(shape);
 }
 
 void Graphic::Window::displayRender()
@@ -84,7 +91,9 @@ void Graphic::Window::checkZoom()
 
 void Graphic::Window::checkMouse()
 {
-    if (ImGui::GetIO().WantCaptureMouse) {
+    if (this->_mouseInUI = ImGui::GetIO().WantCaptureMouse) {
+        this->_mouseJustPressed = false;
+        this->_mouseTranslation = {0, 0};
         return;
     }
     this->_mousePosition = this->_window.mapPixelToCoords(sf::Mouse::getPosition(this->_window));
@@ -105,6 +114,11 @@ bool Graphic::Window::isLeftMouseJustPressed()
 bool Graphic::Window::isRightMousePressed()
 {
     return sf::Mouse::isButtonPressed(sf::Mouse::Right);
+}
+
+bool Graphic::Window::isMouseInUI()
+{
+    return this->_mouseInUI;
 }
 
 const sf::Vector2f &Graphic::Window::getMousePosition()

@@ -22,6 +22,7 @@
                 ~Window();
                 void resetRender();
                 void drawSprite(const sf::Sprite &sprite);
+                void drawShape(const sf::Shape &shape);
                 void displayRender();
                 bool isOpen();
                 void checkResize();
@@ -31,6 +32,7 @@
                 bool isLeftMousePressed();
                 bool isLeftMouseJustPressed();
                 bool isRightMousePressed();
+                bool isMouseInUI();
                 const sf::Vector2f &getMousePosition();
                 const sf::Vector2f &getMouseTranslation();
                 const std::shared_ptr<Graphic::Camera> &getCamera();
@@ -47,6 +49,7 @@
                 sf::Vector2f _previousMousePosition;
                 sf::Vector2f _mouseTranslation;
                 bool _mouseJustPressed;
+                bool _mouseInUI;
 
         };
     }
