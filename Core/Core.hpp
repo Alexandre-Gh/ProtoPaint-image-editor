@@ -29,6 +29,11 @@
                 void loop();
                 void moveCamera();
                 void handleTool();
+                void handleAction();
+                void handleFileDialog();
+                void resetCanvas();
+                void openFile();
+                void saveFile();
 
             private:
                 unsigned int _currentLayerIndex;
@@ -40,7 +45,10 @@
 
                 std::unique_ptr<GUI::IGUIWindow> _toolWindow;
                 std::unique_ptr<GUI::IGUIWindow> _sizeWindow;
+                std::unique_ptr<GUI::IGUIWindow> _navBar;
                 std::unique_ptr<GUI::LayersWin> _layersWindow;
+                bool _loadFile = false;
+                bool _saveFile = false;
 
         };
     }

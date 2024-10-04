@@ -14,5 +14,6 @@
     #include "SFML/Window.hpp"
     #include "imgui.h"
     #include "imgui-SFML.h"
+    #include "../ImGuiFileDialog/ImGuiFileDialog.h"
 
 #endif

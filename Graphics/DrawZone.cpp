@@ -33,6 +33,21 @@ void Graphic::DrawZone::setPixel(sf::Vector2f pos, sf::Color color)
     im.setPixel(pos.x, pos.y, color);
 }
 
+void Graphic::DrawZone::setFromFile(std::string filepath)
+{
+    sf::Texture fileText;
+    if (fileText.loadFromFile(filepath)) {
+        this->_zone.draw(sf::Sprite(fileText));
+        GlobalData.setCanvasSize(fileText.getSize().x, fileText.getSize().y);
+    }
+}
+
+void Graphic::DrawZone::saveToFile(std::string filepath)
+{
+    sf::Image im = this->_zone.getTexture().copyToImage();
+    im.saveToFile(filepath);
+}
+
 const sf::Color &Graphic::DrawZone::getPixel(sf::Vector2f pos)
 {
     sf::Image image = this->_zone.getTexture().copyToImage();
@@ -49,6 +64,11 @@ void Graphic::DrawZone::addDraw(sf::Drawable &drawable)
 void Graphic::DrawZone::setDraw(sf::Drawable &drawable)
 {
     this->_zone.draw(drawable, sf::BlendNone);
+}
+
+void Graphic::DrawZone::addSprite(const sf::Sprite &spr)
+{
+    this->_zone.draw(spr);
 }
 
 void Graphic::DrawZone::fill(sf::Vector2f pos, sf::Color color)
@@ -92,13 +112,10 @@ void Graphic::DrawZone::drawCheckeredBackground() {
 
     int squareSize = this->_size.x / 20;
 
-    // Fill the render texture with the checkered pattern
     for (int x = 0; x < this->_size.x; x += squareSize) {
         for (int y = 0; y < this->_size.y; y += squareSize) {
-            // Determine which color to use
             sf::Color color = ((x / squareSize) % 2 == (y / squareSize) % 2) ? lightGray : darkGray;
 
-            // Draw the square
             sf::RectangleShape square(sf::Vector2f(squareSize, squareSize));
             square.setFillColor(color);
             square.setPosition(x, y);

@@ -41,6 +41,7 @@ file(GLOB SRC_FILES
     "../Core/*.cpp"
     "../Interfaces/*.cpp"
     "../Gui/*.cpp"
+    "../ImGuiFileDialog/*.cpp"
 )
 
 add_executable(epigimp

@@ -25,11 +25,19 @@
 
                 void update();
                 void display();
+                void startLoadFile();
+                void startSaveFile();
+
+                const std::string &getFilePath();
+                const bool &getFDClosed();
+                void resetFilePath();
 
             private:
                 sf::Clock _clock;
                 std::shared_ptr<Graphic::Window> _window;
-                std::vector<std::unique_ptr<GUI::IGUIWindow>> _guis; //All gui windows
+
+                std::string selectedFilePath;
+                bool _FDClosed = true;
         };
     }
 

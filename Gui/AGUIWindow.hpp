@@ -29,6 +29,7 @@
             protected:
                 const sf::Color& getMainColor() { return GlobalData.getMainColor(); }
                 const sf::Color& getSecondColor() { return GlobalData.getSecondColor(); }
+                bool isNavBar = false;
         };
     }
 

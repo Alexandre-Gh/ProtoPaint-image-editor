@@ -23,6 +23,17 @@
                 TOOL_BUCKET = 3,
                 TOOL_COLORPICKER = 4
             };
+
+            enum varAction
+            {
+                NO_ACTION = 0,
+
+                IMPORT_IMAGE = 1,
+                SAVE_IMAGE = 2,
+                UNDO = 3,
+                REDO = 4,
+                NEW = 5,
+            };
         };
 
         class DataTransfer
@@ -48,8 +59,8 @@
                 const std::pair<std::string, int> &getCurrentToolValue();
                 bool wasCurrentToolValueModified();
 
-                const unsigned int &getCurrentCanvas() { return _currentCanvas; }
-                void setCurrentCanvas(unsigned int n) { _currentCanvas = n; }
+                const EpiGimp::varAction &getCurrentAction();
+                void setCurrentAction(EpiGimp::varAction action);
 
                 //=======================
 
@@ -63,10 +74,14 @@
                 sf::Color _secondColor = sf::Color::White;
                 EpiGimp::varTool _currentTool = EpiGimp::TOOL_BRUSH;
 
-                std::pair<std::string, int> _lastModifiedValue;
                 bool _wasModified = false;
+
+                std::pair<std::string, int> _lastModifiedValue;
+                EpiGimp::varAction _currentAction = EpiGimp::varAction::NO_ACTION;
+
                 sf::Vector2f _canvasSize = {400, 300};
-                unsigned int _currentCanvas = 0;
+
+
                 //=======================
         };
 

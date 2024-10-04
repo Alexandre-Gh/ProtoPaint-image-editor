@@ -26,7 +26,9 @@ void GUI::LayersWin::content()
         ImGui::SameLine();
         if (ImGui::Button("Remove current Layer")) {
             layersToRemove.push_back(this->_currentLayerIndex);
-            this->_currentLayerIndex = 0;
+            if (this->_currentLayerIndex != 0) {
+                this->_currentLayerIndex -= 1;
+            }
         }
     }
 

@@ -23,9 +23,13 @@
                 const sf::Sprite &getSprite();
 
                 void setPixel(sf::Vector2f pos, sf::Color color);
+                void setFromFile(std::string filepath);
+                void saveToFile(std::string filepath);
                 const sf::Color &getPixel(sf::Vector2f pos);
                 void addDraw(sf::Drawable &drawable);
                 void setDraw(sf::Drawable &drawable);
+
+                void addSprite(const sf::Sprite &spr);
 
                 void fill(sf::Vector2f pos, sf::Color color);
 

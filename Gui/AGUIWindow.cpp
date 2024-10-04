@@ -19,11 +19,19 @@ GUI::AGUIWindow::~AGUIWindow()
 
 void GUI::AGUIWindow::display()
 {
-    ImGui::Begin(this->_title.c_str());
+    if (this->isNavBar) {
+        ImGui::BeginMainMenuBar();
+    } else {
+        ImGui::Begin(this->_title.c_str());
+    }
 
     this->content();
 
-    ImGui::End();
+    if (this->isNavBar) {
+        ImGui::EndMainMenuBar();
+    } else {
+        ImGui::End();
+    }
 }
 
 void GUI::AGUIWindow::content()

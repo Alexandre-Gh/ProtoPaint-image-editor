@@ -29,3 +29,13 @@ bool DataTransfer::wasCurrentToolValueModified()
 {
     return _wasModified;
 }
+
+const EpiGimp::varAction &DataTransfer::getCurrentAction()
+{
+    return this->_currentAction;
+}
+
+void DataTransfer::setCurrentAction(EpiGimp::varAction action)
+{
+    this->_currentAction = action;
+}
