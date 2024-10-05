@@ -17,6 +17,17 @@ Graphic::DrawZone::DrawZone(unsigned int w, unsigned int h)
     this->fill({0, 0}, sf::Color::Transparent);
 }
 
+Graphic::DrawZone::DrawZone(const Graphic::DrawZone& other)
+{
+    this->_zone.create(other._size.x, other._size.y);
+    this->_zone.clear(sf::Color::Transparent);
+    this->setSize(other._size.x, other._size.y);
+    this->addSprite(other._displayer);
+    this->_size = other._size;
+    this->_displayer = other._displayer;
+    this->_displayer.setTexture(this->_zone.getTexture(), true);
+}
+
 Graphic::DrawZone::~DrawZone()
 {
 
@@ -68,7 +79,7 @@ void Graphic::DrawZone::setDraw(sf::Drawable &drawable)
 
 void Graphic::DrawZone::addSprite(const sf::Sprite &spr)
 {
-    this->_zone.draw(spr);
+    this->_zone.draw(sf::Sprite(*spr.getTexture()));
 }
 
 void Graphic::DrawZone::fill(sf::Vector2f pos, sf::Color color)

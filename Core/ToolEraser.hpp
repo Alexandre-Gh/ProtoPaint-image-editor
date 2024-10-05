@@ -23,6 +23,8 @@
             private:
                 sf::CircleShape _brush;
                 sf::CircleShape _previewBrush;
+
+                bool _used = false;
         };
     }
 

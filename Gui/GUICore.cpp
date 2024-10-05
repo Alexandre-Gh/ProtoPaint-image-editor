@@ -20,7 +20,10 @@ GUI::GUICore::~GUICore()
 
 void GUI::GUICore::update()
 {
-    ImGui::SFML::ProcessEvent(this->_window->getCoreWindow(), this->_window->getCoreEvent());
+    sf::Event event;
+    while (this->_window->getCoreWindow().pollEvent(event)) {
+        ImGui::SFML::ProcessEvent(this->_window->getCoreWindow(), event); // Process SFML events for ImGui
+    }
     ImGui::SFML::Update(this->_window->getCoreWindow(), this->_clock.restart());
 }
 
@@ -35,7 +38,7 @@ void GUI::GUICore::startLoadFile()
     this->_FDClosed = false;
 	config.path = ".";
     config.countSelectionMax = 1;
-    ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".png,.jpg,.jpeg", config);
+    ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Choose File", ".png,.jpg,.jpeg,.bmp", config);
     if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey")) {
         if (ImGuiFileDialog::Instance()->IsOk()) { // action if OK
           this->selectedFilePath = ImGuiFileDialog::Instance()->GetFilePathName();
@@ -47,11 +50,11 @@ void GUI::GUICore::startLoadFile()
 
 void GUI::GUICore::startSaveFile()
 {
-        IGFD::FileDialogConfig config;
+    IGFD::FileDialogConfig config;
     this->_FDClosed = false;
 	config.path = ".";
     config.countSelectionMax = 1;
-    ImGuiFileDialog::Instance()->OpenDialog("ChooseSaveFileDlgKey", "Choose Folder", "", config);
+    ImGuiFileDialog::Instance()->OpenDialog("ChooseSaveFileDlgKey", "Choose Folder", ".png,.jpg,.jpeg,.bmp", config);
     if (ImGuiFileDialog::Instance()->Display("ChooseSaveFileDlgKey")) {
         if (ImGuiFileDialog::Instance()->IsOk()) { // action if OK
           this->selectedFilePath = ImGuiFileDialog::Instance()->GetFilePathName();

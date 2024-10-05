@@ -81,6 +81,18 @@ std::vector<std::shared_ptr<EpiGimp::Layer>> GUI::LayersWin::getLayers()
     return this->_layers;
 }
 
+void GUI::LayersWin::setLayers(std::vector<std::shared_ptr<EpiGimp::Layer>> layers, unsigned int index)
+{
+    this->_layers = layers;
+    this->_currentLayerIndex = index;
+    if (this->_currentLayerIndex < 0) {
+        this->_currentLayerIndex = 0;
+    }
+    if (this->_currentLayerIndex >= this->_layers.size()) {
+        this->_currentLayerIndex = this->_layers.size() - 1;
+    }
+}
+
 const unsigned int &GUI::LayersWin::getCurrentLayerIndex()
 {
     return this->_currentLayerIndex;

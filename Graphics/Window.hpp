@@ -30,8 +30,11 @@
                 void checkZoom();
                 void checkMouse();
                 bool isLeftMousePressed();
+                bool isLeftMouseJustReleased();
                 bool isLeftMouseJustPressed();
                 bool isRightMousePressed();
+                bool isKeyPressed(sf::Keyboard::Key key);
+                bool isKeyJustPressed(sf::Keyboard::Key key);
                 bool isMouseInUI();
                 const sf::Vector2f &getMousePosition();
                 const sf::Vector2f &getMouseTranslation();
@@ -49,7 +52,11 @@
                 sf::Vector2f _previousMousePosition;
                 sf::Vector2f _mouseTranslation;
                 bool _mouseJustPressed;
+                bool _mouseJustReleased;
                 bool _mouseInUI;
+
+                std::map<sf::Keyboard::Key,bool> _keyPressed;
+                std::map<sf::Keyboard::Key,bool> _lastKeyPressed;
 
         };
     }

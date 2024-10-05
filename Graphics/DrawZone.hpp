@@ -18,6 +18,7 @@
         {
             public:
                 DrawZone(unsigned int w, unsigned int h);
+                DrawZone(const DrawZone& other);
                 ~DrawZone();
 
                 const sf::Sprite &getSprite();
@@ -40,6 +41,10 @@
                 const sf::Vector2f &getMouseRelatedPosition(sf::Vector2f pos);
                 void setSize(unsigned int x, unsigned int y);
                 const sf::Vector2f &getSize();
+
+                std::shared_ptr<Graphic::DrawZone> clone() const {
+                    return std::make_shared<Graphic::DrawZone>(*this);
+                }
 
             private:
                 sf::Vector2f _size;

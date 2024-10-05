@@ -17,6 +17,7 @@ EpiGimp::Core::Core()
     this->_window = std::make_shared<Graphic::Window>("EpiGimp", 1600, 900);
     this->_canvasLayers.push_back(std::make_shared<EpiGimp::Layer>("Layer 1", 400, 300));
     this->_canvasLayers[0]->getDrawZone()->setPosition(0, 0);
+    this->addState(this->_canvasLayers);
     this->_canvasBG = std::make_unique<Graphic::DrawZone>(400, 300);
     this->_canvasBG->setPosition(0, 0);
     this->_canvasBG->drawCheckeredBackground();
@@ -35,6 +36,7 @@ EpiGimp::Core::Core()
     this->_layersWindow = std::make_unique<GUI::LayersWin>(this->_canvasLayers);
 
     this->_currentLayerIndex = 0;
+    this->_currentStateIndex = 0;
 }
 
 EpiGimp::Core::~Core()
@@ -46,12 +48,15 @@ void EpiGimp::Core::loop()
 {
     std::shared_ptr<EpiGimp::Layer> currentLayer;
     while (this->_window->isOpen()) {
-        this->_canvasLayers = this->_layersWindow->getLayers();
-        this->_currentLayerIndex = this->_layersWindow->getCurrentLayerIndex();
-        currentLayer = this->_canvasLayers[this->_currentLayerIndex];
         this->_window->resetRender();
         this->_guiCore->update();
 
+        this->_canvasLayers = this->_layersWindow->getLayers();
+        this->_currentLayerIndex = this->_layersWindow->getCurrentLayerIndex();
+
+        currentLayer = this->_canvasLayers[this->_currentLayerIndex];
+
+        this->handleShortcuts();
         this->moveCamera();
 
         if (!this->_window->isMouseInUI()) {
@@ -81,6 +86,18 @@ void EpiGimp::Core::loop()
         this->_sizeWindow->display();
         this->_layersWindow->display();
         this->_navBar->display();
+
+
+        if (this->_window->isLeftMouseJustReleased() && this->_nextSaveState) {
+            this->addState(this->_layersWindow->getLayers());
+            this->_nextSaveState = false;
+        }
+
+        if (!this->_nextSaveState) {
+            this->_nextSaveState = (this->_canvasLayers != this->_layersWindow->getLayers())
+                        || (this->_window->isLeftMousePressed());
+        }
+
 
         this->_guiCore->display();
         this->_window->displayRender();
@@ -112,8 +129,8 @@ void EpiGimp::Core::handleAction()
 
         case EpiGimp::varAction::SAVE_IMAGE: this->_saveFile = true; break;
         case EpiGimp::varAction::IMPORT_IMAGE: this->_loadFile = true; break;
-        case EpiGimp::varAction::UNDO: break;
-        case EpiGimp::varAction::REDO: break;
+        case EpiGimp::varAction::UNDO: this->undo(); break;
+        case EpiGimp::varAction::REDO: this->redo(); break;
         case EpiGimp::varAction::NEW: this->resetCanvas(); break;
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
@@ -123,33 +140,29 @@ void EpiGimp::Core::handleFileDialog()
 {
     if (this->_loadFile) {
         this->_guiCore->startLoadFile();
-        std::string filepath = this->_guiCore->getFilePath();
-        if (filepath != "") {
-            this->resetCanvas();
-            this->_guiCore->resetFilePath();
-            this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->setFromFile(filepath);
-            this->_loadFile = false;
-        }
-        if (this->_guiCore->getFDClosed()) {
-            this->_loadFile = false;
-        }
+        this->openFile();
         return;
     }
     if (this->_saveFile) {
         this->_guiCore->startSaveFile();
-        std::string filepath = this->_guiCore->getFilePath();
-        if (filepath != "") {
-            filepath += ".png";
-            this->_guiCore->resetFilePath();
-            Graphic::DrawZone saved(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
-            for (auto const &e: this->_canvasLayers) {
-                saved.addSprite(e->getDrawZone()->getSprite());
-            }
-            saved.saveToFile(filepath);
-            this->_saveFile = false;
+        this->saveFile();
+    }
+}
+
+void EpiGimp::Core::handleShortcuts()
+{
+    if (this->_window->isKeyPressed(sf::Keyboard::LControl)) {
+        if (this->_window->isKeyJustPressed(sf::Keyboard::Z)) {
+            GlobalData.setCurrentAction(EpiGimp::varAction::UNDO);
         }
-        if (this->_guiCore->getFDClosed()) {
-            this->_saveFile = false;
+        if (this->_window->isKeyJustPressed(sf::Keyboard::Y)) {
+            GlobalData.setCurrentAction(EpiGimp::varAction::REDO);
+        }
+        if (this->_window->isKeyJustPressed(sf::Keyboard::O) && !this->_loadFile) {
+            GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE);
+        }
+        if (this->_window->isKeyJustPressed(sf::Keyboard::S) && !this->_saveFile) {
+            GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE);
         }
     }
 }
@@ -162,17 +175,93 @@ void EpiGimp::Core::resetCanvas()
     this->_layersWindow = std::make_unique<GUI::LayersWin>(this->_canvasLayers);
     this->_window->getCamera()->resetZoom();
     this->_window->getCamera()->setPosition(this->_canvasBG->getPosition());
+    this->_canvasHistory.clear();
+    this->addState(this->_canvasLayers);
+    this->_currentStateIndex = 0;
 }
 
 void EpiGimp::Core::saveFile()
 {
-    
+    std::string filepath = this->_guiCore->getFilePath();
+    if (filepath != "") {
+        this->_guiCore->resetFilePath();
+        Graphic::DrawZone saved(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
+        for (auto const &e: this->_canvasLayers) {
+            saved.addSprite(e->getDrawZone()->getSprite());
+        }
+        saved.saveToFile(filepath);
+        this->_saveFile = false;
+    }
+    if (this->_guiCore->getFDClosed()) {
+        this->_saveFile = false;
+    }
 }
 
 void EpiGimp::Core::openFile()
 {
-    // this->resetCanvas();
-    // std::string filepath = this->_guiCore->loadFile();
-    // this->_canvasLayers[0]->getDrawZone()->setFromFile(filepath);
-    // std::cout << filepath << std::endl;
+    std::string filepath = this->_guiCore->getFilePath();
+    if (filepath != "") {
+        this->resetCanvas();
+        this->_guiCore->resetFilePath();
+        this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->setFromFile(filepath);
+        this->_loadFile = false;
+    }
+    if (this->_guiCore->getFDClosed()) {
+        this->_loadFile = false;
+    }
+}
+
+void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers)
+{
+    if (this->_currentStateIndex + 1 < this->_canvasHistory.size()) {
+        std::cout << "OVERRIDE " << this->_currentStateIndex << std::endl;
+        for (int i = this->_canvasHistory.size() - 1; i > this->_currentStateIndex; i--) {
+            this->_canvasHistory.pop_back();
+        }
+        this->_canvasHistory[this->_currentStateIndex] = this->_undoCanvas;
+    }
+
+    std::vector<std::shared_ptr<EpiGimp::Layer>> clonedLayers;
+    for (const auto& layer : layers) {
+        clonedLayers.push_back(layer->clone());
+    }
+
+    this->_canvasHistory.push_back(clonedLayers);
+    this->_currentStateIndex = this->_canvasHistory.size() - 1;
+
+    this->_undoCanvas.clear();
+    for (const auto& layer : this->_canvasHistory[this->_currentStateIndex]) {
+        this->_undoCanvas.push_back(layer->clone());
+    }
+    std::cout << this->_canvasHistory.size() << std::endl;
+}
+
+void EpiGimp::Core::undo()
+{
+    if (this->_currentStateIndex > 0) {
+        this->_currentStateIndex--;
+        this->_layersWindow->setLayers(this->_canvasHistory[this->_currentStateIndex], this->_currentLayerIndex);
+        this->_undoCanvas.clear();
+        for (const auto& layer : this->_canvasHistory[this->_currentStateIndex]) {
+            this->_undoCanvas.push_back(layer->clone());
+        }
+        std::cout << "UNDO " << this->_canvasHistory.size() - 1 << " | "<< this->_currentStateIndex + 1 << std::endl;
+    } else {
+        std::cout << "No more undos available." << std::endl;
+    }
+}
+
+void EpiGimp::Core::redo()
+{
+    if (this->_currentStateIndex + 1 < this->_canvasHistory.size()) {
+        this->_currentStateIndex++;
+        this->_layersWindow->setLayers(this->_canvasHistory[this->_currentStateIndex], this->_currentLayerIndex);
+        this->_undoCanvas.clear();
+        for (const auto& layer : this->_canvasHistory[this->_currentStateIndex]) {
+            this->_undoCanvas.push_back(layer->clone());
+        }
+        std::cout << "REDO " << this->_canvasHistory.size() - 1 << " | "<< this->_currentStateIndex + 1 << std::endl;
+    } else {
+        std::cout << "No more redos available." << std::endl;
+    }
 }

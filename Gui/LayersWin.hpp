@@ -25,6 +25,7 @@
 
                 void content(); //Actual function to modify in inherited classes
                 std::vector<std::shared_ptr<EpiGimp::Layer>> getLayers();
+                void setLayers(std::vector<std::shared_ptr<EpiGimp::Layer>> layers, unsigned int index);
                 const unsigned int &getCurrentLayerIndex();
 
             private:

@@ -14,6 +14,13 @@ EpiGimp::Layer::Layer(std::string name, unsigned int w, unsigned int h)
     this->_visible = true;
 }
 
+EpiGimp::Layer::Layer(const Layer& other)
+{
+    this->_drawZone = other._drawZone->clone();
+    this->_name = other._name;
+    this->_visible = other._visible;
+}
+
 const std::shared_ptr<Graphic::DrawZone> &EpiGimp::Layer::getDrawZone()
 {
     return this->_drawZone;

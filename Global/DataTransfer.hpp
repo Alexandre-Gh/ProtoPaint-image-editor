@@ -62,6 +62,9 @@
                 const EpiGimp::varAction &getCurrentAction();
                 void setCurrentAction(EpiGimp::varAction action);
 
+                const bool &getAddState() { return _nextStateState; };
+                void setAddState(bool value) { _nextStateState = value; };
+
                 //=======================
 
             protected:
@@ -80,6 +83,8 @@
                 EpiGimp::varAction _currentAction = EpiGimp::varAction::NO_ACTION;
 
                 sf::Vector2f _canvasSize = {400, 300};
+
+                bool _nextStateState = false;
 
 
                 //=======================
