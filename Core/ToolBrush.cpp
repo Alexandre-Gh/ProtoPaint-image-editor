@@ -22,13 +22,17 @@ EpiGimp::ToolBrush::ToolBrush()
 
 void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
-    if (!win->isLeftMouseJustPressed()) {
-        if (!win->isLeftMousePressed()
-            || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())
-            || win->getMouseTranslation() == sf::Vector2f{0, 0}) {
-            return;
-        }
+    if (win->isLeftMouseJustReleased() && this->_used) {
+        GlobalData.setAddState(true);
+        this->_used = false;
     }
+
+    if (!win->isLeftMousePressed()
+        || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())
+        || win->getMouseTranslation() == sf::Vector2f{0, 0}) {
+        return;
+    }
+    this->_used = true;
 
     sf::Vector2f pos = win->getMousePosition();
     pos = zone->getSprite().getInverseTransform().transformPoint(pos);

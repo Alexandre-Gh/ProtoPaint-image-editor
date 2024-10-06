@@ -32,6 +32,7 @@
 
                 const sf::Color& getMainColor() { return GlobalData.getMainColor(); }
                 const sf::Color& getSecondColor() { return GlobalData.getSecondColor(); }
+                bool _used = false;
 
         };
     }

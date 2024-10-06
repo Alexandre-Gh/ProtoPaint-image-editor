@@ -88,14 +88,14 @@ void EpiGimp::Core::loop()
         this->_navBar->display();
 
 
-        if (this->_window->isLeftMouseJustReleased() && this->_nextSaveState) {
+        if (GlobalData.getAddState() || this->_nextSaveState) {
             this->addState(this->_layersWindow->getLayers());
+            GlobalData.setAddState(false);
             this->_nextSaveState = false;
         }
 
-        if (!this->_nextSaveState) {
-            this->_nextSaveState = (this->_canvasLayers != this->_layersWindow->getLayers())
-                        || (this->_window->isLeftMousePressed());
+        if ((this->_canvasLayers != this->_layersWindow->getLayers()) && this->_window->isLeftMouseJustReleased()) {
+            this->_nextSaveState = true;
         }
 
 

@@ -18,6 +18,7 @@ void EpiGimp::ToolBucket::action(std::shared_ptr<Graphic::Window> win, std::shar
     if (!win->isLeftMouseJustPressed() || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())) {
         return;
     }
+    GlobalData.setAddState(true);
 
     sf::Vector2f pos = win->getMousePosition();
     pos = zone->getSprite().getInverseTransform().transformPoint(pos);
