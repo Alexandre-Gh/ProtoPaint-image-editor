@@ -41,7 +41,18 @@ void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shar
     this->_brush.setOrigin(this->_values["size"], this->_values["size"]);
     this->_brush.setFillColor(brushColor);
     this->_brush.setPosition(pos);
-    zone->setDraw(this->_brush);
+
+    sf::Vector2f lastPos = pos - win->getMouseTranslation();
+
+    sf::Vector2f delta = pos - lastPos;
+    float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+    const int numSteps = std::max((int)(distance / this->_values["size"]), 1) * 3; // At least one circle
+    for (int i = 0; i <= numSteps; ++i) {
+        float t = static_cast<float>(i) / numSteps;
+        sf::Vector2f interpolatedPos = lastPos + t * delta;
+        this->_brush.setPosition(interpolatedPos);
+        zone->setDraw(this->_brush);
+    }
 }
 
 void EpiGimp::ToolEraser::drawPreview(std::shared_ptr<Graphic::Window> win)

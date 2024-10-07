@@ -19,6 +19,7 @@
                 ~ToolBrush() = default;
                 void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone);
                 void drawPreview(std::shared_ptr<Graphic::Window> win);
+                void drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end, sf::Color color);
 
             private:
                 sf::CircleShape _previewBrush;
