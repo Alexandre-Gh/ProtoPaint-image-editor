@@ -26,6 +26,9 @@
                 int _size = 4;
                 bool _gradient = false;
                 bool _rainbow = false;
+
+                std::vector<std::string> _items;
+                int _currentToolIndex = 0;
         };
     }
 

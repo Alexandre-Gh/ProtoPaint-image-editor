@@ -10,7 +10,8 @@
 GUI::BrushWin::BrushWin() :
     AGUIWindow("Brush")
 {
-    
+    this->_items.push_back("Circle");
+    this->_items.push_back("Square");
 }
 
 void GUI::BrushWin::content()
@@ -28,5 +29,19 @@ void GUI::BrushWin::content()
     if (ImGui::Checkbox("Rainbow", &this->_rainbow)) {
         GlobalData.setCurrentToolValue("rainbow", this->_rainbow);
     }
+
+    // if (ImGui::BeginCombo("Select an option", this->_items[this->_currentToolIndex].c_str())) {
+    //     for (int i = 0; i < this->_items.size(); i++) {
+    //         bool isSelected = (this->_currentToolIndex == i);
+    //         if (ImGui::Selectable(this->_items[i].c_str(), isSelected)) {
+    //             this->_currentToolIndex = i; // Update the current item
+    //             GlobalData.setCurrentToolValue("brush", i);
+    //         }
+    //         if (isSelected) {
+    //             ImGui::SetItemDefaultFocus(); // Focus on the selected item
+    //         }
+    //     }
+    //     ImGui::EndCombo();
+    // }
 
 }

@@ -9,6 +9,7 @@
     #define TOOLERASER_H_
 
     #include "ATool.hpp"
+    #include "../Interfaces/IBrush.hpp"
 
     namespace EpiGimp
     {
@@ -21,10 +22,10 @@
                 void drawPreview(std::shared_ptr<Graphic::Window> win);
 
             private:
-                sf::CircleShape _brush;
-                sf::CircleShape _previewBrush;
-
+                std::unique_ptr<EpiGimp::IBrush> _brushes;
                 bool _used = false;
+
+                void drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end);
         };
     }
 
