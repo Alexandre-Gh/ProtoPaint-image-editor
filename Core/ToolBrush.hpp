@@ -23,7 +23,6 @@
 
             private:
                 std::vector<std::unique_ptr<EpiGimp::IBrush>> _brushes;
-                sf::Color _rainbowPrevColor;
 
                 sf::Color getRainbowColor(const sf::Color& currentColor);
                 void drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end);

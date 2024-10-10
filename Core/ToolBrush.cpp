@@ -18,7 +18,6 @@ EpiGimp::ToolBrush::ToolBrush()
     this->_values["size"] = 4;
     this->_values["gradient"] = false;
     this->_values["rainbow"] = false;
-    this->_rainbowPrevColor = sf::Color::Red;
 
     this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
     this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
@@ -39,7 +38,7 @@ void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::share
         return;
     }
     if (!this->_used) {
-        _rainbowPrevColor = this->getMainColor();
+        this->_brushes[index]->setColor(this->getMainColor());
     }
     this->_used = true;
 
@@ -47,7 +46,7 @@ void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::share
     pos = zone->getSprite().getInverseTransform().transformPoint(pos);
     sf::Color brushColor;
     if (this->_values["rainbow"]) {
-        brushColor = this->getRainbowColor(_rainbowPrevColor);
+        brushColor = this->getRainbowColor(this->_brushes[index]->getColor());
     } else {
         brushColor = this->getMainColor();
     }
@@ -109,6 +108,5 @@ sf::Color EpiGimp::ToolBrush::getRainbowColor(const sf::Color& currentColor) {
     nextColor.g = (nextColor.g > 255) ? 255 : nextColor.g;
     nextColor.b = (nextColor.b > 255) ? 255 : nextColor.b;
 
-    _rainbowPrevColor = nextColor;
     return nextColor;
 }
