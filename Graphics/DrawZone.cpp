@@ -10,7 +10,7 @@
 Graphic::DrawZone::DrawZone(unsigned int w, unsigned int h)
 {
     this->_zone.create(w, h);
-    this->_displayer.setOrigin(w / 2, h / 2);
+    this->_displayer.setOrigin(0, 0);
     this->_zone.clear(GlobalData.getSecondColor());
     this->_displayer.setTexture(this->_zone.getTexture(), true);
     this->setSize(w, h);
@@ -38,6 +38,12 @@ const sf::Sprite &Graphic::DrawZone::getSprite()
     return this->_displayer;
 }
 
+const sf::RenderTexture &Graphic::DrawZone::getRenderTexture()
+{
+    return this->_zone;
+}
+
+
 void Graphic::DrawZone::setPixel(sf::Vector2f pos, sf::Color color)
 {
     sf::Image im = this->_zone.getTexture().copyToImage();
@@ -48,8 +54,9 @@ void Graphic::DrawZone::setFromFile(std::string filepath)
 {
     sf::Texture fileText;
     if (fileText.loadFromFile(filepath)) {
-        this->_zone.draw(sf::Sprite(fileText));
         GlobalData.setCanvasSize(fileText.getSize().x, fileText.getSize().y);
+        this->setSize(fileText.getSize().x, fileText.getSize().y);
+        this->_zone.draw(sf::Sprite(fileText));
     }
 }
 
@@ -121,7 +128,11 @@ void Graphic::DrawZone::drawCheckeredBackground() {
     sf::Color lightGray(200, 200, 200);
     sf::Color darkGray(150, 150, 150);
 
+
     int squareSize = this->_size.x / 20;
+    if (squareSize < 1) {
+        return;
+    }
 
     for (int x = 0; x < this->_size.x; x += squareSize) {
         for (int y = 0; y < this->_size.y; y += squareSize) {
@@ -148,26 +159,42 @@ const sf::Vector2f &Graphic::DrawZone::getPosition()
 
 void Graphic::DrawZone::setSize(unsigned int w, unsigned int h)
 {
+    // Store the old size
+    sf::Vector2u oldSize = this->_zone.getSize();
+
+    // Create a temporary RenderTexture to hold the old content
     sf::RenderTexture tempZone;
-    tempZone.create(this->_zone.getSize().x, this->_zone.getSize().y);
+    tempZone.create(oldSize.x, oldSize.y);
     tempZone.clear(sf::Color::Transparent);
 
+    // Draw the old content to the temporary RenderTexture
     sf::Sprite oldSpr(this->_zone.getTexture());
     tempZone.draw(oldSpr);
     tempZone.display();
 
+    // Create a new RenderTexture with the new size
     this->_zone.create(w, h);
     this->_zone.clear(sf::Color::Transparent);
 
+    // Create a sprite from the temporary RenderTexture and scale it to the new size
     sf::Sprite newSpr(tempZone.getTexture());
-    newSpr.setScale(w / this->_zone.getSize().x, h / this->_zone.getSize().y);
+    newSpr.setScale(static_cast<float>(w) / oldSize.x, static_cast<float>(h) / oldSize.y);
     this->_zone.draw(newSpr);
 
+    // Finalize the drawing
     this->_zone.display();
 
+    // Update the displayer with the new texture
     this->_displayer.setTexture(this->_zone.getTexture(), true);
+    
+    // Update the size member variable
     this->_size.x = w;
     this->_size.y = h;
+}
+
+void Graphic::DrawZone::setSize(sf::Vector2f size)
+{
+    this->setSize(size.x, size.y);
 }
 
 const sf::Vector2f &Graphic::DrawZone::getSize()

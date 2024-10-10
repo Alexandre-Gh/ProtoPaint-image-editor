@@ -25,5 +25,8 @@ void GUI::BrushWin::content()
     if (ImGui::Checkbox("Gradient", &this->_gradient)) {
         GlobalData.setCurrentToolValue("gradient", this->_gradient);
     }
+    if (ImGui::Checkbox("Rainbow", &this->_rainbow)) {
+        GlobalData.setCurrentToolValue("rainbow", this->_rainbow);
+    }
 
 }

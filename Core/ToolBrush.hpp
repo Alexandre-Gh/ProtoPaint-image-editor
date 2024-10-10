@@ -24,6 +24,9 @@
             private:
                 sf::CircleShape _previewBrush;
                 sf::CircleShape _brush;
+                sf::Color _rainbowPrevColor;
+
+                sf::Color getRainbowColor(const sf::Color& currentColor);
         };
     }
 

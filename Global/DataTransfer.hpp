@@ -33,6 +33,7 @@
                 UNDO = 3,
                 REDO = 4,
                 NEW = 5,
+                RESIZE = 6,
             };
         };
 

@@ -22,6 +22,7 @@
                 ~DrawZone();
 
                 const sf::Sprite &getSprite();
+                const sf::RenderTexture &getRenderTexture();
 
                 void setPixel(sf::Vector2f pos, sf::Color color);
                 void setFromFile(std::string filepath);
@@ -40,6 +41,7 @@
                 const sf::Vector2f &getPosition();
                 const sf::Vector2f &getMouseRelatedPosition(sf::Vector2f pos);
                 void setSize(unsigned int x, unsigned int y);
+                void setSize(sf::Vector2f size);
                 const sf::Vector2f &getSize();
 
                 std::shared_ptr<Graphic::DrawZone> clone() const {

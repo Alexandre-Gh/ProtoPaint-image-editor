@@ -16,6 +16,7 @@
     #include "../Graphics/DrawZone.hpp"
     #include "../Global/FactoryTool.hpp"
     #include "../Gui/LayersWin.hpp"
+    #include "../Gui/SizeWin.hpp"
     #include "Layer.hpp"
 
 
@@ -36,6 +37,8 @@
                 void openFile();
                 void saveFile();
 
+                void reposition();
+
                 void addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers);
                 void undo();
                 void redo();
@@ -51,7 +54,7 @@
                 std::map<EpiGimp::varTool, std::unique_ptr<EpiGimp::ITool>> _tools;
 
                 std::unique_ptr<GUI::IGUIWindow> _toolWindow;
-                std::unique_ptr<GUI::IGUIWindow> _sizeWindow;
+                std::unique_ptr<GUI::SizeWin> _sizeWindow;
                 std::unique_ptr<GUI::IGUIWindow> _navBar;
                 std::unique_ptr<GUI::LayersWin> _layersWindow;
 

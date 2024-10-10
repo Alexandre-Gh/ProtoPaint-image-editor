@@ -25,6 +25,7 @@
             private:
                 int _size = 4;
                 bool _gradient = false;
+                bool _rainbow = false;
         };
     }
 

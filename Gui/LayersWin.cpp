@@ -21,6 +21,7 @@ void GUI::LayersWin::content()
 
     if (ImGui::Button("Add layer")) {
         this->addLayer();
+        GlobalData.setAddState(true);
     }
     if (this->_layers.size() > 1) {
         ImGui::SameLine();
@@ -29,6 +30,7 @@ void GUI::LayersWin::content()
             if (this->_currentLayerIndex != 0) {
                 this->_currentLayerIndex -= 1;
             }
+            GlobalData.setAddState(true);
         }
     }
 
@@ -40,7 +42,9 @@ void GUI::LayersWin::content()
         ImGui::PushID(i);
 
         toggle = layer->isVisible();
-        ImGui::Checkbox("##visible", &toggle);
+        if (ImGui::Checkbox("##visible", &toggle)) {
+            GlobalData.setAddState(true);
+        }
         layer->setVisible(toggle);
 
         ImGui::SameLine();
@@ -49,7 +53,9 @@ void GUI::LayersWin::content()
         } else {
             ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 1.0f, 0.8f);
         }
-        if (ImGui::ImageButton("##Image", layer->getDrawZone()->getSprite(), sf::Vector2f(60, 30))) {
+        sf::RenderTexture res;
+        
+        if (ImGui::ImageButton("##Image", layer->getDrawZone()->getRenderTexture(), sf::Vector2f(60, 30))) {
             this->_currentLayerIndex = i;
         }
         ImGui::SameLine();
@@ -60,11 +66,13 @@ void GUI::LayersWin::content()
             if (i > 0 && ImGui::Button("^")) {
                 std::swap(this->_layers[i - 1], this->_layers[i]);
                 this->_currentLayerIndex -= 1;
+                GlobalData.setAddState(true);
             }
             ImGui::SameLine();
             if (i < this->_layers.size() - 1 && ImGui::Button("v")) {
                 std::swap(this->_layers[i], this->_layers[i + 1]);
                 this->_currentLayerIndex += 1;
+                GlobalData.setAddState(true);
             }
         }
         ImGui::PopID();
@@ -104,4 +112,5 @@ void GUI::LayersWin::addLayer()
     sf::Vector2f size = GlobalData.getCanvasSize();
     this->_layers.push_back(std::make_shared<EpiGimp::Layer>(name, size.x, size.y));
     this->_currentLayerIndex = this->_layers.size() - 1;
+    this->_layers[this->_currentLayerIndex]->getDrawZone()->setPosition(0, 0);
 }

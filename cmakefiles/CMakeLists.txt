@@ -4,6 +4,8 @@ project(epigimp)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/..)
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
 
+# add_compile_options(-Wall -Wextra -Wundef -Wcast-align -Wshadow -Wlogical-op -Wredundant-decls -pedantic -g3)
+
 include(FetchContent)
 
 FetchContent_Declare(SFML

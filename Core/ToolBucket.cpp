@@ -23,5 +23,9 @@ void EpiGimp::ToolBucket::action(std::shared_ptr<Graphic::Window> win, std::shar
     sf::Vector2f pos = win->getMousePosition();
     pos = zone->getSprite().getInverseTransform().transformPoint(pos);
 
-    zone->fill(pos, this->getMainColor());
+    if (win->isKeyPressed(sf::Keyboard::LControl)) {
+        zone->fill(pos, this->getSecondColor());
+    } else {
+        zone->fill(pos, this->getMainColor());
+    }
 }

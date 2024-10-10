@@ -7,7 +7,6 @@
 
 #include "Core.hpp"
 #include "../Gui/ToolsWin.hpp"
-#include "../Gui/SizeWin.hpp"
 #include "../Gui/NavBar.hpp"
 #include "../Global/FactorySprite.hpp"
 
@@ -21,7 +20,7 @@ EpiGimp::Core::Core()
     this->_canvasBG = std::make_unique<Graphic::DrawZone>(400, 300);
     this->_canvasBG->setPosition(0, 0);
     this->_canvasBG->drawCheckeredBackground();
-    this->_window->getCamera()->setPosition(0, 0);
+    this->_window->getCamera()->setPosition(200, 150);
     this->_guiCore = std::make_shared<GUI::GUICore>(this->_window);
 
     this->_tools[EpiGimp::TOOL_BRUSH] = FactoryTool::GetInstance().createTool("Brush");
@@ -75,27 +74,17 @@ void EpiGimp::Core::loop()
 
         this->_toolWindow->display();
 
-        if (GlobalData.getCanvasSize() != currentLayer->getDrawZone()->getSize()) {
-            for (auto const &e: this->_canvasLayers) {
-                e->getDrawZone()->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
-            }
-            this->_canvasBG->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
-            this->_canvasBG->drawCheckeredBackground();
-        }
-
         this->_sizeWindow->display();
         this->_layersWindow->display();
         this->_navBar->display();
 
 
-        if (GlobalData.getAddState() || this->_nextSaveState) {
+        if (GlobalData.getAddState()) {
             this->addState(this->_layersWindow->getLayers());
             GlobalData.setAddState(false);
             this->_nextSaveState = false;
-        }
-
-        if ((this->_canvasLayers != this->_layersWindow->getLayers()) && this->_window->isLeftMouseJustReleased()) {
-            this->_nextSaveState = true;
+            sf::Vector2f newSize = currentLayer->getDrawZone()->getSize();
+            this->_sizeWindow->setSize(newSize.x, newSize.y);
         }
 
 
@@ -132,6 +121,7 @@ void EpiGimp::Core::handleAction()
         case EpiGimp::varAction::UNDO: this->undo(); break;
         case EpiGimp::varAction::REDO: this->redo(); break;
         case EpiGimp::varAction::NEW: this->resetCanvas(); break;
+        case EpiGimp::varAction::RESIZE: this->reposition(); this->addState(this->_canvasLayers); break;
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
 }
@@ -164,6 +154,9 @@ void EpiGimp::Core::handleShortcuts()
         if (this->_window->isKeyJustPressed(sf::Keyboard::S) && !this->_saveFile) {
             GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE);
         }
+        if (this->_window->isKeyJustPressed(sf::Keyboard::N)) {
+            GlobalData.setCurrentAction(EpiGimp::varAction::NEW);
+        }
     }
 }
 
@@ -171,6 +164,7 @@ void EpiGimp::Core::resetCanvas()
 {
     this->_canvasLayers.clear();
     this->_canvasLayers.push_back(std::make_shared<EpiGimp::Layer>("Layer 1", 400, 300));
+    GlobalData.setCanvasSize(400, 300);
     this->_currentLayerIndex = 0;
     this->_layersWindow = std::make_unique<GUI::LayersWin>(this->_canvasLayers);
     this->_window->getCamera()->resetZoom();
@@ -204,7 +198,10 @@ void EpiGimp::Core::openFile()
         this->resetCanvas();
         this->_guiCore->resetFilePath();
         this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->setFromFile(filepath);
+        // this->_canvasHistory.clear();
+        this->addState(this->_canvasLayers);
         this->_loadFile = false;
+        this->reposition();
     }
     if (this->_guiCore->getFDClosed()) {
         this->_loadFile = false;
@@ -245,6 +242,12 @@ void EpiGimp::Core::undo()
         for (const auto& layer : this->_canvasHistory[this->_currentStateIndex]) {
             this->_undoCanvas.push_back(layer->clone());
         }
+        sf::Vector2f size = this->_layersWindow->getLayers()[0]->getDrawZone()->getSize();
+        if (this->_sizeWindow->getSize() != size) {
+            this->_canvasBG->setSize(size);
+            this->_canvasBG->drawCheckeredBackground();
+            this->_sizeWindow->setSize(size.x, size.y);
+        }
         std::cout << "UNDO " << this->_canvasHistory.size() - 1 << " | "<< this->_currentStateIndex + 1 << std::endl;
     } else {
         std::cout << "No more undos available." << std::endl;
@@ -260,8 +263,29 @@ void EpiGimp::Core::redo()
         for (const auto& layer : this->_canvasHistory[this->_currentStateIndex]) {
             this->_undoCanvas.push_back(layer->clone());
         }
+        sf::Vector2f size = this->_layersWindow->getLayers()[0]->getDrawZone()->getSize();
+        if (this->_sizeWindow->getSize() != size) {
+            this->_canvasBG->setSize(size);
+            this->_canvasBG->drawCheckeredBackground();
+            this->_sizeWindow->setSize(size.x, size.y);
+        }
         std::cout << "REDO " << this->_canvasHistory.size() - 1 << " | "<< this->_currentStateIndex + 1 << std::endl;
     } else {
         std::cout << "No more redos available." << std::endl;
     }
 }
+
+void EpiGimp::Core::reposition()
+{
+    for (auto const &e: this->_canvasLayers) {
+        e->getDrawZone()->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
+        e->getDrawZone()->setPosition(0, 0);
+    }
+    this->_canvasBG->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
+    this->_canvasBG->setPosition(0, 0);
+    this->_canvasBG->drawCheckeredBackground();
+    this->_window->getCamera()->setPosition(GlobalData.getCanvasSize().x / 2, GlobalData.getCanvasSize().y / 2);
+    sf::Vector2f newSize = this->_canvasBG->getSize();
+    this->_sizeWindow->setSize(newSize.x, newSize.y);
+}
+

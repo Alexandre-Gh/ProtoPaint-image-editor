@@ -27,8 +27,7 @@ void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shar
     }
 
     if (!win->isLeftMousePressed()
-        || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())
-        || win->getMouseTranslation() == sf::Vector2f{0, 0}) {
+        || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())) {
         return;
     }
     this->_used = true;

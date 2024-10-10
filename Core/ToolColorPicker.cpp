@@ -23,5 +23,9 @@ void EpiGimp::ToolColorPicker::action(std::shared_ptr<Graphic::Window> win, std:
 
     sf::Color picked(zone->getPixel(pos));
 
-    GlobalData.setMainColor(picked);
+    if (win->isKeyPressed(sf::Keyboard::LControl)) {
+        GlobalData.setSecondColor(picked);
+    } else {
+        GlobalData.setMainColor(picked);
+    }
 }
