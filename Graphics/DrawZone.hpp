@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** Plazza
+** EpiGimp
 ** File description:
 ** ErrorException
 */

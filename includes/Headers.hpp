@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2024
 ** Cpp-Project-Template
 ** File description:
-** main
+EpiGimp
 */
 
 #ifndef HEADERS_H_

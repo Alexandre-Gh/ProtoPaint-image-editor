@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2024
-** Zappy
+** EpiGimp
 ** File description:
 ** FactoryObject
 */
