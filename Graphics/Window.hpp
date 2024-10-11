@@ -33,9 +33,11 @@
                 bool isLeftMouseJustReleased();
                 bool isLeftMouseJustPressed();
                 bool isRightMousePressed();
+                int getMouseWheel();
                 bool isKeyPressed(sf::Keyboard::Key key);
                 bool isKeyJustPressed(sf::Keyboard::Key key);
                 bool isMouseInUI();
+                void zoomCamera();
                 const sf::Vector2f &getMousePosition();
                 const sf::Vector2f &getMouseTranslation();
                 const std::shared_ptr<Graphic::Camera> &getCamera();
@@ -54,9 +56,9 @@
                 bool _mouseJustPressed;
                 bool _mouseJustReleased;
                 bool _mouseInUI;
-
                 std::map<sf::Keyboard::Key,bool> _keyPressed;
                 std::map<sf::Keyboard::Key,bool> _lastKeyPressed;
+                int _mouseWheel;
 
         };
     }

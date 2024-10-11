@@ -28,6 +28,7 @@ void Graphic::Window::resetRender()
     this->_mouseTranslation = sf::Vector2f{0, 0};
     this->_lastKeyPressed = this->_keyPressed;
     this->_mouseJustReleased = false;
+    this->_mouseWheel = 0;
     while (this->_window.pollEvent(this->_event))
     {
         ImGui::SFML::ProcessEvent(this->_window, this->_event);
@@ -95,13 +96,10 @@ void Graphic::Window::checkClose()
 
 void Graphic::Window::checkZoom()
 {
-    if (this->isMouseInUI()) {
-        return;
-    }
     if (this->_event.mouseWheelScroll.delta > 0) {
-        this->_camera->zoom(0.9f);
+        this->_mouseWheel = 1;
     } else {
-        this->_camera->zoom(1.1f);
+        this->_mouseWheel = -1;
     }
 }
 
@@ -115,6 +113,11 @@ void Graphic::Window::checkMouse()
     this->_mousePosition = this->_window.mapPixelToCoords(sf::Mouse::getPosition(this->_window));
     this->_mouseTranslation = this->_mousePosition - this->_previousMousePosition;
     this->_previousMousePosition = this->_mousePosition;
+}
+
+int Graphic::Window::getMouseWheel()
+{
+    return this->_mouseWheel;
 }
 
 bool Graphic::Window::isLeftMousePressed()
@@ -175,5 +178,13 @@ bool Graphic::Window::isKeyPressed(sf::Keyboard::Key key)
 bool Graphic::Window::isKeyJustPressed(sf::Keyboard::Key key)
 {
     return this->_keyPressed[key] == true && this->_lastKeyPressed[key] == false;
+}
+
+void Graphic::Window::zoomCamera()
+{
+    if (this->isMouseInUI() || this->_mouseWheel == 0) {
+        return;
+    }
+    this->_camera->zoom(1 + (0.1f * -this->_mouseWheel));
 }
 

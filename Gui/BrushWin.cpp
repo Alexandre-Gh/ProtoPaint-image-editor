@@ -12,6 +12,8 @@ GUI::BrushWin::BrushWin() :
 {
     this->_items.push_back("Circle");
     this->_items.push_back("Square");
+    this->_items.push_back("Line");
+    this->_items.push_back("Reverse Line");
 }
 
 void GUI::BrushWin::content()
@@ -20,17 +22,7 @@ void GUI::BrushWin::content()
     ImGuiStyle colorButton = ImGui::GetStyle();
 
     ImGui::SetWindowCollapsed(false);
-    if (ImGui::SliderInt("Brush Size", &this->_size, 1, 100)) {
-        GlobalData.setCurrentToolValue("size", this->_size);
-    }
-    if (ImGui::Checkbox("Gradient", &this->_gradient)) {
-        GlobalData.setCurrentToolValue("gradient", this->_gradient);
-    }
-    if (ImGui::Checkbox("Rainbow", &this->_rainbow)) {
-        GlobalData.setCurrentToolValue("rainbow", this->_rainbow);
-    }
-
-    // if (ImGui::BeginCombo("Select an option", this->_items[this->_currentToolIndex].c_str())) {
+    // if (ImGui::BeginCombo("Brush", this->_items[this->_currentToolIndex].c_str())) {
     //     for (int i = 0; i < this->_items.size(); i++) {
     //         bool isSelected = (this->_currentToolIndex == i);
     //         if (ImGui::Selectable(this->_items[i].c_str(), isSelected)) {
@@ -43,5 +35,13 @@ void GUI::BrushWin::content()
     //     }
     //     ImGui::EndCombo();
     // }
-
+    if (ImGui::SliderInt("Size", &this->_size, 2, 100)) {
+        GlobalData.setCurrentToolValue("size", this->_size);
+    }
+    if (ImGui::Checkbox("Gradient", &this->_gradient)) {
+        GlobalData.setCurrentToolValue("gradient", this->_gradient);
+    }
+    if (ImGui::Checkbox("Rainbow", &this->_rainbow)) {
+        GlobalData.setCurrentToolValue("rainbow", this->_rainbow);
+    }
 }

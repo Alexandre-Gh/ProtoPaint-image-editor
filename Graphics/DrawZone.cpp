@@ -46,8 +46,11 @@ const sf::RenderTexture &Graphic::DrawZone::getRenderTexture()
 
 void Graphic::DrawZone::setPixel(sf::Vector2f pos, sf::Color color)
 {
-    sf::Image im = this->_zone.getTexture().copyToImage();
-    im.setPixel(pos.x, pos.y, color);
+    sf::RectangleShape pixel({1, 1});
+    pixel.setPosition(pos);
+    pixel.setOrigin(0.5f, 0.5f);
+    pixel.setFillColor(color);
+    this->_zone.draw(pixel);
 }
 
 void Graphic::DrawZone::setFromFile(std::string filepath)

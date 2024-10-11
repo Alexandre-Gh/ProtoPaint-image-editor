@@ -45,18 +45,8 @@ void EpiGimp::BrushSquare::setSize(float size)
     this->_size = size;
 }
 
-const float &EpiGimp::BrushSquare::getSize()
-{
-    return this->_size;
-}
-
 void EpiGimp::BrushSquare::setColor(sf::Color color)
 {
     this->_brush.setFillColor(color);
     this->_color = color;
-}
-
-const sf::Color &EpiGimp::BrushSquare::getColor()
-{
-    return this->_color;
 }

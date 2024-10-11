@@ -37,25 +37,16 @@ void EpiGimp::BrushCircle::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vec
 
 void EpiGimp::BrushCircle::setSize(float size)
 {
-    this->_brush.setRadius(size);
-    this->_brush.setOrigin(size, size);
-    this->_previewBrush.setRadius(size);
-    this->_previewBrush.setOrigin(size, size);
-    this->_size = size;
-}
-
-const float &EpiGimp::BrushCircle::getSize()
-{
-    return this->_size;
+    float value = size / 2;
+    this->_brush.setRadius(value);
+    this->_brush.setOrigin(value, value);
+    this->_previewBrush.setRadius(value);
+    this->_previewBrush.setOrigin(value, value);
+    this->_size = value;
 }
 
 void EpiGimp::BrushCircle::setColor(sf::Color color)
 {
     this->_brush.setFillColor(color);
     this->_color = color;
-}
-
-const sf::Color &EpiGimp::BrushCircle::getColor()
-{
-    return this->_color;
 }

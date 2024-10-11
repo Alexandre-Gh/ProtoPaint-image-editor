@@ -10,18 +10,18 @@
 
 FactorySprite::FactorySprite()
 {
-    _textures["CanvasBG"].loadFromFile("./assets/canvas_bg.png", {0, 0, 32, 32});
-    _textures["CanvasGB"].setRepeated(true);
-    _textures["Brush"].loadFromFile("./assets/icons.png", {0, 0, 28, 28});
-    _textures["Eraser"].loadFromFile("./assets/icons.png", {28, 0, 28, 28});
-    _textures["Bucket"].loadFromFile("./assets/icons.png", {56, 0, 28, 28});
-    _textures["ColorPicker"].loadFromFile("./assets/icons.png", {84, 0, 28, 28});
+    int iconUnit = 28;
+    _textures["Brush"].loadFromFile("./assets/icons.png", {iconUnit * 4, 0, 28, 28});
+    _textures["Eraser"].loadFromFile("./assets/icons.png", {iconUnit, 0, 28, 28});
+    _textures["Bucket"].loadFromFile("./assets/icons.png", {iconUnit * 2, 0, 28, 28});
+    _textures["ColorPicker"].loadFromFile("./assets/icons.png", {iconUnit * 3, 0, 28, 28});
+    _textures["Pencil"].loadFromFile("./assets/icons.png", {0, 0, 28, 28});
 
     _allSprites["Brush"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Brush"]); };
     _allSprites["Eraser"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Eraser"]); };
     _allSprites["Bucket"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Bucket"]); };
     _allSprites["ColorPicker"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["ColorPicker"]); };
-    _allSprites["CanvasBG"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["CanvasBG"]); };
+    _allSprites["Pencil"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Pencil"]); };
 }
 
 FactorySprite &FactorySprite::GetInstance()

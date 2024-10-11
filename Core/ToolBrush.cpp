@@ -9,6 +9,7 @@
 #include "../Gui/BrushWin.hpp"
 #include "BrushCircle.hpp"
 #include "BrushSquare.hpp"
+#include "BrushLine.hpp"
 
 EpiGimp::ToolBrush::ToolBrush()
 {
@@ -21,6 +22,8 @@ EpiGimp::ToolBrush::ToolBrush()
 
     this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
     this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
+    this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(45));
+    this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(-45));
 }
 
 void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)

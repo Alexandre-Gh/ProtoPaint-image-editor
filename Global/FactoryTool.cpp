@@ -10,6 +10,7 @@
 #include "../Core/ToolEraser.hpp"
 #include "../Core/ToolBucket.hpp"
 #include "../Core/ToolColorPicker.hpp"
+#include "../Core/ToolPencil.hpp"
 
 
 FactoryTool::FactoryTool()
@@ -18,6 +19,7 @@ FactoryTool::FactoryTool()
     _allTools["Eraser"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolEraser>(); };
     _allTools["Bucket"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolBucket>(); };
     _allTools["ColorPicker"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolColorPicker>(); };
+    _allTools["Pencil"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolPencil>(); };
 }
 
 FactoryTool &FactoryTool::GetInstance()

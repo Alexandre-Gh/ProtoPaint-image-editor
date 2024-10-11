@@ -27,6 +27,7 @@ EpiGimp::Core::Core()
     this->_tools[EpiGimp::TOOL_ERASER] = FactoryTool::GetInstance().createTool("Eraser");
     this->_tools[EpiGimp::TOOL_BUCKET] = FactoryTool::GetInstance().createTool("Bucket");
     this->_tools[EpiGimp::TOOL_COLORPICKER] = FactoryTool::GetInstance().createTool("ColorPicker");
+    this->_tools[EpiGimp::TOOL_PENCIL] = FactoryTool::GetInstance().createTool("Pencil");
 
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
@@ -95,8 +96,21 @@ void EpiGimp::Core::loop()
 
 void EpiGimp::Core::moveCamera()
 {
+    bool hor = this->_window->isKeyPressed(sf::Keyboard::LControl);
+    bool ver = this->_window->isKeyPressed(sf::Keyboard::LShift);
+
+    if (!(ver || hor)) {
+        this->_window->zoomCamera();
+    }
     if (this->_window->isRightMousePressed()) {
         this->_window->getCamera()->moveCamera(this->_window->getMouseTranslation() * -0.9f);
+    }
+
+    sf::Vector2f vector(0, 0);
+    vector.x = hor ? 20 * this->_window->getMouseWheel() : 0;
+    vector.y = ver ? 20 * this->_window->getMouseWheel() : 0;
+    if (vector.x != 0 || vector.y != 0) {
+        this->_window->getCamera()->moveCamera(vector);
     }
 }
 
@@ -230,7 +244,7 @@ void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>&
     for (const auto& layer : this->_canvasHistory[this->_currentStateIndex]) {
         this->_undoCanvas.push_back(layer->clone());
     }
-    std::cout << this->_canvasHistory.size() << std::endl;
+    std::cout << "NEWSTATE " << this->_canvasHistory.size() << std::endl;
 }
 
 void EpiGimp::Core::undo()
