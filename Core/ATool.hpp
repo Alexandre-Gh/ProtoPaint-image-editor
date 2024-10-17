@@ -24,6 +24,7 @@
                 void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone);
                 void setValue(std::pair<std::string, int> value);
                 void drawPreview(std::shared_ptr<Graphic::Window> win);
+                void drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win);
                 void displayGUI();
 
             protected:

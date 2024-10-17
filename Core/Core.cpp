@@ -28,6 +28,7 @@ EpiGimp::Core::Core()
     this->_tools[EpiGimp::TOOL_BUCKET] = FactoryTool::GetInstance().createTool("Bucket");
     this->_tools[EpiGimp::TOOL_COLORPICKER] = FactoryTool::GetInstance().createTool("ColorPicker");
     this->_tools[EpiGimp::TOOL_PENCIL] = FactoryTool::GetInstance().createTool("Pencil");
+    this->_tools[EpiGimp::TOOL_RECT] = FactoryTool::GetInstance().createTool("Rect");
 
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
@@ -67,6 +68,9 @@ void EpiGimp::Core::loop()
         for (auto const &e: this->_canvasLayers) {
             if (e->isVisible())
                 this->_window->drawSprite(e->getDrawZone()->getSprite());
+                if (currentLayer == e) {
+                    this->_tools[GlobalData.getCurrentTool()]->drawPreviewInCurrentCanvas(this->_window);
+                }
         }
 
         this->handleTool();

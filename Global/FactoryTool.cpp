@@ -11,6 +11,7 @@
 #include "../Core/ToolBucket.hpp"
 #include "../Core/ToolColorPicker.hpp"
 #include "../Core/ToolPencil.hpp"
+#include "../Core/ToolRect.hpp"
 
 
 FactoryTool::FactoryTool()
@@ -20,6 +21,7 @@ FactoryTool::FactoryTool()
     _allTools["Bucket"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolBucket>(); };
     _allTools["ColorPicker"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolColorPicker>(); };
     _allTools["Pencil"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolPencil>(); };
+    _allTools["Rect"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolRect>(); };
 }
 
 FactoryTool &FactoryTool::GetInstance()

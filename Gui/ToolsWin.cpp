@@ -16,13 +16,15 @@ GUI::ToolsWin::ToolsWin() :
     this->_buttonSprites[EpiGimp::TOOL_ERASER] = FactorySprite::GetInstance().createSprite("Eraser");
     this->_buttonSprites[EpiGimp::TOOL_BUCKET] = FactorySprite::GetInstance().createSprite("Bucket");
     this->_buttonSprites[EpiGimp::TOOL_COLORPICKER] = FactorySprite::GetInstance().createSprite("ColorPicker");
-    // this->_buttonSprites[EpiGimp::TOOL_PENCIL] = FactorySprite::GetInstance().createSprite("Pencil");
+    this->_buttonSprites[EpiGimp::TOOL_PENCIL] = FactorySprite::GetInstance().createSprite("Pencil");
+    this->_buttonSprites[EpiGimp::TOOL_RECT] = FactorySprite::GetInstance().createSprite("Pencil");
 
     this->_ids[EpiGimp::TOOL_BRUSH] = "Brush";
     this->_ids[EpiGimp::TOOL_ERASER] = "Eraser";
     this->_ids[EpiGimp::TOOL_BUCKET] = "Bucket";
     this->_ids[EpiGimp::TOOL_COLORPICKER] = "ColorPicker";
     this->_ids[EpiGimp::TOOL_PENCIL] = "Pencil";
+    this->_ids[EpiGimp::TOOL_RECT] = "Rect";
 }
 
 void GUI::ToolsWin::content()

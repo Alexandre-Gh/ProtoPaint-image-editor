@@ -77,7 +77,10 @@ void EpiGimp::ToolBrush::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::V
     int index = this->_values["brush"];
     sf::Vector2f delta = end - start;
     float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
-    const int numSteps = std::max((int)(distance / this->_values["size"]), 1) * 3; // At least one circle
+    int numSteps = std::max((int)(distance / this->_values["size"]), 1) * 3; // At least one brush
+    if (this->_values["brush"] == 2 || this->_values["brush"] == 3) {
+        numSteps = numSteps * 10;
+    }
     for (int i = 0; i <= numSteps; ++i) {
         float t = static_cast<float>(i) / numSteps;
         sf::Vector2f interpolatedPos = start + t * delta;

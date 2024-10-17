@@ -31,7 +31,12 @@ void EpiGimp::ATool::setValue(std::pair<std::string, int> value)
 
 void EpiGimp::ATool::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
-    
+
+}
+
+void EpiGimp::ATool::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
+{
+
 }
 
 void EpiGimp::ATool::displayGUI()

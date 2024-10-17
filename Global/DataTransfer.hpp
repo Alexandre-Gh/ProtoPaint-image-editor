@@ -22,7 +22,8 @@
                 TOOL_ERASER = 2,
                 TOOL_BUCKET = 3,
                 TOOL_COLORPICKER = 4,
-                TOOL_PENCIL = 5
+                TOOL_PENCIL = 5,
+                TOOL_RECT = 6,
             };
 
             enum varAction
