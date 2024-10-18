@@ -34,6 +34,7 @@
                 void addSprite(const sf::Sprite &spr);
 
                 void fill(sf::Vector2f pos, sf::Color color);
+                void flip(bool vertical);
 
                 void drawCheckeredBackground();
 

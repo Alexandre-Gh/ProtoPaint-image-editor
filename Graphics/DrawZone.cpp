@@ -195,6 +195,22 @@ void Graphic::DrawZone::setSize(unsigned int w, unsigned int h)
     this->_size.y = h;
 }
 
+void Graphic::DrawZone::flip(bool vertical)
+{
+    sf::Texture texture = this->_zone.getTexture();
+    this->_zone.clear(sf::Color::Transparent);
+    sf::Sprite sprite(texture);
+    sf::Transform flip;
+    if (vertical) {
+        flip.scale(1, -1);
+        flip.translate(0, -(this->_size.y));
+    } else {
+        flip.scale(-1, 1);
+        flip.translate(-(this->_size.x), 0);
+    }
+    this->_zone.draw(sprite, flip);
+}
+
 void Graphic::DrawZone::setSize(sf::Vector2f size)
 {
     this->setSize(size.x, size.y);

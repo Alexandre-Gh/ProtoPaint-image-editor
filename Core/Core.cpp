@@ -140,6 +140,10 @@ void EpiGimp::Core::handleAction()
         case EpiGimp::varAction::REDO: this->redo(); break;
         case EpiGimp::varAction::NEW: this->resetCanvas(); break;
         case EpiGimp::varAction::RESIZE: this->reposition(); this->addState(this->_canvasLayers); break;
+        case EpiGimp::varAction::FLIP_HOR: this->flipCurrent(false); break;
+        case EpiGimp::varAction::FLIP_VERT: this->flipCurrent(true); break;
+        case EpiGimp::varAction::FLIP_ALL_HOR: this->flipAll(false); break;
+        case EpiGimp::varAction::FLIP_ALL_VERT: this->flipAll(true); break;
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
 }
@@ -307,3 +311,16 @@ void EpiGimp::Core::reposition()
     this->_sizeWindow->setSize(newSize.x, newSize.y);
 }
 
+void EpiGimp::Core::flipAll(bool vertical)
+{
+    for (auto const &e: this->_canvasLayers) {
+        e->getDrawZone()->flip(vertical);
+    }
+    this->addState(this->_canvasLayers);
+}
+
+void EpiGimp::Core::flipCurrent(bool vertical)
+{
+    this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->flip(vertical);
+    this->addState(this->_canvasLayers);
+}

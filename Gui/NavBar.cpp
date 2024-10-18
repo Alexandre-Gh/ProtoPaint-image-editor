@@ -26,6 +26,12 @@ void GUI::NavBar::content()
     {
         if (ImGui::MenuItem("Undo", "Ctrl+Z")) GlobalData.setCurrentAction(EpiGimp::UNDO);
         if (ImGui::MenuItem("Redo", "Ctrl+Y")) GlobalData.setCurrentAction(EpiGimp::REDO);
+        ImGui::Separator();
+        if (ImGui::MenuItem("Flip Horizontally")) GlobalData.setCurrentAction(EpiGimp::FLIP_HOR);
+        if (ImGui::MenuItem("Flip Vertically")) GlobalData.setCurrentAction(EpiGimp::FLIP_VERT);
+        ImGui::Separator();
+        if (ImGui::MenuItem("Flip All Hor.")) GlobalData.setCurrentAction(EpiGimp::FLIP_ALL_HOR);
+        if (ImGui::MenuItem("Flip All Vert.")) GlobalData.setCurrentAction(EpiGimp::FLIP_ALL_VERT);
         ImGui::EndMenu();
     }
 

@@ -36,6 +36,10 @@
                 REDO = 4,
                 NEW = 5,
                 RESIZE = 6,
+                FLIP_HOR = 7,
+                FLIP_VERT = 8,
+                FLIP_ALL_HOR = 9,
+                FLIP_ALL_VERT = 10,
             };
         };
 

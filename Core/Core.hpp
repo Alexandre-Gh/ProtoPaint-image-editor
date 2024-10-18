@@ -42,6 +42,8 @@
                 void addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers);
                 void undo();
                 void redo();
+                void flipAll(bool vertical);
+                void flipCurrent(bool vertical);
 
             private:
                 unsigned int _currentLayerIndex;
