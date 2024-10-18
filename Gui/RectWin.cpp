@@ -19,7 +19,7 @@ void GUI::RectWin::content()
     ImGuiStyle colorButton = ImGui::GetStyle();
 
     ImGui::SetWindowCollapsed(false);
-    if (ImGui::SliderInt("Thickness", &this->_thickness, 1, 4)) {
+    if (ImGui::SliderInt("Thickness", &this->_thickness, 1, 10)) {
         GlobalData.setCurrentToolValue("thickness", this->_thickness);
     }
     if (ImGui::Checkbox("Filled", &this->_filled)) {

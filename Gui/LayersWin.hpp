@@ -29,6 +29,8 @@
                 const unsigned int &getCurrentLayerIndex();
 
             private:
+                void fuseButtons();
+
                  std::vector<std::shared_ptr<EpiGimp::Layer>> _layers;
                  unsigned int _currentLayerIndex;
 

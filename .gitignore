@@ -9,4 +9,4 @@ imgui.ini
 *.o
 epigimp
 .vscode
-drawings
+_drawings

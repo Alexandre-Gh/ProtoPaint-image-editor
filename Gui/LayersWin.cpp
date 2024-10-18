@@ -19,18 +19,40 @@ void GUI::LayersWin::content()
     std::vector<size_t> layersToRemove;
     bool toggle;
 
-    if (ImGui::Button("Add layer")) {
+    if (ImGui::Button("Add")) {
         this->addLayer();
         GlobalData.setAddState(true);
     }
     if (this->_layers.size() > 1) {
         ImGui::SameLine();
-        if (ImGui::Button("Remove current Layer")) {
+        if (ImGui::Button("Remove")) {
             layersToRemove.push_back(this->_currentLayerIndex);
             if (this->_currentLayerIndex != 0) {
                 this->_currentLayerIndex -= 1;
             }
             GlobalData.setAddState(true);
+        }
+        if (this->_currentLayerIndex < this->_layers.size() - 1) {
+            ImGui::SameLine();
+            if (ImGui::Button("Fuse Bottom")) {
+                this->_layers[this->_currentLayerIndex + 1]->getDrawZone()->addSprite(this->_layers[this->_currentLayerIndex]->getDrawZone()->getSprite());
+                layersToRemove.push_back(this->_currentLayerIndex);
+                // if (this->_currentLayerIndex != 0) {
+                //     this->_currentLayerIndex += 1;
+                // }
+                GlobalData.setAddState(true);
+            }
+        }
+        if (this->_currentLayerIndex > 0) {
+            ImGui::SameLine();
+            if (ImGui::Button("Fuse Top")) {
+                this->_layers[this->_currentLayerIndex - 1]->getDrawZone()->addSprite(this->_layers[this->_currentLayerIndex]->getDrawZone()->getSprite());
+                layersToRemove.push_back(this->_currentLayerIndex);
+                if (this->_currentLayerIndex != 0) {
+                    this->_currentLayerIndex -= 1;
+                }
+                GlobalData.setAddState(true);
+            }
         }
     }
 
