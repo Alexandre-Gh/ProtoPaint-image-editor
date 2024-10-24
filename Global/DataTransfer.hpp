@@ -23,7 +23,11 @@
                 TOOL_BUCKET = 3,
                 TOOL_COLORPICKER = 4,
                 TOOL_PENCIL = 5,
-                TOOL_RECT = 6,
+                TOOL_SPRAY = 6,
+                TOOL_RECT = 7,
+                TOOL_CIRCLE = 8,
+                TOOL_LINE = 9,
+                TOOL_TEXT = 10,
             };
 
             enum varAction
@@ -48,7 +52,7 @@
             public:
                 static DataTransfer &GetInstance() { static DataTransfer instance; return instance; }
 
-                //=====GLOBAL DATA=======
+                //======GLOBAL DATA======
 
                 const sf::Color &getMainColor() { return _mainColor; }
                 void setMainColor(sf::Color color) { _mainColor = color; }
@@ -72,14 +76,14 @@
                 const bool &getAddState() { return _nextStateState; };
                 void setAddState(bool value) { _nextStateState = value; };
 
-                //=======================
+                //========================
 
             protected:
                 DataTransfer();
                 DataTransfer(const DataTransfer&) = delete;
                 DataTransfer& operator=(const DataTransfer&) = delete;
 
-                //=====GLOBAL DATA=======
+                //======GLOBAL DATA======
                 sf::Color _mainColor = sf::Color::Red;
                 sf::Color _secondColor = sf::Color::White;
                 EpiGimp::varTool _currentTool = EpiGimp::TOOL_BRUSH;
@@ -94,7 +98,7 @@
                 bool _nextStateState = false;
 
 
-                //=======================
+                //=====================
         };
 
         #define GlobalData DataTransfer::GetInstance()

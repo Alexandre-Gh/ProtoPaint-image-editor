@@ -10,7 +10,7 @@
 Graphic::Window::Window(std::string name, unsigned int w, unsigned int h)
 {
     this->_window.create(sf::VideoMode(w, h), name.c_str(), sf::Style::Default);
-    this->_window.setFramerateLimit(144);
+    this->_window.setFramerateLimit(1000);
     this->_camera = std::make_shared<Graphic::Camera>(0, 0, w, h);
     this->_window.setView(this->_camera->getCoreCamera());
     this->_zoomMult = 1;

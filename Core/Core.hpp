@@ -53,6 +53,7 @@
                 std::vector<std::shared_ptr<EpiGimp::Layer>> _canvasLayers; //when multiple layers
                 std::vector<std::vector<std::shared_ptr<EpiGimp::Layer>>> _canvasHistory;
                 std::unique_ptr<Graphic::DrawZone> _canvasBG;
+                std::unique_ptr<Graphic::DrawZone> _canvasFG;
                 std::map<EpiGimp::varTool, std::unique_ptr<EpiGimp::ITool>> _tools;
 
                 std::unique_ptr<GUI::IGUIWindow> _toolWindow;

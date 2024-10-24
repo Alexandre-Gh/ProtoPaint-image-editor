@@ -26,6 +26,7 @@ EpiGimp
     #include <regex>
     #include <unordered_map>
     #include <math.h>
+    #include <random>
 
     #include "GUI_SFML_Graphics.hpp"
     #include "../Global/DataTransfer.hpp"

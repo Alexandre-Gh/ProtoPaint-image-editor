@@ -19,7 +19,7 @@ void EpiGimp::ToolColorPicker::action(std::shared_ptr<Graphic::Window> win, std:
     }
 
     sf::Vector2f pos = win->getMousePosition();
-    pos = zone->getSprite().getInverseTransform().transformPoint(pos);
+    pos = zone->getRelatedPosition(pos);
 
     sf::Color picked(zone->getPixel(pos));
 

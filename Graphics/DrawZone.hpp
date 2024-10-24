@@ -40,10 +40,13 @@
 
                 void setPosition(int x, int y);
                 const sf::Vector2f &getPosition();
-                const sf::Vector2f &getMouseRelatedPosition(sf::Vector2f pos);
+                sf::Vector2f getRelatedPosition(sf::Vector2f pos);
                 void setSize(unsigned int x, unsigned int y);
                 void setSize(sf::Vector2f size);
                 const sf::Vector2f &getSize();
+                bool isInZone(sf::Vector2f pos);
+
+                void clear();
 
                 std::shared_ptr<Graphic::DrawZone> clone() const {
                     return std::make_shared<Graphic::DrawZone>(*this);

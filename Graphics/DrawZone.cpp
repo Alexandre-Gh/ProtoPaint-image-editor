@@ -160,6 +160,16 @@ const sf::Vector2f &Graphic::DrawZone::getPosition()
     return this->_displayer.getPosition();
 }
 
+sf::Vector2f Graphic::DrawZone::getRelatedPosition(sf::Vector2f pos)
+{
+    return this->getSprite().getInverseTransform().transformPoint(pos);
+}
+
+bool Graphic::DrawZone::isInZone(sf::Vector2f pos)
+{
+    return this->getSprite().getGlobalBounds().contains(pos);
+}
+
 void Graphic::DrawZone::setSize(unsigned int w, unsigned int h)
 {
     // Store the old size
@@ -219,5 +229,10 @@ void Graphic::DrawZone::setSize(sf::Vector2f size)
 const sf::Vector2f &Graphic::DrawZone::getSize()
 {
     return this->_size;
+}
+
+void Graphic::DrawZone::clear()
+{
+    this->_zone.clear(sf::Color::Transparent);
 }
 

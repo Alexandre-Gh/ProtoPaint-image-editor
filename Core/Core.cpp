@@ -28,8 +28,10 @@ EpiGimp::Core::Core()
     this->_tools[EpiGimp::TOOL_BUCKET] = FactoryTool::GetInstance().createTool("Bucket");
     this->_tools[EpiGimp::TOOL_COLORPICKER] = FactoryTool::GetInstance().createTool("ColorPicker");
     this->_tools[EpiGimp::TOOL_PENCIL] = FactoryTool::GetInstance().createTool("Pencil");
+    this->_tools[EpiGimp::TOOL_SPRAY] = FactoryTool::GetInstance().createTool("Spray");
     this->_tools[EpiGimp::TOOL_RECT] = FactoryTool::GetInstance().createTool("Rect");
-
+    this->_tools[EpiGimp::TOOL_CIRCLE] = FactoryTool::GetInstance().createTool("Circle");
+    this->_tools[EpiGimp::TOOL_LINE] = FactoryTool::GetInstance().createTool("Line");
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
     this->_sizeWindow = std::make_unique<GUI::SizeWin>();
@@ -68,10 +70,18 @@ void EpiGimp::Core::loop()
         for (auto const &e: this->_canvasLayers) {
             if (e->isVisible())
                 this->_window->drawSprite(e->getDrawZone()->getSprite());
-                if (currentLayer == e) {
-                    this->_tools[GlobalData.getCurrentTool()]->drawPreviewInCurrentCanvas(this->_window);
-                }
+            if (currentLayer == e) {
+                this->_tools[GlobalData.getCurrentTool()]->drawPreviewInCurrentCanvas(this->_window);
+            }
         }
+
+        // if (this->_window->isKeyJustPressed(sf::Keyboard::P)) {
+        //     sf::Font font;
+        //     font.loadFromFile("./assets/Monocraft.ttf");
+        //     sf::Text text("JAMBON", font, 20);
+        //     text.setStyle(sf::Text::Underlined);
+        //     currentLayer->getDrawZone()->addDraw(text);
+        // }
 
         this->handleTool();
         this->handleAction();

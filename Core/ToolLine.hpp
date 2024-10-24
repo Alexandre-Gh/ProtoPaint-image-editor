@@ -5,29 +5,31 @@
 ** OOP
 */
 
-#ifndef TOOLRECT_H_
-    #define TOOLRECT_H_
+#ifndef TOOLLINE_H_
+    #define TOOLLINE_H_
 
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"
 
     namespace EpiGimp
     {
-        class ToolRect: public EpiGimp::ATool
+        class ToolLine: public EpiGimp::ATool
         {
             public:
-                ToolRect();
-                ~ToolRect() = default;
+                ToolLine();
+                ~ToolLine() = default;
                 void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone);
                 void drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win);
 
             private:
+                void drawBorders(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos1, sf::Vector2f pos2);
                 sf::RectangleShape _shape;
+                sf::CircleShape _border;
                 sf::Vector2f _firstPos;
                 bool _used;
                 bool _isInCanvas;
                 bool _isFirstInCanvas;
-                Graphic::DrawZone _previewZone;
+                std::shared_ptr<Graphic::DrawZone> _previewZone;
         };
     }
 

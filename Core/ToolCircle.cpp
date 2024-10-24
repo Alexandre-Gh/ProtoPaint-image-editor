@@ -6,9 +6,9 @@
 */
 
 #include "../Gui/RectWin.hpp"
-#include "ToolRect.hpp"
+#include "ToolCircle.hpp"
 
-EpiGimp::ToolRect::ToolRect() :
+EpiGimp::ToolCircle::ToolCircle() :
     _previewZone(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y)
 {
     this->_gui = std::make_unique<GUI::RectWin>();
@@ -23,7 +23,7 @@ EpiGimp::ToolRect::ToolRect() :
     this->_shape.setOrigin(0, 0);
 }
 
-void EpiGimp::ToolRect::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void EpiGimp::ToolCircle::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     this->_isInCanvas = zone->isInZone(win->getMousePosition());
     this->_isFirstInCanvas = zone->isInZone(this->_firstPos);
@@ -44,15 +44,21 @@ void EpiGimp::ToolRect::action(std::shared_ptr<Graphic::Window> win, std::shared
     }
 
     sf::Vector2f pos = win->getMousePosition();
-    pos = zone->getRelatedPosition(pos);
+    pos = zone->getSprite().getInverseTransform().transformPoint(pos);
     this->_shape.setOutlineColor(this->getMainColor());
     this->_shape.setFillColor(this->_values["filled"] ? this->getSecondColor() : sf::Color::Transparent);
     sf::Vector2f size = pos - this->_firstPos;
-    this->_shape.setSize(size);
-    this->_shape.setOutlineThickness(this->_values["thickness"]);
+
+    float radius = std::sqrt(size.x * size.x + size.y * size.y) / 2;
+    this->_shape.setRadius(radius / 2);
+    float stretchFactorX = (size.x != 0) ? size.x / radius : 1.0f;
+    float stretchFactorY = (size.y != 0) ? size.y / radius : 1.0f;
+    this->_shape.setScale(stretchFactorX, stretchFactorY);
+
+    this->_shape.setOutlineThickness(-this->_values["thickness"]);
 }
 
-void EpiGimp::ToolRect::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
+void EpiGimp::ToolCircle::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
 {
     if (this->_used && this->_isFirstInCanvas) {
         this->_previewZone.setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);

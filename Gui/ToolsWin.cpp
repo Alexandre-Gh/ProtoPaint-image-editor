@@ -17,14 +17,20 @@ GUI::ToolsWin::ToolsWin() :
     this->_buttonSprites[EpiGimp::TOOL_BUCKET] = FactorySprite::GetInstance().createSprite("Bucket");
     this->_buttonSprites[EpiGimp::TOOL_COLORPICKER] = FactorySprite::GetInstance().createSprite("ColorPicker");
     this->_buttonSprites[EpiGimp::TOOL_PENCIL] = FactorySprite::GetInstance().createSprite("Pencil");
-    this->_buttonSprites[EpiGimp::TOOL_RECT] = FactorySprite::GetInstance().createSprite("Pencil");
+    this->_buttonSprites[EpiGimp::TOOL_SPRAY] = FactorySprite::GetInstance().createSprite("Spray");
+    this->_buttonSprites[EpiGimp::TOOL_RECT] = FactorySprite::GetInstance().createSprite("Rect");
+    this->_buttonSprites[EpiGimp::TOOL_CIRCLE] = FactorySprite::GetInstance().createSprite("Circle");
+    this->_buttonSprites[EpiGimp::TOOL_LINE] = FactorySprite::GetInstance().createSprite("Line");
 
     this->_ids[EpiGimp::TOOL_BRUSH] = "Brush";
     this->_ids[EpiGimp::TOOL_ERASER] = "Eraser";
     this->_ids[EpiGimp::TOOL_BUCKET] = "Bucket";
     this->_ids[EpiGimp::TOOL_COLORPICKER] = "ColorPicker";
     this->_ids[EpiGimp::TOOL_PENCIL] = "Pencil";
+    this->_ids[EpiGimp::TOOL_SPRAY] = "Spray";
     this->_ids[EpiGimp::TOOL_RECT] = "Rect";
+    this->_ids[EpiGimp::TOOL_CIRCLE] = "Circle";
+    this->_ids[EpiGimp::TOOL_LINE] = "Line";
 }
 
 void GUI::ToolsWin::content()
@@ -53,6 +59,7 @@ void GUI::ToolsWin::content()
             ImGui::SameLine();
         }
     }
+    ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
     ImGui::EndGroup();
     ImGui::NewLine();
 

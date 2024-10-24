@@ -11,7 +11,10 @@
 #include "../Core/ToolBucket.hpp"
 #include "../Core/ToolColorPicker.hpp"
 #include "../Core/ToolPencil.hpp"
+#include "../Core/ToolSpray.hpp"
 #include "../Core/ToolRect.hpp"
+#include "../Core/ToolCircle.hpp"
+#include "../Core/ToolLine.hpp"
 
 
 FactoryTool::FactoryTool()
@@ -21,7 +24,10 @@ FactoryTool::FactoryTool()
     _allTools["Bucket"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolBucket>(); };
     _allTools["ColorPicker"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolColorPicker>(); };
     _allTools["Pencil"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolPencil>(); };
+    _allTools["Spray"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolSpray>(); };
     _allTools["Rect"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolRect>(); };
+    _allTools["Circle"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolCircle>(); };
+    _allTools["Line"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolLine>(); };
 }
 
 FactoryTool &FactoryTool::GetInstance()

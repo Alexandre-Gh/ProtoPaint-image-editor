@@ -5,24 +5,24 @@
 ** OOP
 */
 
-#ifndef TOOLRECT_H_
-    #define TOOLRECT_H_
+#ifndef TOOLCIRCLE_H_
+    #define TOOLCIRCLE_H_
 
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"
 
     namespace EpiGimp
     {
-        class ToolRect: public EpiGimp::ATool
+        class ToolCircle: public EpiGimp::ATool
         {
             public:
-                ToolRect();
-                ~ToolRect() = default;
+                ToolCircle();
+                ~ToolCircle() = default;
                 void action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone);
                 void drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win);
 
             private:
-                sf::RectangleShape _shape;
+                sf::CircleShape _shape;
                 sf::Vector2f _firstPos;
                 bool _used;
                 bool _isInCanvas;

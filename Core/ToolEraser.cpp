@@ -26,13 +26,13 @@ void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shar
     }
 
     if (!win->isLeftMousePressed()
-        || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())) {
+        || !zone->isInZone(win->getMousePosition())) {
         return;
     }
     this->_used = true;
 
     sf::Vector2f pos = win->getMousePosition();
-    pos = zone->getSprite().getInverseTransform().transformPoint(pos);
+    pos = zone->getRelatedPosition(pos);
     sf::Color brushColor = GlobalData.getSecondColor();
 
     this->_brushes->setColor(brushColor);

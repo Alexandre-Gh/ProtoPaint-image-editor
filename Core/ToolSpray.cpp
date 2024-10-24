@@ -5,28 +5,28 @@
 ** Core
 */
 
-#include "ToolBrush.hpp"
-#include "../Gui/BrushWin.hpp"
+#include "ToolSpray.hpp"
+#include "../Gui/SprayWin.hpp"
 #include "BrushCircle.hpp"
 #include "BrushSquare.hpp"
 #include "BrushLine.hpp"
 
-EpiGimp::ToolBrush::ToolBrush()
+EpiGimp::ToolSpray::ToolSpray()
 {
-    this->_gui = std::make_unique<GUI::BrushWin>();
+    this->_gui = std::make_unique<GUI::SprayWin>();
 
     this->_values["brush"] = 0;
-    this->_values["size"] = 4;
+    this->_values["size"] = 30;
     this->_values["gradient"] = false;
     this->_values["rainbow"] = false;
 
     this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(45));
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(-45));
+    // this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
+    // this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(45));
+    // this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(-45));
 }
 
-void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void EpiGimp::ToolSpray::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     int index = this->_values["brush"];
     if (win->isLeftMouseJustReleased() && this->_used) {
@@ -37,42 +37,40 @@ void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::share
         || !zone->isInZone(win->getMousePosition())) {
         return;
     }
-    if ((this->_values["gradient"] || this->_values["rainbow"]) && win->getMouseTranslation() == (sf::Vector2f){0, 0}) {
-        return;
-    }
     if (!this->_used) {
-        this->_brushes[index]->setColor(this->getMainColor());
+        // this->_brushes[index]->setColor(this->getMainColor());
     }
     this->_used = true;
 
     sf::Vector2f pos = win->getMousePosition();
     pos = zone->getRelatedPosition(pos);
-    sf::Color brushColor;
     if (this->_values["rainbow"]) {
-        brushColor = this->getRainbowColor(this->_brushes[index]->getColor());
+        this->_brushColor = this->getRainbowColor(this->_brushColor);
     } else {
-        brushColor = this->getMainColor();
+        this->_brushColor = this->getMainColor();
     }
 
     if (this->_values["gradient"]) {
-        brushColor.a /= 20;
+        this->_brushColor.a /= 20;
     }
-
-    this->_brushes[index]->setColor(brushColor);
+    pos = getRandomPositionInRadius(pos, this->_values["size"] / 2);
+    zone->setPixel(pos, this->_brushColor);
+    // this->_brushes[index]->setColor(brushColor);
 
     sf::Vector2f lastPos = pos - win->getMouseTranslation();
-    this->drawLine(zone, lastPos, pos);
+    // this->drawLine(zone, lastPos, pos);
+    // this->_brushes[index]->draw(zone, pos, this->_values["gradient"]);
 
 }
 
-void EpiGimp::ToolBrush::drawPreview(std::shared_ptr<Graphic::Window> win)
+void EpiGimp::ToolSpray::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     int index = this->_values["brush"];
     this->_brushes[index]->setSize(this->_values["size"]);
     this->_brushes[index]->drawPreview(win, win->getMousePosition());
 }
 
-void EpiGimp::ToolBrush::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
+void EpiGimp::ToolSpray::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
 {
     int index = this->_values["brush"];
     sf::Vector2f delta = end - start;
@@ -85,11 +83,11 @@ void EpiGimp::ToolBrush::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::V
         float t = static_cast<float>(i) / numSteps;
         sf::Vector2f interpolatedPos = start + t * delta;
 
-        this->_brushes[index]->draw(zone, interpolatedPos, this->_values["gradient"]);
+        // this->_brushes[index]->draw(zone, interpolatedPos, this->_values["gradient"]);
     }
 }
 
-sf::Color EpiGimp::ToolBrush::getRainbowColor(const sf::Color& currentColor) {
+sf::Color EpiGimp::ToolSpray::getRainbowColor(const sf::Color& currentColor) {
     sf::Color nextColor = currentColor;
 
     if (currentColor.r == 255 && currentColor.g < 255) {
@@ -115,4 +113,23 @@ sf::Color EpiGimp::ToolBrush::getRainbowColor(const sf::Color& currentColor) {
     nextColor.b = (nextColor.b > 255) ? 255 : nextColor.b;
 
     return nextColor;
+}
+
+
+sf::Vector2f EpiGimp::ToolSpray::getRandomPositionInRadius(const sf::Vector2f& center, float radius) {
+    // Random number generation setup
+    std::random_device rd; // Obtain a random number from hardware
+    std::mt19937 gen(rd()); // Seed the generator
+    std::uniform_real_distribution<float> angleDist(0, 2 * M_PI); // Random angle
+    std::uniform_real_distribution<float> radiusDist(0, radius); // Random radius
+
+    // Generate random angle and radius
+    float angle = angleDist(gen);
+    float r = radiusDist(gen);
+
+    // Convert polar coordinates to cartesian coordinates
+    float x = center.x + r * cos(angle);
+    float y = center.y + r * sin(angle);
+
+    return sf::Vector2f(x, y);
 }

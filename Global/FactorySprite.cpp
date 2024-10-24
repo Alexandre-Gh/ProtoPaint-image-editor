@@ -16,12 +16,20 @@ FactorySprite::FactorySprite()
     _textures["Bucket"].loadFromFile("./assets/icons.png", {iconUnit * 2, 0, 28, 28});
     _textures["ColorPicker"].loadFromFile("./assets/icons.png", {iconUnit * 3, 0, 28, 28});
     _textures["Pencil"].loadFromFile("./assets/icons.png", {0, 0, 28, 28});
+    _textures["Spray"].loadFromFile("./assets/icons.png", {iconUnit * 5, 0, 28, 28});
+    _textures["Rect"].loadFromFile("./assets/icons.png", {iconUnit * 6, 0, 28, 28});
+    _textures["Circle"].loadFromFile("./assets/icons.png", {iconUnit * 7, 0, 28, 28});
+    _textures["Line"].loadFromFile("./assets/icons.png", {iconUnit * 8, 0, 28, 28});
 
     _allSprites["Brush"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Brush"]); };
     _allSprites["Eraser"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Eraser"]); };
     _allSprites["Bucket"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Bucket"]); };
     _allSprites["ColorPicker"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["ColorPicker"]); };
     _allSprites["Pencil"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Pencil"]); };
+    _allSprites["Spray"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Spray"]); };
+    _allSprites["Rect"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Rect"]); };
+    _allSprites["Circle"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Circle"]); };
+    _allSprites["Line"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Line"]); };
 }
 
 FactorySprite &FactorySprite::GetInstance()
