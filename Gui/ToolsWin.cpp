@@ -59,12 +59,11 @@ void GUI::ToolsWin::content()
             ImGui::SameLine();
         }
     }
-    ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+    ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 0.0f, 0.3f);
+    std::string dispToolUsed = "Current: " + this->_ids[this->getCurrentTool()];
+    ImGui::Text(dispToolUsed.c_str());
     ImGui::EndGroup();
     ImGui::NewLine();
-
-    ImGui::Spacing();
-    ImGui::Spacing();
 
     sf::Color previousColor = this->getMainColor();
     float color[4] = {previousColor.r / 255.0f, previousColor.g / 255.0f, previousColor.b / 255.0f, previousColor.a / 255.0f};

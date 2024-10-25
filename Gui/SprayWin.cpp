@@ -8,7 +8,7 @@
 #include "SprayWin.hpp"
 
 GUI::SprayWin::SprayWin() :
-    AGUIWindow("Brush")
+    AGUIWindow("Spray")
 {
 
 }
