@@ -22,7 +22,7 @@
                 void drawPreview(std::shared_ptr<Graphic::Window> win);
 
             private:
-                std::unique_ptr<EpiGimp::IBrush> _brushes;
+                std::vector<std::unique_ptr<EpiGimp::IBrush>> _brushes;
                 bool _used = false;
 
                 void drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end);

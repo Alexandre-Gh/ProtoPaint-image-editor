@@ -25,6 +25,9 @@
 
             private:
                 int _size = 4;
+
+                std::vector<std::string> _items;
+                int _currentToolIndex = 0;
         };
     }
 

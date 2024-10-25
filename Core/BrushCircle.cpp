@@ -10,7 +10,7 @@
 EpiGimp::BrushCircle::BrushCircle()
 {
     this->_previewBrush.setOutlineColor(sf::Color::Black);
-    this->_previewBrush.setOutlineThickness(0.3f);
+    this->_previewBrush.setOutlineThickness(0.5f);
     this->_previewBrush.setFillColor(sf::Color::Transparent);
 }
 

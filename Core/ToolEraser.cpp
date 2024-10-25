@@ -8,6 +8,7 @@
 #include "ToolEraser.hpp"
 #include "../Gui/EraserWin.hpp"
 #include "BrushCircle.hpp"
+#include "BrushSquare.hpp"
 
 EpiGimp::ToolEraser::ToolEraser()
 {
@@ -15,11 +16,13 @@ EpiGimp::ToolEraser::ToolEraser()
 
     this->_values["size"] = 4;
 
-    this->_brushes = std::make_unique<EpiGimp::BrushCircle>();
+    this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
+    this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
 }
 
 void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
+    int index = this->_values["brush"];
     if (win->isLeftMouseJustReleased() && this->_used) {
         GlobalData.setAddState(true);
         this->_used = false;
@@ -35,7 +38,7 @@ void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shar
     pos = zone->getRelatedPosition(pos);
     sf::Color brushColor = GlobalData.getSecondColor();
 
-    this->_brushes->setColor(brushColor);
+    this->_brushes[index]->setColor(brushColor);
 
     sf::Vector2f lastPos = pos - win->getMouseTranslation();
 
@@ -44,12 +47,14 @@ void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shar
 
 void EpiGimp::ToolEraser::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
-    this->_brushes->setSize(this->_values["size"]);
-    this->_brushes->drawPreview(win, win->getMousePosition());
+    int index = this->_values["brush"];
+    this->_brushes[index]->setSize(this->_values["size"]);
+    this->_brushes[index]->drawPreview(win, win->getMousePosition());
 }
 
 void EpiGimp::ToolEraser::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
 {
+    int index = this->_values["brush"];
     sf::Vector2f delta = end - start;
     float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);
     const int numSteps = std::max((int)(distance / this->_values["size"]), 1) * 3; // At least one circle
@@ -57,6 +62,6 @@ void EpiGimp::ToolEraser::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::
         float t = static_cast<float>(i) / numSteps;
         sf::Vector2f interpolatedPos = start + t * delta;
 
-        this->_brushes->draw(zone, interpolatedPos, false);
+        this->_brushes[index]->draw(zone, interpolatedPos, false);
     }
 }
