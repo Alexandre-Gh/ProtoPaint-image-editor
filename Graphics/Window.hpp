@@ -60,6 +60,9 @@
                 std::map<sf::Keyboard::Key,bool> _lastKeyPressed;
                 int _mouseWheel;
 
+                sf::Cursor _mouseDefault;
+                sf::Cursor _mouseDraw;
+
         };
     }
 

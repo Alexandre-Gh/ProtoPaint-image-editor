@@ -84,7 +84,7 @@ void GUI::LayersWin::content()
         char buffer[32];
         strcpy(buffer, this->_layers[i]->getName().c_str());
         ImGui::SetNextItemWidth(100);
-        if (ImGui::InputText("##", buffer, 32,ImGuiInputTextFlags_EnterReturnsTrue)) {
+        if (ImGui::InputText("##", buffer, 32, ImGuiInputTextFlags_EnterReturnsTrue)) {
             GlobalData.setAddState(true);
             this->_layers[i]->setName(buffer);
         }

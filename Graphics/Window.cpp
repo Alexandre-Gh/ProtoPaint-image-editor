@@ -14,6 +14,11 @@ Graphic::Window::Window(std::string name, unsigned int w, unsigned int h)
     this->_camera = std::make_shared<Graphic::Camera>(0, 0, w, h);
     this->_window.setView(this->_camera->getCoreCamera());
     this->_zoomMult = 1;
+
+    sf::Image cursorImage;
+    cursorImage.loadFromFile("assets/cursor.png");
+
+    this->_mouseDraw.loadFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(16, 16));
 }
 
 Graphic::Window::~Window()
@@ -25,6 +30,13 @@ void Graphic::Window::resetRender()
 {
     this->_window.clear(sf::Color(50, 50, 50));
     this->_mouseJustPressed = false;
+    if (isMouseInUI()) {
+        this->_window.setMouseCursorVisible(true);
+        this->_window.setMouseCursor(sf::Cursor());
+    } else {
+        this->_window.setMouseCursor(this->_mouseDraw);
+
+    }
     this->_mouseTranslation = sf::Vector2f{0, 0};
     this->_lastKeyPressed = this->_keyPressed;
     this->_mouseJustReleased = false;

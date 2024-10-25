@@ -10,7 +10,7 @@
 EpiGimp::BrushSquare::BrushSquare()
 {
     this->_previewBrush.setOutlineColor(sf::Color::Black);
-    this->_previewBrush.setOutlineThickness(1);
+    this->_previewBrush.setOutlineThickness(0.3f);
     this->_previewBrush.setFillColor(sf::Color::Transparent);
 }
 
