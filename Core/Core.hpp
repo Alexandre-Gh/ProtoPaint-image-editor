@@ -44,6 +44,7 @@
                 void redo();
                 void flipAll(bool vertical);
                 void flipCurrent(bool vertical);
+                void rotateCanvas(float angle);
 
             private:
                 unsigned int _currentLayerIndex;

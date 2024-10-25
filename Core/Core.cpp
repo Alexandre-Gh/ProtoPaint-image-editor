@@ -102,7 +102,6 @@ void EpiGimp::Core::loop()
             this->_sizeWindow->setSize(newSize.x, newSize.y);
         }
 
-
         this->_guiCore->display();
         this->_window->displayRender();
     }
@@ -154,6 +153,9 @@ void EpiGimp::Core::handleAction()
         case EpiGimp::varAction::FLIP_VERT: this->flipCurrent(true); break;
         case EpiGimp::varAction::FLIP_ALL_HOR: this->flipAll(false); break;
         case EpiGimp::varAction::FLIP_ALL_VERT: this->flipAll(true); break;
+        case EpiGimp::varAction::ROTATE_LEFT: this->rotateCanvas(90); break;
+        case EpiGimp::varAction::ROTATE_RIGHT: this->rotateCanvas(270); break;
+        case EpiGimp::varAction::ROTATE_FULL: this->rotateCanvas(180); break;
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
 }
@@ -332,5 +334,17 @@ void EpiGimp::Core::flipAll(bool vertical)
 void EpiGimp::Core::flipCurrent(bool vertical)
 {
     this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->flip(vertical);
+    this->addState(this->_canvasLayers);
+}
+
+void EpiGimp::Core::rotateCanvas(float angle)
+{
+    for (auto const &e: this->_canvasLayers) {
+        e->getDrawZone()->rotate(angle);
+    }
+    this->_canvasBG->rotate(angle);
+    GlobalData.setCanvasSize(this->_canvasBG->getSize().x, this->_canvasBG->getSize().y);
+    this->_canvasBG->drawCheckeredBackground();
+    this->_sizeWindow->setSize(this->_canvasBG->getSize().x, this->_canvasBG->getSize().y);
     this->addState(this->_canvasLayers);
 }

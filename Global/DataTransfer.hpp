@@ -44,6 +44,9 @@
                 FLIP_VERT = 8,
                 FLIP_ALL_HOR = 9,
                 FLIP_ALL_VERT = 10,
+                ROTATE_LEFT = 11,
+                ROTATE_RIGHT = 12,
+                ROTATE_FULL = 13,
             };
         };
 

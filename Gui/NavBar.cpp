@@ -32,6 +32,10 @@ void GUI::NavBar::content()
         ImGui::Separator();
         if (ImGui::MenuItem("Flip All Hor.")) GlobalData.setCurrentAction(EpiGimp::FLIP_ALL_HOR);
         if (ImGui::MenuItem("Flip All Vert.")) GlobalData.setCurrentAction(EpiGimp::FLIP_ALL_VERT);
+        ImGui::Separator();
+        if (ImGui::MenuItem("Rotate 90° Left")) GlobalData.setCurrentAction(EpiGimp::ROTATE_LEFT);
+        if (ImGui::MenuItem("Rotate 90° Right")) GlobalData.setCurrentAction(EpiGimp::ROTATE_RIGHT);
+        if (ImGui::MenuItem("Rotate 180°")) GlobalData.setCurrentAction(EpiGimp::ROTATE_FULL);
         ImGui::EndMenu();
     }
 

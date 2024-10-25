@@ -236,3 +236,19 @@ void Graphic::DrawZone::clear()
     this->_zone.clear(sf::Color::Transparent);
 }
 
+void Graphic::DrawZone::rotate(float angle)
+{
+    sf::Texture texture = this->_zone.getTexture();
+    this->_zone.clear(sf::Color::Transparent);
+    sf::Sprite sprite(texture);
+    sprite.setOrigin(this->_size.x / 2, this->_size.y / 2);
+    sprite.setRotation(angle);
+    if (angle == 90 || angle == 270) {
+        this->setSize(this->_size.y, this->_size.x);
+    }
+    sf::Transform rot;
+    rot.rotate(angle, this->_size.x / 2, this->_size.y / 2);
+    sprite.setPosition(this->_size.x / 2, this->_size.y / 2);
+    this->_zone.draw(sprite);
+}
+
