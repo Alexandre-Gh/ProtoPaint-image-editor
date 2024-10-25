@@ -44,9 +44,9 @@ void GUI::ToolsWin::content()
     for (auto const &e: this->_buttonSprites) {
         texture_id = reinterpret_cast<ImTextureID>(e.second->getTexture()->getNativeHandle());
         if (e.first != this->getCurrentTool()) {
-            ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+            ImGui::GetStyle().Colors[ImGuiCol_Button] = ButtonColor;
         } else {
-            ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 1.0f, 0.8f);
+            ImGui::GetStyle().Colors[ImGuiCol_Button] = SelectedButtonColor;
         }
         if (ImGui::ImageButton(_ids[e.first].c_str(), texture_id, ImVec2(32, 32))) {
             GlobalData.setCurrentTool(e.first);
@@ -59,7 +59,7 @@ void GUI::ToolsWin::content()
             ImGui::SameLine();
         }
     }
-    ImGui::GetStyle().Colors[ImGuiCol_Button] = ImVec4(0.0f, 0.0f, 0.0f, 0.3f);
+    ImGui::GetStyle().Colors[ImGuiCol_Button] = ButtonColor;
     std::string dispToolUsed = "Current: " + this->_ids[this->getCurrentTool()];
     ImGui::Text(dispToolUsed.c_str());
     ImGui::EndGroup();

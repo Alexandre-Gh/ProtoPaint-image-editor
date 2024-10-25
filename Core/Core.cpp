@@ -157,6 +157,10 @@ void EpiGimp::Core::handleAction()
         case EpiGimp::varAction::ROTATE_RIGHT: this->rotateCanvas(270); break;
         case EpiGimp::varAction::ROTATE_FULL: this->rotateCanvas(180); break;
         case EpiGimp::varAction::SAVE_IMAGE_ACTIVE: this->_saveFile = true; this->_saveActiveOnly = true; break;
+        case EpiGimp::varAction::REPOSITION:
+            this->_window->getCamera()->setPosition(GlobalData.getCanvasSize() * 0.5f);
+            this->_window->getCamera()->resetZoom();
+            break;
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
 }
@@ -194,6 +198,9 @@ void EpiGimp::Core::handleShortcuts()
         }
         if (this->_window->isKeyPressed(sf::Keyboard::LShift) && this->_window->isKeyJustPressed(sf::Keyboard::S)) {
             GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE_ACTIVE);
+        }
+        if (this->_window->isKeyJustPressed(sf::Keyboard::R)) {
+            GlobalData.setCurrentAction(EpiGimp::varAction::REPOSITION);
         }
     }
 }

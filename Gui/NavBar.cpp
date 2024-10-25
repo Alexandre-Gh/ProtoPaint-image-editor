@@ -42,5 +42,10 @@ void GUI::NavBar::content()
         if (ImGui::MenuItem("Rotate 180°")) GlobalData.setCurrentAction(EpiGimp::ROTATE_FULL);
         ImGui::EndMenu();
     }
+    if (ImGui::BeginMenu("View"))
+    {
+        if (ImGui::MenuItem("Reset View", "Ctrl+R")) GlobalData.setCurrentAction(EpiGimp::REPOSITION);
+        ImGui::EndMenu();
+    }
 
 }

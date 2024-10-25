@@ -48,6 +48,7 @@
                 ROTATE_RIGHT = 12,
                 ROTATE_FULL = 13,
                 SAVE_IMAGE_ACTIVE = 14,
+                REPOSITION = 15,
             };
         };
 
@@ -106,5 +107,8 @@
         };
 
         #define GlobalData DataTransfer::GetInstance()
+
+        #define SelectedButtonColor ImVec4(0.0f, 0.0f, 1.0f, 0.8f)
+        #define ButtonColor ImVec4(1.0f, 1.0f, 1.0f, 0.1f)
 
 #endif

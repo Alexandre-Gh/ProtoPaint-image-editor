@@ -18,6 +18,8 @@ void GUI::SizeWin::content()
 {
     ImGui::InputInt("X", &_x);
     ImGui::InputInt("Y", &_y);
+    this->_x = std::max(0, std::min(this->_x, 3000));
+    this->_y = std::max(0, std::min(this->_y, 3000));
     if (ImGui::Button("Resize")) {
         if (this->_x == GlobalData.getCanvasSize().x && this->_y == GlobalData.getCanvasSize().y) {
             return;

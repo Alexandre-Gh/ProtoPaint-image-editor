@@ -103,12 +103,13 @@ void Graphic::DrawZone::fill(sf::Vector2f pos, sf::Color color)
 
     std::stack<sf::Vector2i> pixels;
     pixels.push(sf::Vector2i(pos.x, pos.y));
+    sf::Vector2u imSize = image.getSize();
 
     while (!pixels.empty()) {
         sf::Vector2i p = pixels.top();
         pixels.pop();
 
-        if (p.x < 0 || p.x >= image.getSize().x || p.y < 0 || p.y >= image.getSize().y)
+        if (p.x < 0 || p.x >= imSize.x || p.y < 0 || p.y >= imSize.y)
             continue;
 
         if (image.getPixel(p.x, p.y) != targetColor)
@@ -123,7 +124,7 @@ void Graphic::DrawZone::fill(sf::Vector2f pos, sf::Color color)
     }
     sf::Texture final;
     final.loadFromImage(image);
-    this->_zone.clear({0, 0, 0, 0});
+    this->_zone.clear(sf::Color::Transparent);
     this->_zone.draw(sf::Sprite(final));
 }
 

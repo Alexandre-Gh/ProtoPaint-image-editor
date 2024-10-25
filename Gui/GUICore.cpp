@@ -10,7 +10,10 @@
 GUI::GUICore::GUICore(std::shared_ptr<Graphic::Window> win)
 {
     this->_window = win;
-    ImGui::SFML::Init(win->getCoreWindow());
+    bool success = ImGui::SFML::Init(win->getCoreWindow());
+    if (!success) {
+        throw ErrorException("Failed to initialize ImGui with SFML!");
+    }
 }
 
 GUI::GUICore::~GUICore()
