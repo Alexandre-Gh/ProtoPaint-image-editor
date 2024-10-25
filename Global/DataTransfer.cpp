@@ -19,7 +19,7 @@ const std::pair<std::string, int> &DataTransfer::getCurrentToolValue()
     return _lastModifiedValue;
 }
 
-const EpiGimp::varTool &DataTransfer::setCurrentToolValue(std::string valueName, int value)
+void DataTransfer::setCurrentToolValue(std::string valueName, int value)
 {
     _lastModifiedValue = {valueName, value};
     _wasModified = true;

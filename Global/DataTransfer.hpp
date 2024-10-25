@@ -47,6 +47,7 @@
                 ROTATE_LEFT = 11,
                 ROTATE_RIGHT = 12,
                 ROTATE_FULL = 13,
+                SAVE_IMAGE_ACTIVE = 14,
             };
         };
 
@@ -69,7 +70,7 @@
                 const sf::Vector2f &getCanvasSize() { return _canvasSize; }
                 void setCanvasSize(float w, float h) { _canvasSize = {w, h}; }
 
-                const EpiGimp::varTool &setCurrentToolValue(std::string valueName, int value);
+                void setCurrentToolValue(std::string valueName, int value);
                 const std::pair<std::string, int> &getCurrentToolValue();
                 bool wasCurrentToolValueModified();
 

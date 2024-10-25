@@ -156,6 +156,7 @@ void EpiGimp::Core::handleAction()
         case EpiGimp::varAction::ROTATE_LEFT: this->rotateCanvas(90); break;
         case EpiGimp::varAction::ROTATE_RIGHT: this->rotateCanvas(270); break;
         case EpiGimp::varAction::ROTATE_FULL: this->rotateCanvas(180); break;
+        case EpiGimp::varAction::SAVE_IMAGE_ACTIVE: this->_saveFile = true; this->_saveActiveOnly = true; break;
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
 }
@@ -191,6 +192,9 @@ void EpiGimp::Core::handleShortcuts()
         if (this->_window->isKeyJustPressed(sf::Keyboard::N)) {
             GlobalData.setCurrentAction(EpiGimp::varAction::NEW);
         }
+        if (this->_window->isKeyPressed(sf::Keyboard::LShift) && this->_window->isKeyJustPressed(sf::Keyboard::S)) {
+            GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE_ACTIVE);
+        }
     }
 }
 
@@ -215,13 +219,20 @@ void EpiGimp::Core::saveFile()
         this->_guiCore->resetFilePath();
         Graphic::DrawZone saved(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
         for (auto const &e: this->_canvasLayers) {
-            saved.addSprite(e->getDrawZone()->getSprite());
+            if (this->_saveActiveOnly) {
+                if (e->isVisible())
+                    saved.addSprite(e->getDrawZone()->getSprite());
+            } else {
+                saved.addSprite(e->getDrawZone()->getSprite());
+            }
         }
         saved.saveToFile(filepath);
         this->_saveFile = false;
+        this->_saveActiveOnly = false;
     }
     if (this->_guiCore->getFDClosed()) {
         this->_saveFile = false;
+        this->_saveActiveOnly = false;
     }
 }
 

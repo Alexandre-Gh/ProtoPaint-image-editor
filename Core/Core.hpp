@@ -67,6 +67,7 @@
                 bool _saveFile = false;
                 bool _nextSaveState = false;
                 bool _toolIsUsed = true;
+                bool _saveActiveOnly = false;
 
         };
     }

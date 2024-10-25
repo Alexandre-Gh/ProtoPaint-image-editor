@@ -20,6 +20,7 @@ void GUI::NavBar::content()
         if (ImGui::MenuItem("New")) GlobalData.setCurrentAction(EpiGimp::NEW);
         if (ImGui::MenuItem("Open", "Ctrl+O")) GlobalData.setCurrentAction(EpiGimp::IMPORT_IMAGE);
         if (ImGui::MenuItem("Save", "Ctrl+S")) GlobalData.setCurrentAction(EpiGimp::SAVE_IMAGE);
+        if (ImGui::MenuItem("Save Active Layers", "Ctrl+Shift+S")) GlobalData.setCurrentAction(EpiGimp::SAVE_IMAGE_ACTIVE);
         ImGui::EndMenu();
     }
     if (ImGui::BeginMenu("Edit"))
