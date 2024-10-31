@@ -49,12 +49,14 @@
             private:
                 unsigned int _currentLayerIndex;
                 unsigned int _currentStateIndex;
+
                 std::shared_ptr<GUI::GUICore> _guiCore;
                 std::shared_ptr<Graphic::Window> _window;
-                std::vector<std::shared_ptr<EpiGimp::Layer>> _canvasLayers; //when multiple layers
-                std::vector<std::vector<std::shared_ptr<EpiGimp::Layer>>> _canvasHistory;
+
                 std::unique_ptr<Graphic::DrawZone> _canvasBG;
-                std::unique_ptr<Graphic::DrawZone> _canvasFG;
+                std::vector<std::shared_ptr<EpiGimp::Layer>> _canvasLayers;
+                std::vector<std::vector<std::shared_ptr<EpiGimp::Layer>>> _canvasHistory;
+
                 std::map<EpiGimp::varTool, std::unique_ptr<EpiGimp::ITool>> _tools;
 
                 std::unique_ptr<GUI::IGUIWindow> _toolWindow;
@@ -63,6 +65,7 @@
                 std::unique_ptr<GUI::LayersWin> _layersWindow;
 
                 std::vector<std::shared_ptr<EpiGimp::Layer>> _undoCanvas;
+
                 bool _loadFile = false;
                 bool _saveFile = false;
                 bool _nextSaveState = false;

@@ -5,8 +5,8 @@
 ** OOP
 */
 
-#ifndef TOOLCOLORPICKER_H_
-    #define TOOLCOLORPICKER_H_
+#ifndef TOOL_COLORPICKER_H_
+    #define TOOL_COLORPICKER_H_
 
     #include "ATool.hpp"
 

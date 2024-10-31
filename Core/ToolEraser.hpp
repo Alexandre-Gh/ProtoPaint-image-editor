@@ -5,8 +5,8 @@
 ** OOP
 */
 
-#ifndef TOOLERASER_H_
-    #define TOOLERASER_H_
+#ifndef TOOL_ERASER_H_
+    #define TOOL_ERASER_H_
 
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"

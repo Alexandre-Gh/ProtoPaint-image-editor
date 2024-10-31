@@ -15,6 +15,7 @@
 #include "../Core/ToolRect.hpp"
 #include "../Core/ToolCircle.hpp"
 #include "../Core/ToolLine.hpp"
+#include "../Core/ToolText.hpp"
 
 
 FactoryTool::FactoryTool()
@@ -28,6 +29,7 @@ FactoryTool::FactoryTool()
     _allTools["Rect"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolRect>(); };
     _allTools["Circle"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolCircle>(); };
     _allTools["Line"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolLine>(); };
+    _allTools["Text"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolText>(); };
 }
 
 FactoryTool &FactoryTool::GetInstance()

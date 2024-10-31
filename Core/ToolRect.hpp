@@ -5,8 +5,8 @@
 ** OOP
 */
 
-#ifndef TOOLRECT_H_
-    #define TOOLRECT_H_
+#ifndef TOOL_RECT_H_
+    #define TOOL_RECT_H_
 
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"

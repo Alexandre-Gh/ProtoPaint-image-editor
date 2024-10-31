@@ -5,8 +5,8 @@
 ** OOP
 */
 
-#ifndef TOOLBRUSH_H_
-    #define TOOLBRUSH_H_
+#ifndef TOOL_BRUSH_H_
+    #define TOOL_BRUSH_H_
 
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"

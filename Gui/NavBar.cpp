@@ -47,5 +47,16 @@ void GUI::NavBar::content()
         if (ImGui::MenuItem("Reset View", "Ctrl+R")) GlobalData.setCurrentAction(EpiGimp::REPOSITION);
         ImGui::EndMenu();
     }
+    if (ImGui::BeginMenu("Options"))
+    {
+        if (ImGui::MenuItem("Dark Mode", "", &this->_darkMode)) {
+            if (this->_darkMode) {
+                ImGui::StyleColorsDark();
+            } else {
+                ImGui::StyleColorsLight();
+            }
+        }
+        ImGui::EndMenu();
+    }
 
 }

@@ -5,8 +5,8 @@
 ** OOP
 */
 
-#ifndef TOOLBUCKET_H_
-    #define TOOLBUCKET_H_
+#ifndef TOOL_BUCKET_H_
+    #define TOOL_BUCKET_H_
 
     #include "ATool.hpp"
 

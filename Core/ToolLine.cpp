@@ -75,7 +75,7 @@ void EpiGimp::ToolLine::drawBorders(std::shared_ptr<Graphic::DrawZone> zone, sf:
 {
     if (this->_values["rounded"]) {
         this->_border.setFillColor(this->getMainColor());
-        this->_border.setRadius(this->_values["thickness"] / 2);
+        this->_border.setRadius(this->_values["thickness"] / 2 + 1);
         this->_border.setOrigin(this->_border.getRadius(), this->_border.getRadius());
         this->_border.setPosition(pos1);
         zone->addDraw(this->_border);

@@ -34,6 +34,7 @@
                 bool isLeftMouseJustPressed();
                 bool isRightMousePressed();
                 int getMouseWheel();
+                const std::string &getEnteredText();
                 bool isKeyPressed(sf::Keyboard::Key key);
                 bool isKeyJustPressed(sf::Keyboard::Key key);
                 bool isMouseInUI();
@@ -58,10 +59,14 @@
                 bool _mouseInUI;
                 std::map<sf::Keyboard::Key,bool> _keyPressed;
                 std::map<sf::Keyboard::Key,bool> _lastKeyPressed;
+                std::string _enteredText;
                 int _mouseWheel;
 
                 sf::Cursor _mouseDefault;
                 sf::Cursor _mouseDraw;
+
+                sf::Color _darkColor;
+                sf::Color _lightColor;
 
         };
     }

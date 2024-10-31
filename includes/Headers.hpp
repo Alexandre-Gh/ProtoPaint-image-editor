@@ -27,6 +27,7 @@ EpiGimp
     #include <unordered_map>
     #include <math.h>
     #include <random>
+    #include <filesystem>
 
     #include "GUI_SFML_Graphics.hpp"
     #include "../Global/DataTransfer.hpp"

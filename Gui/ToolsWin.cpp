@@ -21,6 +21,7 @@ GUI::ToolsWin::ToolsWin() :
     this->_buttonSprites[EpiGimp::TOOL_RECT] = FactorySprite::GetInstance().createSprite("Rect");
     this->_buttonSprites[EpiGimp::TOOL_CIRCLE] = FactorySprite::GetInstance().createSprite("Circle");
     this->_buttonSprites[EpiGimp::TOOL_LINE] = FactorySprite::GetInstance().createSprite("Line");
+    this->_buttonSprites[EpiGimp::TOOL_TEXT] = FactorySprite::GetInstance().createSprite("Text");
 
     this->_ids[EpiGimp::TOOL_BRUSH] = "Brush";
     this->_ids[EpiGimp::TOOL_ERASER] = "Eraser";
@@ -31,6 +32,7 @@ GUI::ToolsWin::ToolsWin() :
     this->_ids[EpiGimp::TOOL_RECT] = "Rect";
     this->_ids[EpiGimp::TOOL_CIRCLE] = "Circle";
     this->_ids[EpiGimp::TOOL_LINE] = "Line";
+    this->_ids[EpiGimp::TOOL_TEXT] = "Text";
 }
 
 void GUI::ToolsWin::content()
@@ -52,7 +54,7 @@ void GUI::ToolsWin::content()
             GlobalData.setCurrentTool(e.first);
         }
         cols++;
-        if (cols >= 3) {
+        if (cols >= 5) {
             ImGui::NewLine();
             cols = 0;
         } else {

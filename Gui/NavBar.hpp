@@ -24,6 +24,7 @@
                 void content(); //Actual function to modify in inherited classes
 
             private:
+                bool _darkMode = true;
 
         };
     }

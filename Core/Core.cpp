@@ -32,6 +32,7 @@ EpiGimp::Core::Core()
     this->_tools[EpiGimp::TOOL_RECT] = FactoryTool::GetInstance().createTool("Rect");
     this->_tools[EpiGimp::TOOL_CIRCLE] = FactoryTool::GetInstance().createTool("Circle");
     this->_tools[EpiGimp::TOOL_LINE] = FactoryTool::GetInstance().createTool("Line");
+    this->_tools[EpiGimp::TOOL_TEXT] = FactoryTool::GetInstance().createTool("Text");
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
     this->_sizeWindow = std::make_unique<GUI::SizeWin>();

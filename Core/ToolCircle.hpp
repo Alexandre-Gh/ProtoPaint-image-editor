@@ -5,8 +5,8 @@
 ** OOP
 */
 
-#ifndef TOOLCIRCLE_H_
-    #define TOOLCIRCLE_H_
+#ifndef TOOL_CIRCLE_H_
+    #define TOOL_CIRCLE_H_
 
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"

@@ -19,6 +19,14 @@ Graphic::Window::Window(std::string name, unsigned int w, unsigned int h)
     cursorImage.loadFromFile("assets/cursor.png");
 
     this->_mouseDraw.loadFromPixels(cursorImage.getPixelsPtr(), cursorImage.getSize(), sf::Vector2u(16, 16));
+
+    this->_darkColor = {50, 50, 50};
+    this->_lightColor = {130, 130, 130};
+
+    sf::Image logo;
+    logo.loadFromFile("./assets/logo.jpg");
+    this->_window.setIcon(392, 392, logo.getPixelsPtr());
+
 }
 
 Graphic::Window::~Window()
@@ -28,7 +36,12 @@ Graphic::Window::~Window()
 
 void Graphic::Window::resetRender()
 {
-    this->_window.clear(sf::Color(50, 50, 50));
+    ImVec4 infoColor = ImGui::GetStyle().Colors[ImGuiCol_WindowBg];
+    if (infoColor.w == 1.0f) {
+        this->_window.clear(this->_lightColor);
+    } else {
+        this->_window.clear(this->_darkColor);
+    }
     this->_mouseJustPressed = false;
     if (isMouseInUI()) {
         this->_window.setMouseCursorVisible(true);
@@ -41,6 +54,7 @@ void Graphic::Window::resetRender()
     this->_lastKeyPressed = this->_keyPressed;
     this->_mouseJustReleased = false;
     this->_mouseWheel = 0;
+    this->_enteredText.clear();
     while (this->_window.pollEvent(this->_event))
     {
         ImGui::SFML::ProcessEvent(this->_window, this->_event);
@@ -66,6 +80,12 @@ void Graphic::Window::resetRender()
                 break;
             case sf::Event::KeyReleased:
                 this->_keyPressed[this->_event.key.code] = false;
+                break;
+
+            case sf::Event::TextEntered:
+                if (std::isprint(this->_event.text.unicode)) {
+                    this->_enteredText += static_cast<char>(this->_event.text.unicode);
+                }
                 break;
         }
     }
@@ -198,5 +218,10 @@ void Graphic::Window::zoomCamera()
         return;
     }
     this->_camera->zoom(1 + (0.1f * -this->_mouseWheel));
+}
+
+const std::string &Graphic::Window::getEnteredText()
+{
+    return this->_enteredText;
 }
 

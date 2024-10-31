@@ -20,6 +20,7 @@ FactorySprite::FactorySprite()
     _textures["Rect"].loadFromFile("./assets/icons.png", {iconUnit * 6, 0, 28, 28});
     _textures["Circle"].loadFromFile("./assets/icons.png", {iconUnit * 7, 0, 28, 28});
     _textures["Line"].loadFromFile("./assets/icons.png", {iconUnit * 8, 0, 28, 28});
+    _textures["Text"].loadFromFile("./assets/icons.png", {iconUnit * 9, 0, 28, 28});
 
     _allSprites["Brush"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Brush"]); };
     _allSprites["Eraser"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Eraser"]); };
@@ -30,6 +31,7 @@ FactorySprite::FactorySprite()
     _allSprites["Rect"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Rect"]); };
     _allSprites["Circle"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Circle"]); };
     _allSprites["Line"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Line"]); };
+    _allSprites["Text"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Text"]); };
 }
 
 FactorySprite &FactorySprite::GetInstance()

@@ -81,6 +81,9 @@
                 const bool &getAddState() { return _nextStateState; };
                 void setAddState(bool value) { _nextStateState = value; };
 
+                const std::vector<std::string> &getFonts() { return _fonts; };
+                const std::vector<std::string> &getFontFilepaths() { return _fontFilepaths; };
+
                 //========================
 
             protected:
@@ -102,6 +105,8 @@
 
                 bool _nextStateState = false;
 
+                std::vector<std::string> _fonts;
+                std::vector<std::string> _fontFilepaths;
 
                 //=====================
         };
