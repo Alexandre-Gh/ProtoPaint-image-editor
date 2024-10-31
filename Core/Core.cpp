@@ -76,14 +76,6 @@ void EpiGimp::Core::loop()
             }
         }
 
-        // if (this->_window->isKeyJustPressed(sf::Keyboard::P)) {
-        //     sf::Font font;
-        //     font.loadFromFile("./assets/Monocraft.ttf");
-        //     sf::Text text("JAMBON", font, 20);
-        //     text.setStyle(sf::Text::Underlined);
-        //     currentLayer->getDrawZone()->addDraw(text);
-        // }
-
         this->handleTool();
         this->handleAction();
         this->handleFileDialog();

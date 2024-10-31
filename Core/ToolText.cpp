@@ -32,7 +32,7 @@ EpiGimp::ToolText::ToolText()
     this->_textLine.setOutlineThickness(1);
     this->_textLine.setFillColor(sf::Color::Black);
     this->_textLine.setOrigin(0, 0);
-    
+
     this->_styles.push_back(sf::Text::Style::Regular);
     this->_styles.push_back(sf::Text::Style::Bold);
     this->_styles.push_back(sf::Text::Style::Italic);
@@ -45,9 +45,11 @@ void EpiGimp::ToolText::action(std::shared_ptr<Graphic::Window> win, std::shared
     sf::Vector2f mousePos = win->getMousePosition();
     if (win->isLeftMouseJustPressed() && this->_used) {
         zone->addDraw(this->_text);
+        if (!this->_textString.empty()) {
+            GlobalData.setAddState(true);
+        }
         this->_textString.clear();
         this->_text.setString("");
-        GlobalData.setAddState(true);
         this->_used = false;
     }
     if (win->isLeftMouseJustPressed() && zone->isInZone(mousePos)) {
@@ -81,7 +83,8 @@ void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
     if (this->_used) {
         this->_previewZone->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
         this->_previewZone->clear();
-        this->_textLine.setSize((sf::Vector2f){1, this->_values["size"] / 2});
+        sf::Vector2f size = {1, (float)this->_values["size"] / 2};
+        this->_textLine.setSize(size);
 
         std::istringstream stream(this->_textString);
         std::string line;
@@ -96,7 +99,7 @@ void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
         float textWidth = this->_text.getGlobalBounds().width;
         if (lastLine.empty()) {
             this->_text.setString("e");
-            textHeight += this->_text.getGlobalBounds().height;
+            // textHeight += this->_text.getGlobalBounds().height;
         }
 
         this->_textLine.setPosition(this->_textPosition.x + textWidth, this->_textPosition.y + textHeight);
@@ -111,7 +114,8 @@ void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
 void EpiGimp::ToolText::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     if (!this->_used) {
-        this->_textLine.setSize((sf::Vector2f){1, this->_values["size"] / 2});
+        sf::Vector2f size = {1, (float)this->_values["size"] / 2};
+        this->_textLine.setSize(size);
         this->_textLine.setPosition(win->getMousePosition());
         win->drawShape(this->_textLine);
     }
