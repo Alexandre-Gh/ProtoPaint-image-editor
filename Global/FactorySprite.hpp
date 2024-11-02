@@ -26,5 +26,4 @@
                 std::map<std::string, sf::Texture> _textures;
                 std::map<std::string, std::function<std::unique_ptr<sf::Sprite>()>> _allSprites;
         };
-
 #endif

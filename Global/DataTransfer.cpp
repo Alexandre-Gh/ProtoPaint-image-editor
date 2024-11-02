@@ -16,14 +16,23 @@ DataTransfer::DataTransfer()
         if (std::filesystem::is_directory(entry.status())) {
             for (const auto& file : std::filesystem::directory_iterator(entry.path())) {
                 std::string extension = file.path().extension().string();
-                if (std::filesystem::is_regular_file(file.status()) && extension == ".ttf") {
+                std::string filename = file.path().filename().string();
+                if (filename.find("Italic") != std::string::npos) {
+                    continue;
+                }
+                if (filename.find("Bold") != std::string::npos) {
+                    continue;
+                }
+                if (std::filesystem::is_regular_file(file.status()) && (extension == ".otf" || extension == ".ttf")) {
                     this->_fonts.push_back(file.path().filename().string());
                     this->_fontFilepaths.push_back(entry.path().string() + "/" + file.path().filename().string());
                 }
             }
         }
     }
-    std::cout << this->_fonts.size() << std::endl;
+    std::sort(this->_fonts.begin(), this->_fonts.end(), std::greater<std::string>());
+    std::sort(this->_fontFilepaths.begin(), this->_fontFilepaths.end(), std::greater<std::string>());
+    std::cout << "Fonts loaded: " << this->_fonts.size() << std::endl;
 }
 
 const std::pair<std::string, int> &DataTransfer::getCurrentToolValue()

@@ -55,6 +55,15 @@ void EpiGimp::Core::loop()
         this->_window->resetRender();
         this->_guiCore->update();
 
+        //Canvas History Check
+        if (GlobalData.getAddState()) {
+            this->addState(this->_layersWindow->getLayers());
+            GlobalData.setAddState(false);
+            this->_nextSaveState = false;
+            sf::Vector2f newSize = currentLayer->getDrawZone()->getSize();
+            this->_sizeWindow->setSize(newSize.x, newSize.y);
+        }
+
         this->_canvasLayers = this->_layersWindow->getLayers();
         this->_currentLayerIndex = this->_layersWindow->getCurrentLayerIndex();
 
@@ -85,15 +94,6 @@ void EpiGimp::Core::loop()
         this->_sizeWindow->display();
         this->_layersWindow->display();
         this->_navBar->display();
-
-
-        if (GlobalData.getAddState()) {
-            this->addState(this->_layersWindow->getLayers());
-            GlobalData.setAddState(false);
-            this->_nextSaveState = false;
-            sf::Vector2f newSize = currentLayer->getDrawZone()->getSize();
-            this->_sizeWindow->setSize(newSize.x, newSize.y);
-        }
 
         this->_guiCore->display();
         this->_window->displayRender();
@@ -256,7 +256,7 @@ void EpiGimp::Core::openFile()
 void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers)
 {
     if (this->_currentStateIndex + 1 < this->_canvasHistory.size()) {
-        std::cout << "OVERRIDE " << this->_currentStateIndex << std::endl;
+        std::cout << "Override history at " << this->_currentStateIndex + 1 << std::endl;
         for (int i = this->_canvasHistory.size() - 1; i > this->_currentStateIndex; i--) {
             this->_canvasHistory.pop_back();
         }
@@ -275,7 +275,7 @@ void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>&
     for (const auto& layer : this->_canvasHistory[this->_currentStateIndex]) {
         this->_undoCanvas.push_back(layer->clone());
     }
-    std::cout << "NEWSTATE " << this->_canvasHistory.size() << std::endl;
+    std::cout << "New State at: " << this->_canvasHistory.size() << std::endl;
 }
 
 void EpiGimp::Core::undo()
@@ -292,8 +292,9 @@ void EpiGimp::Core::undo()
             this->_canvasBG->setSize(size);
             this->_canvasBG->drawCheckeredBackground();
             this->_sizeWindow->setSize(size.x, size.y);
+            GlobalData.setCanvasSize(size.x, size.y);
         }
-        std::cout << "UNDO " << this->_canvasHistory.size() - 1 << " | "<< this->_currentStateIndex + 1 << std::endl;
+        std::cout << "Undo at: " << this->_currentStateIndex + 1 << " out of "<< this->_canvasHistory.size() << std::endl;
     } else {
         std::cout << "No more undos available." << std::endl;
     }
@@ -313,8 +314,9 @@ void EpiGimp::Core::redo()
             this->_canvasBG->setSize(size);
             this->_canvasBG->drawCheckeredBackground();
             this->_sizeWindow->setSize(size.x, size.y);
+            GlobalData.setCanvasSize(size.x, size.y);
         }
-        std::cout << "REDO " << this->_canvasHistory.size() - 1 << " | "<< this->_currentStateIndex + 1 << std::endl;
+        std::cout << "Redo at: " << this->_currentStateIndex + 1 << " out of "<< this->_canvasHistory.size() << std::endl;
     } else {
         std::cout << "No more redos available." << std::endl;
     }

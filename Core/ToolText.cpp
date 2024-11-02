@@ -33,6 +33,11 @@ EpiGimp::ToolText::ToolText()
     this->_textLine.setFillColor(sf::Color::Black);
     this->_textLine.setOrigin(0, 0);
 
+    this->_textZone.setOutlineColor(sf::Color::Black);
+    this->_textZone.setOutlineThickness(1);
+    this->_textZone.setFillColor(sf::Color::Transparent);
+    this->_textZone.setOrigin(0, 0);
+
     this->_styles.push_back(sf::Text::Style::Regular);
     this->_styles.push_back(sf::Text::Style::Bold);
     this->_styles.push_back(sf::Text::Style::Italic);
@@ -51,6 +56,7 @@ void EpiGimp::ToolText::action(std::shared_ptr<Graphic::Window> win, std::shared
         this->_textString.clear();
         this->_text.setString("");
         this->_used = false;
+        return;
     }
     if (win->isLeftMouseJustPressed() && zone->isInZone(mousePos)) {
         this->_textPosition = zone->getRelatedPosition(mousePos);
@@ -73,8 +79,7 @@ void EpiGimp::ToolText::action(std::shared_ptr<Graphic::Window> win, std::shared
     this->_text.setString(this->_textString);
     this->_text.setPosition(this->_textPosition);
     this->_text.setCharacterSize(this->_values["size"]);
-    sf::Color col = GlobalData.getMainColor();
-    this->_text.setColor(col);
+    this->_text.setFillColor(GlobalData.getMainColor());
 
 }
 
@@ -94,6 +99,8 @@ void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
             lastLine = line;
         }
         lastLine = line;
+        this->_textZone.setPosition(this->_textPosition.x - 10, this->_textPosition.y - 10);
+        this->_textZone.setSize({this->_text.getGlobalBounds().width + 20, this->_text.getGlobalBounds().height + 20});
         float textHeight = this->_text.getGlobalBounds().height;
         this->_text.setString(lastLine);
         float textWidth = this->_text.getGlobalBounds().width;
@@ -101,10 +108,14 @@ void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
             this->_text.setString("e");
             // textHeight += this->_text.getGlobalBounds().height;
         }
+        if (this->_textZone.getSize().y < this->_textLine.getSize().y + 20) {
+            this->_textZone.setSize({this->_textZone.getSize().x, this->_textLine.getSize().y + 20});
+        }
 
         this->_textLine.setPosition(this->_textPosition.x + textWidth, this->_textPosition.y + textHeight);
         this->_text.setString(this->_textString);
         this->_text.setStyle(this->_styles[this->_values["style"]]);
+        this->_previewZone->addDraw(this->_textZone);
         this->_previewZone->addDraw(this->_textLine);
         this->_previewZone->addDraw(this->_text);
         win->drawSprite(this->_previewZone->getSprite());

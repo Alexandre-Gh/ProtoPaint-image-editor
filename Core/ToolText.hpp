@@ -25,6 +25,7 @@
             private:
                 bool _used;
                 sf::RectangleShape _textLine;
+                sf::RectangleShape _textZone;
                 sf::Vector2f _textPosition;
                 sf::Text _text;
                 std::string _textString;
