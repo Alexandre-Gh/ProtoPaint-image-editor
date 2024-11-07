@@ -369,7 +369,6 @@ void EpiGimp::Core::redo()
 
 void EpiGimp::Core::reposition()
 {
-    std::cout << GlobalData.getCurrentAction() << std::endl;
     for (auto const &e: this->_canvasLayers) {
         e->getDrawZone()->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y, GlobalData.getCurrentAction() == EpiGimp::varAction::RESIZE);
         e->getDrawZone()->setPosition(0, 0);
