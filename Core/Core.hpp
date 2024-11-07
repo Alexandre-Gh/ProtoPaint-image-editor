@@ -65,6 +65,7 @@
                 std::unique_ptr<GUI::LayersWin> _layersWindow;
 
                 std::vector<std::shared_ptr<EpiGimp::Layer>> _undoCanvas;
+                std::vector<EpiGimp::varAction> _actionsWithWarning;
 
                 std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRL;
                 std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRLShift;

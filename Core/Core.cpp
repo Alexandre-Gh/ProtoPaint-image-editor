@@ -42,7 +42,7 @@ EpiGimp::Core::Core()
     this->_currentLayerIndex = 0;
     this->_currentStateIndex = 0;
 
-    _shortcutCTRL = {
+    this->_shortcutCTRL = {
         { sf::Keyboard::Z, []() { GlobalData.setCurrentAction(EpiGimp::varAction::UNDO); } },
         { sf::Keyboard::Y, []() { GlobalData.setCurrentAction(EpiGimp::varAction::REDO); } },
         { sf::Keyboard::O, [this]() { if (!this->_loadFile) GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE); } },
@@ -50,7 +50,7 @@ EpiGimp::Core::Core()
         { sf::Keyboard::N, []() { GlobalData.setCurrentAction(EpiGimp::varAction::NEW); } },
         { sf::Keyboard::R, []() { GlobalData.setCurrentAction(EpiGimp::varAction::REPOSITION); } }
     };
-    _shortcutCTRLShift = {
+    this->_shortcutCTRLShift = {
         { sf::Keyboard::S, []() { GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE_ACTIVE); } },
         { sf::Keyboard::R, []() { GlobalData.setCurrentAction(EpiGimp::varAction::WIN_RESIZE); } },
         { sf::Keyboard::O, []() { GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE_LAYER); } },
@@ -179,6 +179,10 @@ void EpiGimp::Core::handleAction()
 void EpiGimp::Core::handleFileDialog()
 {
     if (this->_loadFile) {
+        if (!this->_loadAsLayer && system("zenity --question --text=\"Are you sure?\n\nCurrent progress will be lost if you didn't save\"")) {
+            this->_loadFile = false; this->_loadAsLayer = false; this->_loadOnLayer = false;
+            return;
+        }
         this->_guiCore->startLoadFile();
         this->openFile();
         return;
@@ -206,13 +210,18 @@ void EpiGimp::Core::handleShortcuts()
 
 void EpiGimp::Core::resetCanvas()
 {
+    if (GlobalData.getCurrentAction() == EpiGimp::NEW) {
+        if (system("zenity --question --text=\"Are you sure you want to reset the canvas?\n\nCurrent progress will be lost if you didn't save\"")) {
+            return;
+        }
+    }
     this->_canvasLayers.clear();
     this->_canvasLayers.push_back(std::make_shared<EpiGimp::Layer>("Layer 1", 400, 300));
     GlobalData.setCanvasSize(400, 300);
     this->_currentLayerIndex = 0;
     this->_layersWindow = std::make_unique<GUI::LayersWin>(this->_canvasLayers);
     this->_window->getCamera()->resetZoom();
-    this->_window->getCamera()->setPosition(this->_canvasBG->getPosition());
+    this->_window->getCamera()->setPosition(GlobalData.getCanvasSize().x / 2, GlobalData.getCanvasSize().y / 2);
     this->_canvasHistory.clear();
     this->addState(this->_canvasLayers);
     this->_currentStateIndex = 0;

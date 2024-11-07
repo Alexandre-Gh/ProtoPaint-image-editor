@@ -60,7 +60,10 @@ void Graphic::Window::resetRender()
         ImGui::SFML::ProcessEvent(this->_window, this->_event);
         switch (this->_event.type) {
             case sf::Event::Resized: checkResize(); break;
-            case sf::Event::Closed: checkClose(); break;
+            case sf::Event::Closed:
+            if (!system("zenity --question --text=\"Are you sure you want to exit?\n\nCurrent progress will be lost if you didn't save\"")) {
+                checkClose(); break;
+            }
             case sf::Event::MouseWheelScrolled: checkZoom(); break;
             case sf::Event::MouseMoved: checkMouse(); break;
             case sf::Event::MouseButtonReleased:
