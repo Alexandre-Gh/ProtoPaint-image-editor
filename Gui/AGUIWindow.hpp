@@ -22,6 +22,8 @@
 
                 void content(); //Actual function to modify in inherited classes
                 void display(); //Call to display in other functions
+                void setVisible(bool visible);
+                const bool &getVisible();
 
             private:
                 std::string _title;
@@ -29,7 +31,8 @@
             protected:
                 const sf::Color& getMainColor() { return GlobalData.getMainColor(); }
                 const sf::Color& getSecondColor() { return GlobalData.getSecondColor(); }
-                bool isNavBar = false;
+                bool _isNavBar = false;
+                bool _isVisible = true;
         };
     }
 

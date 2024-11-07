@@ -27,12 +27,12 @@
                 std::vector<std::shared_ptr<EpiGimp::Layer>> getLayers();
                 void setLayers(std::vector<std::shared_ptr<EpiGimp::Layer>> layers, unsigned int index);
                 const unsigned int &getCurrentLayerIndex();
+                void addLayer();
 
             private:
                  std::vector<std::shared_ptr<EpiGimp::Layer>> _layers;
                  unsigned int _currentLayerIndex;
 
-                 void addLayer();
 
         };
     }

@@ -10,7 +10,7 @@
 GUI::NavBar::NavBar() :
     AGUIWindow("Navigation")
 {
-    this->isNavBar = true;
+    this->_isNavBar = true;
 }
 
 void GUI::NavBar::content()
@@ -19,6 +19,8 @@ void GUI::NavBar::content()
     {
         if (ImGui::MenuItem("New")) GlobalData.setCurrentAction(EpiGimp::NEW);
         if (ImGui::MenuItem("Open", "Ctrl+O")) GlobalData.setCurrentAction(EpiGimp::IMPORT_IMAGE);
+        if (ImGui::MenuItem("Open as layer", "Ctrl+Shift+O")) GlobalData.setCurrentAction(EpiGimp::IMPORT_IMAGE_LAYER);
+        if (ImGui::MenuItem("Open on current layer")) GlobalData.setCurrentAction(EpiGimp::IMPORT_IMAGE_CURRENT);
         if (ImGui::MenuItem("Save", "Ctrl+S")) GlobalData.setCurrentAction(EpiGimp::SAVE_IMAGE);
         if (ImGui::MenuItem("Save Active Layers", "Ctrl+Shift+S")) GlobalData.setCurrentAction(EpiGimp::SAVE_IMAGE_ACTIVE);
         ImGui::EndMenu();
@@ -27,6 +29,7 @@ void GUI::NavBar::content()
     {
         if (ImGui::MenuItem("Undo", "Ctrl+Z")) GlobalData.setCurrentAction(EpiGimp::UNDO);
         if (ImGui::MenuItem("Redo", "Ctrl+Y")) GlobalData.setCurrentAction(EpiGimp::REDO);
+        if (ImGui::MenuItem("Resize Canvas")) GlobalData.setCurrentAction(EpiGimp::WIN_RESIZE);
         ImGui::EndMenu();
     }
     if (ImGui::BeginMenu("Image"))

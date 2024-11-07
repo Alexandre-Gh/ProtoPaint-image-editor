@@ -21,6 +21,8 @@
 
                 virtual void content() = 0;
                 virtual void display() = 0;
+                virtual void setVisible(bool visible) = 0;
+                virtual const bool &getVisible() = 0;
 
         };
     }

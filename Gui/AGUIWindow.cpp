@@ -19,7 +19,8 @@ GUI::AGUIWindow::~AGUIWindow()
 
 void GUI::AGUIWindow::display()
 {
-    if (this->isNavBar) {
+    if (!this->_isVisible) return;
+    if (this->_isNavBar) {
         ImGui::BeginMainMenuBar();
     } else {
         ImGui::Begin(this->_title.c_str());
@@ -27,7 +28,7 @@ void GUI::AGUIWindow::display()
 
     this->content();
 
-    if (this->isNavBar) {
+    if (this->_isNavBar) {
         ImGui::EndMainMenuBar();
     } else {
         ImGui::End();
@@ -37,4 +38,14 @@ void GUI::AGUIWindow::display()
 void GUI::AGUIWindow::content()
 {
     ImGui::Button("Modify content() to edit this window");
+}
+
+void GUI::AGUIWindow::setVisible(bool visible)
+{
+    this->_isVisible = visible;
+}
+
+const bool &GUI::AGUIWindow::getVisible()
+{
+    return this->_isVisible;
 }

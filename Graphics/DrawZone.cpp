@@ -63,6 +63,14 @@ void Graphic::DrawZone::setFromFile(std::string filepath)
     }
 }
 
+void Graphic::DrawZone::addFromFile(std::string filepath)
+{
+    sf::Texture fileText;
+    if (fileText.loadFromFile(filepath)) {
+        this->_zone.draw(sf::Sprite(fileText));
+    }
+}
+
 void Graphic::DrawZone::saveToFile(std::string filepath)
 {
     sf::Image im = this->_zone.getTexture().copyToImage();
@@ -171,7 +179,7 @@ bool Graphic::DrawZone::isInZone(sf::Vector2f pos)
     return this->getSprite().getGlobalBounds().contains(pos);
 }
 
-void Graphic::DrawZone::setSize(unsigned int w, unsigned int h)
+void Graphic::DrawZone::setSize(unsigned int w, unsigned int h, bool content)
 {
     // Store the old size
     sf::Vector2u oldSize = this->_zone.getSize();
@@ -192,15 +200,18 @@ void Graphic::DrawZone::setSize(unsigned int w, unsigned int h)
 
     // Create a sprite from the temporary RenderTexture and scale it to the new size
     sf::Sprite newSpr(tempZone.getTexture());
-    newSpr.setScale(static_cast<float>(w) / oldSize.x, static_cast<float>(h) / oldSize.y);
+    if (content) {
+        newSpr.setScale(static_cast<float>(w) / oldSize.x, static_cast<float>(h) / oldSize.y);
+    }
     this->_zone.draw(newSpr);
+
 
     // Finalize the drawing
     this->_zone.display();
 
     // Update the displayer with the new texture
     this->_displayer.setTexture(this->_zone.getTexture(), true);
-    
+
     // Update the size member variable
     this->_size.x = w;
     this->_size.y = h;
@@ -222,9 +233,9 @@ void Graphic::DrawZone::flip(bool vertical)
     this->_zone.draw(sprite, flip);
 }
 
-void Graphic::DrawZone::setSize(sf::Vector2f size)
+void Graphic::DrawZone::setSize(sf::Vector2f size, bool content)
 {
-    this->setSize(size.x, size.y);
+    this->setSize(size.x, size.y, content);
 }
 
 const sf::Vector2f &Graphic::DrawZone::getSize()

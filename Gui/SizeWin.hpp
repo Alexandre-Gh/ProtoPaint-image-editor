@@ -28,7 +28,10 @@
             private:
                 int _x;
                 int _y;
+                int _percent;
                 sf::Vector2f _ret;
+                bool _sizePercent;
+                bool _resizeContent;
 
         };
     }

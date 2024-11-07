@@ -26,6 +26,7 @@
 
                 void setPixel(sf::Vector2f pos, sf::Color color);
                 void setFromFile(std::string filepath);
+                void addFromFile(std::string filepath);
                 void saveToFile(std::string filepath);
                 const sf::Color &getPixel(sf::Vector2f pos);
                 void addDraw(sf::Drawable &drawable);
@@ -42,8 +43,8 @@
                 void setPosition(int x, int y);
                 const sf::Vector2f &getPosition();
                 sf::Vector2f getRelatedPosition(sf::Vector2f pos);
-                void setSize(unsigned int x, unsigned int y);
-                void setSize(sf::Vector2f size);
+                void setSize(unsigned int x, unsigned int y, bool content = true);
+                void setSize(sf::Vector2f size, bool content = true);
                 const sf::Vector2f &getSize();
                 bool isInZone(sf::Vector2f pos);
 

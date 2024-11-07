@@ -32,23 +32,30 @@
 
             enum varAction
             {
-                NO_ACTION = 0,
+                NO_ACTION,
 
-                IMPORT_IMAGE = 1,
-                SAVE_IMAGE = 2,
-                UNDO = 3,
-                REDO = 4,
-                NEW = 5,
-                RESIZE = 6,
-                FLIP_HOR = 7,
-                FLIP_VERT = 8,
-                FLIP_ALL_HOR = 9,
-                FLIP_ALL_VERT = 10,
-                ROTATE_LEFT = 11,
-                ROTATE_RIGHT = 12,
-                ROTATE_FULL = 13,
-                SAVE_IMAGE_ACTIVE = 14,
-                REPOSITION = 15,
+                IMPORT_IMAGE,
+                IMPORT_IMAGE_LAYER,
+                IMPORT_IMAGE_CURRENT,
+                SAVE_IMAGE,
+                UNDO,
+                REDO,
+                NEW,
+                RESIZE,
+                RESIZE_CANVAS,
+                FLIP_HOR,
+                FLIP_VERT,
+                FLIP_ALL_HOR,
+                FLIP_ALL_VERT,
+                ROTATE_LEFT,
+                ROTATE_RIGHT,
+                ROTATE_FULL,
+                SAVE_IMAGE_ACTIVE,
+                REPOSITION,
+
+                WIN_RESIZE,
+                WIN_IMPORT,
+                WIN_WARNING,
             };
         };
 

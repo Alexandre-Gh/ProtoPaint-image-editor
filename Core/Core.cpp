@@ -41,6 +41,20 @@ EpiGimp::Core::Core()
 
     this->_currentLayerIndex = 0;
     this->_currentStateIndex = 0;
+
+    _shortcutCTRL = {
+        { sf::Keyboard::Z, []() { GlobalData.setCurrentAction(EpiGimp::varAction::UNDO); } },
+        { sf::Keyboard::Y, []() { GlobalData.setCurrentAction(EpiGimp::varAction::REDO); } },
+        { sf::Keyboard::O, [this]() { if (!this->_loadFile) GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE); } },
+        { sf::Keyboard::S, [this]() { if (!this->_saveFile) GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE); } },
+        { sf::Keyboard::N, []() { GlobalData.setCurrentAction(EpiGimp::varAction::NEW); } },
+        { sf::Keyboard::R, []() { GlobalData.setCurrentAction(EpiGimp::varAction::REPOSITION); } }
+    };
+    _shortcutCTRLShift = {
+        { sf::Keyboard::S, []() { GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE_ACTIVE); } },
+        { sf::Keyboard::R, []() { GlobalData.setCurrentAction(EpiGimp::varAction::WIN_RESIZE); } },
+        { sf::Keyboard::O, []() { GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE_LAYER); } },
+    };
 }
 
 EpiGimp::Core::~Core()
@@ -138,10 +152,13 @@ void EpiGimp::Core::handleAction()
 
         case EpiGimp::varAction::SAVE_IMAGE: this->_saveFile = true; break;
         case EpiGimp::varAction::IMPORT_IMAGE: this->_loadFile = true; break;
+        case EpiGimp::varAction::IMPORT_IMAGE_CURRENT: this->_loadFile = true; this->_loadOnLayer = true; break;
+        case EpiGimp::varAction::IMPORT_IMAGE_LAYER: this->_loadFile = true; this->_loadAsLayer = true; break;
         case EpiGimp::varAction::UNDO: this->undo(); break;
         case EpiGimp::varAction::REDO: this->redo(); break;
         case EpiGimp::varAction::NEW: this->resetCanvas(); break;
         case EpiGimp::varAction::RESIZE: this->reposition(); this->addState(this->_canvasLayers); break;
+        case EpiGimp::varAction::RESIZE_CANVAS: this->reposition(); this->addState(this->_canvasLayers); break;
         case EpiGimp::varAction::FLIP_HOR: this->flipCurrent(false); break;
         case EpiGimp::varAction::FLIP_VERT: this->flipCurrent(true); break;
         case EpiGimp::varAction::FLIP_ALL_HOR: this->flipAll(false); break;
@@ -154,6 +171,7 @@ void EpiGimp::Core::handleAction()
             this->_window->getCamera()->setPosition(GlobalData.getCanvasSize() * 0.5f);
             this->_window->getCamera()->resetZoom();
             break;
+        case EpiGimp::varAction::WIN_RESIZE: this->_sizeWindow->setVisible(true); break;
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
 }
@@ -174,26 +192,14 @@ void EpiGimp::Core::handleFileDialog()
 void EpiGimp::Core::handleShortcuts()
 {
     if (this->_window->isKeyPressed(sf::Keyboard::LControl)) {
-        if (this->_window->isKeyJustPressed(sf::Keyboard::Z)) {
-            GlobalData.setCurrentAction(EpiGimp::varAction::UNDO);
-        }
-        if (this->_window->isKeyJustPressed(sf::Keyboard::Y)) {
-            GlobalData.setCurrentAction(EpiGimp::varAction::REDO);
-        }
-        if (this->_window->isKeyJustPressed(sf::Keyboard::O) && !this->_loadFile) {
-            GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE);
-        }
-        if (this->_window->isKeyJustPressed(sf::Keyboard::S) && !this->_saveFile) {
-            GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE);
-        }
-        if (this->_window->isKeyJustPressed(sf::Keyboard::N)) {
-            GlobalData.setCurrentAction(EpiGimp::varAction::NEW);
-        }
-        if (this->_window->isKeyPressed(sf::Keyboard::LShift) && this->_window->isKeyJustPressed(sf::Keyboard::S)) {
-            GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE_ACTIVE);
-        }
-        if (this->_window->isKeyJustPressed(sf::Keyboard::R)) {
-            GlobalData.setCurrentAction(EpiGimp::varAction::REPOSITION);
+        for (const auto& [key, action] : _shortcutCTRL)
+            if (this->_window->isKeyJustPressed(key))
+                action();
+
+        if (this->_window->isKeyPressed(sf::Keyboard::LShift)) {
+            for (const auto& [key, action] : _shortcutCTRLShift)
+                if (this->_window->isKeyJustPressed(key))
+                    action();
         }
     }
 }
@@ -239,17 +245,47 @@ void EpiGimp::Core::saveFile()
 void EpiGimp::Core::openFile()
 {
     std::string filepath = this->_guiCore->getFilePath();
-    if (filepath != "") {
-        this->resetCanvas();
+    if (filepath != "" && this->_loadAsLayer) {
+        std::cout << "NEW\n";
         this->_guiCore->resetFilePath();
-        this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->setFromFile(filepath);
+        this->_layersWindow->addLayer();
+        this->_canvasLayers = this->_layersWindow->getLayers();
+        this->_currentLayerIndex = this->_layersWindow->getCurrentLayerIndex();
+        sf::Texture fileText;
+        if (fileText.loadFromFile(filepath)) {
+            this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->setSize(fileText.getSize().x, fileText.getSize().y);
+            this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->addFromFile(filepath);
+        }
+        sf::Vector2f imageSize = this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->getSize();
+        imageSize.x = std::max(imageSize.x, GlobalData.getCanvasSize().x);
+        imageSize.y = std::max(imageSize.y, GlobalData.getCanvasSize().y);
+        for (const auto& layer : this->_canvasLayers) {
+            layer->getDrawZone()->setSize(imageSize, false);
+        }
+        this->addState(this->_canvasLayers);
+        this->_loadFile = false;
+        this->_loadOnLayer = false;
+        this->reposition();
+    }
+    if (filepath != "" && !this->_loadAsLayer) {
+        if (!this->_loadOnLayer) {
+            this->resetCanvas();
+        }
+        this->_guiCore->resetFilePath();
+        if (this->_loadOnLayer && this->_canvasLayers.size() > 1) {
+            this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->addFromFile(filepath);
+        } else {
+            this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->setFromFile(filepath);
+        }
         // this->_canvasHistory.clear();
         this->addState(this->_canvasLayers);
         this->_loadFile = false;
+        this->_loadOnLayer = false;
         this->reposition();
     }
     if (this->_guiCore->getFDClosed()) {
         this->_loadFile = false;
+        this->_loadOnLayer = false;
     }
 }
 
@@ -324,8 +360,9 @@ void EpiGimp::Core::redo()
 
 void EpiGimp::Core::reposition()
 {
+    std::cout << GlobalData.getCurrentAction() << std::endl;
     for (auto const &e: this->_canvasLayers) {
-        e->getDrawZone()->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
+        e->getDrawZone()->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y, GlobalData.getCurrentAction() == EpiGimp::varAction::RESIZE);
         e->getDrawZone()->setPosition(0, 0);
     }
     this->_canvasBG->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);

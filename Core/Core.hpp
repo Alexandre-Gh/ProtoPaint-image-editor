@@ -66,7 +66,12 @@
 
                 std::vector<std::shared_ptr<EpiGimp::Layer>> _undoCanvas;
 
+                std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRL;
+                std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRLShift;
+
                 bool _loadFile = false;
+                bool _loadOnLayer = false;
+                bool _loadAsLayer = false;
                 bool _saveFile = false;
                 bool _nextSaveState = false;
                 bool _toolIsUsed = true;
