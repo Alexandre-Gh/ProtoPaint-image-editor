@@ -179,7 +179,7 @@ void EpiGimp::Core::handleAction()
 void EpiGimp::Core::handleFileDialog()
 {
     if (this->_loadFile) {
-        if (!this->_loadAsLayer && system("zenity --question --text=\"Are you sure?\n\nCurrent progress will be lost if you didn't save\"")) {
+        if (!this->_loadAsLayer && system("zenity --question --text=\"Are you sure you want to open a new file?\n\nCurrent progress will be lost if you didn't save\"")) {
             this->_loadFile = false; this->_loadAsLayer = false; this->_loadOnLayer = false;
             return;
         }
@@ -296,6 +296,7 @@ void EpiGimp::Core::openFile()
         this->_loadFile = false;
         this->_loadOnLayer = false;
     }
+    this->_loadAsLayer = false;
 }
 
 void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers)
