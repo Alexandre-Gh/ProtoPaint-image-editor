@@ -255,7 +255,6 @@ void EpiGimp::Core::openFile()
 {
     std::string filepath = this->_guiCore->getFilePath();
     if (filepath != "" && this->_loadAsLayer) {
-        std::cout << "NEW\n";
         this->_guiCore->resetFilePath();
         this->_layersWindow->addLayer();
         this->_canvasLayers = this->_layersWindow->getLayers();
@@ -274,6 +273,7 @@ void EpiGimp::Core::openFile()
         this->addState(this->_canvasLayers);
         this->_loadFile = false;
         this->_loadOnLayer = false;
+        this->_loadAsLayer = false;
         this->reposition();
     }
     if (filepath != "" && !this->_loadAsLayer) {
@@ -290,13 +290,14 @@ void EpiGimp::Core::openFile()
         this->addState(this->_canvasLayers);
         this->_loadFile = false;
         this->_loadOnLayer = false;
+        this->_loadAsLayer = false;
         this->reposition();
     }
     if (this->_guiCore->getFDClosed()) {
         this->_loadFile = false;
         this->_loadOnLayer = false;
+        this->_loadAsLayer = false;
     }
-    this->_loadAsLayer = false;
 }
 
 void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers)

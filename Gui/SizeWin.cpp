@@ -29,8 +29,8 @@ void GUI::SizeWin::content()
     } else {
         ImGui::InputInt("X", &_x);
         ImGui::InputInt("Y", &_y);
-        this->_x = std::max(0, std::min(this->_x, 3000));
-        this->_y = std::max(0, std::min(this->_y, 3000));
+        this->_x = std::max(1, this->_x);
+        this->_y = std::max(1, this->_y);
     }
     ImGui::Spacing();
     ImGui::Checkbox("Resize Canvas Content", &this->_resizeContent);
@@ -39,12 +39,20 @@ void GUI::SizeWin::content()
     }
     ImGui::SameLine();
     if (ImGui::Button("Resize")) {
-        if (this->_sizePercent) {
-            sf::Vector2f size = GlobalData.getCanvasSize();
-            GlobalData.setCanvasSize(size.x * (this->_percent / 100), size.y * (this->_percent / 100));
-        } else {
-            GlobalData.setCanvasSize(_x, _y);
+        sf::Vector2f size = GlobalData.getCanvasSize();
+        if (size.x == this->_x && size.y == this->_y) {
+            this->_isVisible = false;
+            this->_percent = 100;
+            return;
         }
+        if (this->_sizePercent) {
+            this->_x = size.x * (this->_percent / 100);
+            this->_y = size.y * (this->_percent / 100);
+        }
+        this->_x = std::max(1, this->_x);
+        this->_y = std::max(1, this->_y);
+        GlobalData.setCanvasSize(_x, _y);
+        this->_percent = 100;
         GlobalData.setCurrentAction(this->_resizeContent ? EpiGimp::varAction::RESIZE : EpiGimp::varAction::RESIZE_CANVAS);
         this->_isVisible = false;
     }
