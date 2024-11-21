@@ -19,6 +19,8 @@ EpiGimp::ToolBrush::ToolBrush()
     this->_values["size"] = 4;
     this->_values["gradient"] = false;
     this->_values["rainbow"] = false;
+    this->_values["symetricalHor"] = false;
+    this->_values["symetricalVert"] = false;
 
     this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
     this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
@@ -85,7 +87,20 @@ void EpiGimp::ToolBrush::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::V
     for (int i = 0; i <= numSteps; ++i) {
         float t = static_cast<float>(i) / numSteps;
         sf::Vector2f interpolatedPos = start + t * delta;
+        float initialX = interpolatedPos.x;
         this->_brushes[index]->draw(zone, interpolatedPos, this->_values["gradient"]);
+        if (this->_values["symetricalHor"]) {
+            interpolatedPos.x = zone->getSize().x - interpolatedPos.x;
+            this->_brushes[index]->draw(zone, interpolatedPos, this->_values["gradient"]);
+        }
+        if (this->_values["symetricalVert"]) {
+            interpolatedPos.y = zone->getSize().y - interpolatedPos.y;
+            this->_brushes[index]->draw(zone, interpolatedPos, this->_values["gradient"]);
+        }
+        if (this->_values["symetricalVert"] && this->_values["symetricalVert"]) {
+            interpolatedPos.x = initialX;
+            this->_brushes[index]->draw(zone, interpolatedPos, this->_values["gradient"]);
+        }
     }
 }
 

@@ -118,6 +118,7 @@ bool Graphic::Window::isOpen()
 void Graphic::Window::checkResize()
 {
     this->_camera->setSize(this->_window.getSize().x, this->_window.getSize().y);
+    this->_windowSize = (sf::Vector2f)this->_window.getSize();
 }
 
 void Graphic::Window::checkClose()
@@ -226,5 +227,10 @@ void Graphic::Window::zoomCamera()
 const std::string &Graphic::Window::getEnteredText()
 {
     return this->_enteredText;
+}
+
+const sf::Vector2f &Graphic::Window::getSize()
+{
+    return this->_windowSize;
 }
 

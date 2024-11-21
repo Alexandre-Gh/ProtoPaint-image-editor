@@ -26,6 +26,8 @@
                 int _size = 4;
                 bool _gradient = false;
                 bool _rainbow = false;
+                bool _symetricalHor = false;
+                bool _symetricalVert = false;
 
                 std::vector<std::string> _items;
                 int _currentToolIndex = 0;

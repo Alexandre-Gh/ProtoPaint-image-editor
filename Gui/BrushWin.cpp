@@ -44,4 +44,10 @@ void GUI::BrushWin::content()
     if (ImGui::Checkbox("Rainbow", &this->_rainbow)) {
         GlobalData.setCurrentToolValue("rainbow", this->_rainbow);
     }
+    if (ImGui::Checkbox("Simetry X", &this->_symetricalHor)) {
+        GlobalData.setCurrentToolValue("symetricalHor", this->_symetricalHor);
+    }
+    if (ImGui::Checkbox("Simetry Y", &this->_symetricalVert)) {
+        GlobalData.setCurrentToolValue("symetricalVert", this->_symetricalVert);
+    }
 }

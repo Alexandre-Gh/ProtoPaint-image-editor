@@ -42,6 +42,7 @@
                 const sf::Vector2f &getMousePosition();
                 const sf::Vector2f &getMouseTranslation();
                 const std::shared_ptr<Graphic::Camera> &getCamera();
+                const sf::Vector2f &getSize();
 
                 sf::RenderWindow &getCoreWindow();
                 const sf::Event &getCoreEvent();
@@ -67,6 +68,8 @@
 
                 sf::Color _darkColor;
                 sf::Color _lightColor;
+
+                sf::Vector2f _windowSize;
 
         };
     }
