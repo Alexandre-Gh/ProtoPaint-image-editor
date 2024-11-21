@@ -34,7 +34,6 @@ EpiGimp::Core::Core()
     this->_tools[EpiGimp::TOOL_LINE] = FactoryTool::GetInstance().createTool("Line");
     this->_tools[EpiGimp::TOOL_TEXT] = FactoryTool::GetInstance().createTool("Text");
     this->_tools[EpiGimp::TOOL_IMAGE] = FactoryTool::GetInstance().createTool("BrushImage");
-    // this->_tools[EpiGimp::TOOL_SYMETRICAL] = FactoryTool::GetInstance().createTool("Text");
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
     this->_sizeWindow = std::make_unique<GUI::SizeWin>();
@@ -58,6 +57,26 @@ EpiGimp::Core::Core()
         { sf::Keyboard::R, []() { GlobalData.setCurrentAction(EpiGimp::varAction::WIN_RESIZE); } },
         { sf::Keyboard::O, []() { GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE_LAYER); } },
     };
+
+    this->_infoTexts[EpiGimp::IMPORT_IMAGE] = "Imported a new image into the project";
+    this->_infoTexts[EpiGimp::IMPORT_IMAGE_LAYER] = "Imported a new image as a layer into the project";
+    this->_infoTexts[EpiGimp::IMPORT_IMAGE_CURRENT] = "Imported the current image into the project";
+    this->_infoTexts[EpiGimp::SAVE_IMAGE] = "Saved the current image to disk";
+    this->_infoTexts[EpiGimp::UNDO] = "Action undo-ed";
+    this->_infoTexts[EpiGimp::REDO] = "Action redo-ed";
+    this->_infoTexts[EpiGimp::NEW] = "Created a new, empty project";
+    this->_infoTexts[EpiGimp::RESIZE] = "Resized the image";
+    this->_infoTexts[EpiGimp::RESIZE_CANVAS] = "Resized the canvas without changing image size";
+    this->_infoTexts[EpiGimp::FLIP_HOR] = "Flipped the current layer horizontally";
+    this->_infoTexts[EpiGimp::FLIP_VERT] = "Flipped the current layer vertically";
+    this->_infoTexts[EpiGimp::FLIP_ALL_HOR] = "Flipped all layers horizontally";
+    this->_infoTexts[EpiGimp::FLIP_ALL_VERT] = "Flipped all layers vertically";
+    this->_infoTexts[EpiGimp::ROTATE_LEFT] = "Rotated the image 90 degrees counterclockwise";
+    this->_infoTexts[EpiGimp::ROTATE_RIGHT] = "Rotated the image 90 degrees clockwise";
+    this->_infoTexts[EpiGimp::ROTATE_FULL] = "Rotated the image by 180 degrees";
+    this->_infoTexts[EpiGimp::SAVE_IMAGE_ACTIVE] = "Saved the active image layers";
+    this->_infoTexts[EpiGimp::REPOSITION] = "Reseted camera";
+
 }
 
 EpiGimp::Core::~Core()
@@ -152,7 +171,8 @@ void EpiGimp::Core::handleTool()
 
 void EpiGimp::Core::handleAction()
 {
-    switch (GlobalData.getCurrentAction()) {
+    EpiGimp::varAction action = GlobalData.getCurrentAction();
+    switch (action) {
         case EpiGimp::varAction::NO_ACTION: break;
 
         case EpiGimp::varAction::SAVE_IMAGE: this->_saveFile = true; break;
@@ -177,6 +197,9 @@ void EpiGimp::Core::handleAction()
             this->_window->getCamera()->resetZoom();
             break;
         case EpiGimp::varAction::WIN_RESIZE: this->_sizeWindow->setVisible(true); break;
+    }
+    if (action != EpiGimp::varAction::NO_ACTION && this->_infoTexts.count(action) != 0) {
+        this->_navBar->setDisplayedText(this->_infoTexts[action]);
     }
     GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
 }

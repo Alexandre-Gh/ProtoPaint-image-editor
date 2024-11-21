@@ -17,6 +17,7 @@
     #include "../Global/FactoryTool.hpp"
     #include "../Gui/LayersWin.hpp"
     #include "../Gui/SizeWin.hpp"
+    #include "../Gui/NavBar.hpp"
     #include "../Gui/ColorHistoryWin.hpp"
     #include "Layer.hpp"
 
@@ -65,12 +66,13 @@
 
                 std::unique_ptr<GUI::IGUIWindow> _toolWindow;
                 std::unique_ptr<GUI::SizeWin> _sizeWindow;
-                std::unique_ptr<GUI::IGUIWindow> _navBar;
+                std::unique_ptr<GUI::NavBar> _navBar;
                 std::unique_ptr<GUI::LayersWin> _layersWindow;
                 std::unique_ptr<GUI::ColorHistoryWin> _colorHistoryWindow;
 
                 std::vector<std::shared_ptr<EpiGimp::Layer>> _undoCanvas;
                 std::vector<EpiGimp::varAction> _actionsWithWarning;
+                std::map<EpiGimp::varAction, std::string> _infoTexts;
 
                 std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRL;
                 std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRLShift;

@@ -61,5 +61,12 @@ void GUI::NavBar::content()
         }
         ImGui::EndMenu();
     }
+    ImGui::Separator();
+    ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), this->_displayedText.c_str());
 
+}
+
+void GUI::NavBar::setDisplayedText(std::string text)
+{
+    this->_displayedText = text;
 }

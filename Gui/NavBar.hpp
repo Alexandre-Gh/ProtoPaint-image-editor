@@ -22,9 +22,11 @@
                 ~NavBar() = default;
 
                 void content(); //Actual function to modify in inherited classes
+                void setDisplayedText(std::string text);
 
             private:
                 bool _darkMode = true;
+                std::string _displayedText = "";
 
         };
     }
