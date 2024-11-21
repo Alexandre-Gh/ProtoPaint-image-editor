@@ -28,6 +28,8 @@
                 TOOL_CIRCLE = 8,
                 TOOL_LINE = 9,
                 TOOL_TEXT = 10,
+                TOOL_IMAGE = 11,
+                TOOL_SYMETRICAL = 12,
             };
 
             enum varAction
@@ -91,6 +93,9 @@
                 const std::vector<std::string> &getFonts() { return _fonts; };
                 const std::vector<std::string> &getFontFilepaths() { return _fontFilepaths; };
 
+                const std::string &getImageBrushFilepath() { return _currentImageBrushFilepath; }
+                void setImageBrushFilepath(std::string filepath) { _currentImageBrushFilepath = filepath; }
+
                 //========================
 
             protected:
@@ -102,6 +107,7 @@
                 sf::Color _mainColor = sf::Color::Red;
                 sf::Color _secondColor = sf::Color::White;
                 EpiGimp::varTool _currentTool = EpiGimp::TOOL_BRUSH;
+                std::string _currentImageBrushFilepath = "";
 
                 bool _wasModified = false;
 

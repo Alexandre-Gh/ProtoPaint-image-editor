@@ -40,14 +40,20 @@ void GUI::SizeWin::content()
     ImGui::SameLine();
     if (ImGui::Button("Resize")) {
         sf::Vector2f size = GlobalData.getCanvasSize();
-        if (size.x == this->_x && size.y == this->_y) {
-            this->_isVisible = false;
-            this->_percent = 100;
-            return;
+        if (!this->_sizePercent) {
+            if (size.x == this->_x && size.y == this->_y) {
+                this->_isVisible = false;
+                this->_percent = 100;
+                return;
+            }
         }
         if (this->_sizePercent) {
-            this->_x = size.x * (this->_percent / 100);
-            this->_y = size.y * (this->_percent / 100);
+            if (this->_percent == 100) {
+                this->_isVisible = false;
+                return;
+            }
+            this->_x = int(size.x * (this->_percent * 0.01f));
+            this->_y = int(size.y * (this->_percent * 0.01f));
         }
         this->_x = std::max(1, this->_x);
         this->_y = std::max(1, this->_y);

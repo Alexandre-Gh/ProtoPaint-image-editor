@@ -69,7 +69,15 @@ void EpiGimp::ToolText::action(std::shared_ptr<Graphic::Window> win, std::shared
     this->_text.setFont(this->_fonts[this->_values["font"]]);
     this->_textString += win->getEnteredText();
     if (win->isKeyJustPressed(sf::Keyboard::BackSpace)) {
+        this->_clock.restart();
         if (this->_textString.length() != 0) {
+            this->_textString.pop_back();
+        }
+    }
+    if (this->_clock.getElapsedTime().asSeconds() > 0.4f && win->isKeyPressed(sf::Keyboard::BackSpace))
+    {
+        if (this->_textString.length() != 0 && this->_deleteClock.getElapsedTime().asMilliseconds() > 50) {
+            this->_deleteClock.restart();
             this->_textString.pop_back();
         }
     }
@@ -113,8 +121,10 @@ void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
         }
 
         this->_textLine.setPosition(this->_textPosition.x + textWidth, this->_textPosition.y + textHeight);
+        this->_text.setFont(this->_fonts[this->_values["font"]]);
         this->_text.setString(this->_textString);
         this->_text.setStyle(this->_styles[this->_values["style"]]);
+        this->_text.setCharacterSize(this->_values["size"]);
         this->_previewZone->addDraw(this->_textZone);
         this->_previewZone->addDraw(this->_textLine);
         this->_previewZone->addDraw(this->_text);

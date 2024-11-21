@@ -17,6 +17,7 @@
     #include "../Global/FactoryTool.hpp"
     #include "../Gui/LayersWin.hpp"
     #include "../Gui/SizeWin.hpp"
+    #include "../Gui/ColorHistoryWin.hpp"
     #include "Layer.hpp"
 
 
@@ -46,6 +47,9 @@
                 void flipCurrent(bool vertical);
                 void rotateCanvas(float angle);
 
+                std::string getFilePathLoad();
+                std::string getFilePathSave();
+
             private:
                 unsigned int _currentLayerIndex;
                 unsigned int _currentStateIndex;
@@ -63,6 +67,7 @@
                 std::unique_ptr<GUI::SizeWin> _sizeWindow;
                 std::unique_ptr<GUI::IGUIWindow> _navBar;
                 std::unique_ptr<GUI::LayersWin> _layersWindow;
+                std::unique_ptr<GUI::ColorHistoryWin> _colorHistoryWindow;
 
                 std::vector<std::shared_ptr<EpiGimp::Layer>> _undoCanvas;
                 std::vector<EpiGimp::varAction> _actionsWithWarning;

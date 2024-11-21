@@ -33,11 +33,14 @@ EpiGimp::Core::Core()
     this->_tools[EpiGimp::TOOL_CIRCLE] = FactoryTool::GetInstance().createTool("Circle");
     this->_tools[EpiGimp::TOOL_LINE] = FactoryTool::GetInstance().createTool("Line");
     this->_tools[EpiGimp::TOOL_TEXT] = FactoryTool::GetInstance().createTool("Text");
+    this->_tools[EpiGimp::TOOL_IMAGE] = FactoryTool::GetInstance().createTool("BrushImage");
+    // this->_tools[EpiGimp::TOOL_SYMETRICAL] = FactoryTool::GetInstance().createTool("Text");
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
     this->_sizeWindow = std::make_unique<GUI::SizeWin>();
     this->_navBar = std::make_unique<GUI::NavBar>();
     this->_layersWindow = std::make_unique<GUI::LayersWin>(this->_canvasLayers);
+    this->_colorHistoryWindow = std::make_unique<GUI::ColorHistoryWin>();
 
     this->_currentLayerIndex = 0;
     this->_currentStateIndex = 0;
@@ -104,6 +107,8 @@ void EpiGimp::Core::loop()
         this->handleFileDialog();
 
         this->_toolWindow->display();
+
+        this->_colorHistoryWindow->display();
 
         this->_sizeWindow->display();
         this->_layersWindow->display();
@@ -183,12 +188,12 @@ void EpiGimp::Core::handleFileDialog()
             this->_loadFile = false; this->_loadAsLayer = false; this->_loadOnLayer = false;
             return;
         }
-        this->_guiCore->startLoadFile();
+        // this->_guiCore->startLoadFile();
         this->openFile();
         return;
     }
     if (this->_saveFile) {
-        this->_guiCore->startSaveFile();
+        // this->_guiCore->startSaveFile();
         this->saveFile();
     }
 }
@@ -229,32 +234,36 @@ void EpiGimp::Core::resetCanvas()
 
 void EpiGimp::Core::saveFile()
 {
-    std::string filepath = this->_guiCore->getFilePath();
-    if (filepath != "") {
-        this->_guiCore->resetFilePath();
-        Graphic::DrawZone saved(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
-        for (auto const &e: this->_canvasLayers) {
-            if (this->_saveActiveOnly) {
-                if (e->isVisible())
-                    saved.addSprite(e->getDrawZone()->getSprite());
-            } else {
+    // std::string filepath = this->_guiCore->getFilePath();
+    std::string filepath = this->getFilePathSave();
+    if (filepath == "") {
+        this->_saveFile = false;
+        this->_saveActiveOnly = false;
+        return;
+    }
+    Graphic::DrawZone saved(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
+    for (auto const &e: this->_canvasLayers) {
+        if (this->_saveActiveOnly) {
+            if (e->isVisible())
                 saved.addSprite(e->getDrawZone()->getSprite());
-            }
+        } else {
+            saved.addSprite(e->getDrawZone()->getSprite());
         }
-        saved.saveToFile(filepath);
-        this->_saveFile = false;
-        this->_saveActiveOnly = false;
     }
-    if (this->_guiCore->getFDClosed()) {
-        this->_saveFile = false;
-        this->_saveActiveOnly = false;
-    }
+    saved.saveToFile(filepath);
+    this->_saveFile = false;
+    this->_saveActiveOnly = false;
 }
 
 void EpiGimp::Core::openFile()
 {
-    std::string filepath = this->_guiCore->getFilePath();
-    if (filepath != "" && this->_loadAsLayer) {
+    // std::string filepath = this->_guiCore->getFilePath();
+    std::string filepath = this->getFilePathLoad();
+    if (filepath == "") {
+        this->_loadFile = false;
+        return;
+    }
+    if (this->_loadAsLayer) {
         this->_guiCore->resetFilePath();
         this->_layersWindow->addLayer();
         this->_canvasLayers = this->_layersWindow->getLayers();
@@ -267,16 +276,13 @@ void EpiGimp::Core::openFile()
         sf::Vector2f imageSize = this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->getSize();
         imageSize.x = std::max(imageSize.x, GlobalData.getCanvasSize().x);
         imageSize.y = std::max(imageSize.y, GlobalData.getCanvasSize().y);
+        GlobalData.setCanvasSize(imageSize.x, imageSize.y);
         for (const auto& layer : this->_canvasLayers) {
             layer->getDrawZone()->setSize(imageSize, false);
         }
         this->addState(this->_canvasLayers);
-        this->_loadFile = false;
-        this->_loadOnLayer = false;
-        this->_loadAsLayer = false;
         this->reposition();
-    }
-    if (filepath != "" && !this->_loadAsLayer) {
+    } else {
         if (!this->_loadOnLayer) {
             this->resetCanvas();
         }
@@ -288,16 +294,11 @@ void EpiGimp::Core::openFile()
         }
         // this->_canvasHistory.clear();
         this->addState(this->_canvasLayers);
-        this->_loadFile = false;
-        this->_loadOnLayer = false;
-        this->_loadAsLayer = false;
         this->reposition();
     }
-    if (this->_guiCore->getFDClosed()) {
-        this->_loadFile = false;
-        this->_loadOnLayer = false;
-        this->_loadAsLayer = false;
-    }
+    this->_loadFile = false;
+    this->_loadOnLayer = false;
+    this->_loadAsLayer = false;
 }
 
 void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers)
@@ -407,4 +408,53 @@ void EpiGimp::Core::rotateCanvas(float angle)
     this->_canvasBG->drawCheckeredBackground();
     this->_sizeWindow->setSize(this->_canvasBG->getSize().x, this->_canvasBG->getSize().y);
     this->addState(this->_canvasLayers);
+}
+
+std::string EpiGimp::Core::getFilePathLoad()
+{
+    std::string command = "zenity --file-selection --file-filter='PNG files | *.png' --file-filter='JPG files | *.jpg' --file-filter='Bitmap files | *.bmp' --title='Select a file'";
+    std::string res = "";
+
+    // Open a pipe to execute the command and capture the output
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe) {
+        std::cerr << "Failed to run Zenity command" << std::endl;
+        return res;
+    }
+
+    // Read the selected file path from Zenity output
+    char buffer[512];
+    if (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        // Remove the newline character at the end of the string
+        buffer[strcspn(buffer, "\n")] = '\0';
+        res = std::string(buffer);
+        std::cout << res << std::endl;
+    }
+
+    fclose(pipe);
+    return res;
+}
+
+std::string EpiGimp::Core::getFilePathSave()
+{
+    std::string command = "zenity --file-selection --save --file-filter='PNG files | *.png' --file-filter='JPG files | *.jpg' --file-filter='Bitmap files | *.bmp' --title='Save As'";
+
+    // Open a pipe to execute the command and capture the output
+    FILE* pipe = popen(command.c_str(), "r");
+    if (!pipe) {
+        std::cerr << "Failed to run Zenity command" << std::endl;
+        return "";
+    }
+
+    // Read the selected file path from Zenity output
+    char buffer[512];
+    if (fgets(buffer, sizeof(buffer), pipe) != nullptr) {
+        // Remove the newline character at the end of the string
+        buffer[strcspn(buffer, "\n")] = '\0';
+        fclose(pipe);
+        return std::string(buffer);
+    }
+
+    fclose(pipe);
+    return "";
 }

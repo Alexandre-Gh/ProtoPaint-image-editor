@@ -28,6 +28,8 @@
                 sf::RectangleShape _textZone;
                 sf::Vector2f _textPosition;
                 sf::Text _text;
+                sf::Clock _clock;
+                sf::Clock _deleteClock;
                 std::string _textString;
                 int _skipLines;
                 std::shared_ptr<Graphic::DrawZone> _previewZone;
