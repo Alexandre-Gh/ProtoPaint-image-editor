@@ -14,8 +14,12 @@ EpiGimp::ToolImage::ToolImage()
 {
     this->_gui = std::make_unique<GUI::ImageWin>();
 
-    this->_texture.create(1, 1);
+    this->_texture.loadFromFile("./assets/templateImageBrush.png");
     this->_sprite.setTexture(this->_texture);
+    sf::Vector2f size = (sf::Vector2f)this->_texture.getSize();
+    size.x = size.x / 2;
+    size.y = size.y / 2;
+    this->_sprite.setOrigin(size);
 }
 
 void EpiGimp::ToolImage::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
@@ -35,7 +39,8 @@ void EpiGimp::ToolImage::action(std::shared_ptr<Graphic::Window> win, std::share
         this->_used = false;
     }
     if (!win->isLeftMousePressed()
-        || !zone->isInZone(win->getMousePosition())) {
+        || !zone->isInZone(win->getMousePosition())
+        || this->_imageEmpty) {
         return;
     }
     this->_used = true;

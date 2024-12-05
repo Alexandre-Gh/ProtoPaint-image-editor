@@ -29,7 +29,7 @@
                 TOOL_LINE = 9,
                 TOOL_TEXT = 10,
                 TOOL_IMAGE = 11,
-                TOOL_SYMETRICAL = 12,
+                TOOL_SELECTION = 12,
             };
 
             enum varAction

@@ -264,3 +264,13 @@ void Graphic::DrawZone::rotate(float angle)
     this->_zone.draw(sprite);
 }
 
+void Graphic::DrawZone::reset(int w, int h)
+{
+    this->_zone.create(w, h);
+    this->_displayer.setOrigin(0, 0);
+    this->_zone.clear(GlobalData.getSecondColor());
+    this->_displayer.setTexture(this->_zone.getTexture(), true);
+    this->setSize(w, h);
+    this->fill({0, 0}, sf::Color::Transparent);
+}
+

@@ -34,6 +34,7 @@ EpiGimp::Core::Core()
     this->_tools[EpiGimp::TOOL_LINE] = FactoryTool::GetInstance().createTool("Line");
     this->_tools[EpiGimp::TOOL_TEXT] = FactoryTool::GetInstance().createTool("Text");
     this->_tools[EpiGimp::TOOL_IMAGE] = FactoryTool::GetInstance().createTool("BrushImage");
+    this->_tools[EpiGimp::TOOL_SELECTION] = FactoryTool::GetInstance().createTool("Selection");
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
     this->_sizeWindow = std::make_unique<GUI::SizeWin>();

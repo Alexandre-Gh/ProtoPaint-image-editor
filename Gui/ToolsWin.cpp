@@ -23,6 +23,7 @@ GUI::ToolsWin::ToolsWin() :
     this->_buttonSprites[EpiGimp::TOOL_LINE] = FactorySprite::GetInstance().createSprite("Line");
     this->_buttonSprites[EpiGimp::TOOL_TEXT] = FactorySprite::GetInstance().createSprite("Text");
     this->_buttonSprites[EpiGimp::TOOL_IMAGE] = FactorySprite::GetInstance().createSprite("BrushImage");
+    this->_buttonSprites[EpiGimp::TOOL_SELECTION] = FactorySprite::GetInstance().createSprite("Selection");
 
     this->_ids[EpiGimp::TOOL_BRUSH] = "Brush";
     this->_ids[EpiGimp::TOOL_ERASER] = "Eraser";
@@ -35,6 +36,7 @@ GUI::ToolsWin::ToolsWin() :
     this->_ids[EpiGimp::TOOL_LINE] = "Line";
     this->_ids[EpiGimp::TOOL_TEXT] = "Text";
     this->_ids[EpiGimp::TOOL_IMAGE] = "Image Bush";
+    this->_ids[EpiGimp::TOOL_SELECTION] = "Selection";
 }
 
 void GUI::ToolsWin::content()
