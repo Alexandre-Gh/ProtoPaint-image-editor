@@ -136,9 +136,14 @@ const unsigned int &GUI::LayersWin::getCurrentLayerIndex()
 
 void GUI::LayersWin::addLayer()
 {
+    int oldPos = this->_currentLayerIndex;
     std::string name = "Layer " + std::to_string(this->_layers.size() + 1);
     sf::Vector2f size = GlobalData.getCanvasSize();
     this->_layers.push_back(std::make_shared<EpiGimp::Layer>(name, size.x, size.y));
     this->_currentLayerIndex = this->_layers.size() - 1;
     this->_layers[this->_currentLayerIndex]->getDrawZone()->setPosition(0, 0);
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {
+        sf::Sprite s = this->_layers[oldPos]->getDrawZone()->getSprite();
+        this->_layers[this->_currentLayerIndex]->getDrawZone()->setDraw(s);
+    }
 }

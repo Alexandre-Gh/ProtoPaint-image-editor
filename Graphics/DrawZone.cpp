@@ -335,10 +335,10 @@ void Graphic::DrawZone::changeContrast(float f)
         for (unsigned int x = 0; x < image.getSize().x; ++x) {
             color = image.getPixel(x, y);
 
-            // Adjust contrast for each channel using a linear formula
-            color.r = static_cast<sf::Uint8>(std::clamp(midpoint + (color.r - midpoint) * factor, 0.0f, 255.0f));
-            color.g = static_cast<sf::Uint8>(std::clamp(midpoint + (color.g - midpoint) * factor, 0.0f, 255.0f));
-            color.b = static_cast<sf::Uint8>(std::clamp(midpoint + (color.b - midpoint) * factor, 0.0f, 255.0f));
+            // Adjust contrast for each channel using the corrected formula
+            color.r = static_cast<sf::Uint8>(std::clamp(midpoint + (color.r - midpoint) * (1 + factor), 0.0f, 255.0f));
+            color.g = static_cast<sf::Uint8>(std::clamp(midpoint + (color.g - midpoint) * (1 + factor), 0.0f, 255.0f));
+            color.b = static_cast<sf::Uint8>(std::clamp(midpoint + (color.b - midpoint) * (1 + factor), 0.0f, 255.0f));
 
             image.setPixel(x, y, color);
         }
@@ -353,3 +353,103 @@ void Graphic::DrawZone::changeContrast(float f)
     this->_zone.draw(sf::Sprite(final));
 }
 
+void Graphic::DrawZone::castShadows(float strength, float orientationX, float orientationY)
+{
+    sf::Image image = this->_zone.getTexture().copyToImage();
+    sf::Color color;
+
+    // Normalize the shadow strength
+    float shadowStrength = std::clamp(strength, 0.0f, 10.0f);
+
+    // Calculate direction of shadow based on the light orientation
+    int dx = static_cast<int>(orientationX * 10);  // Horizontal offset (right/left)
+    int dy = static_cast<int>(orientationY * 10);  // Vertical offset (up/down)
+
+    // Loop through every pixel and apply shadows
+    for (unsigned int y = 0; y < image.getSize().y; ++y) {
+        for (unsigned int x = 0; x < image.getSize().x; ++x) {
+            color = image.getPixel(x, y);
+
+            // If the pixel has color (non-transparent)
+            if (color.a > 0) {
+                int shadowX = x + dx;
+                int shadowY = y + dy;
+
+                // Only apply the shadow if it's within the bounds of the image
+                if (shadowX >= 0 && shadowX < image.getSize().x && shadowY >= 0 && shadowY < image.getSize().y) {
+                    // Get the existing pixel color at the shadow location
+                    sf::Color shadowPixel = image.getPixel(shadowX, shadowY);
+
+                    // Only apply shadow if the shadow pixel is transparent
+                    if (shadowPixel.a == 0) {
+                        // Darken the color for the shadow pixel
+                        int shadowAlpha = static_cast<int>(color.a * shadowStrength / 10.0f);
+                        shadowAlpha = std::max(0, shadowAlpha);  // Ensure non-negative alpha value
+                        
+                        sf::Color shadowColor(
+                            static_cast<sf::Uint8>(color.r),
+                            static_cast<sf::Uint8>(color.g),
+                            static_cast<sf::Uint8>(color.b),
+                            static_cast<sf::Uint8>(shadowAlpha)
+                        );
+
+                        // Apply shadow color to the target position (the shadow pixel)
+                        image.setPixel(shadowX, shadowY, shadowColor);
+                    }
+                }
+            }
+        }
+    }
+
+    // Create a new texture from the shadowed image
+    sf::Texture final;
+    final.loadFromImage(image);
+
+    // Clear the previous content and draw the image with shadows
+    this->_zone.clear(sf::Color::Transparent);
+    this->_zone.draw(sf::Sprite(final));
+}
+
+void Graphic::DrawZone::castLightAtPoint(float strength, unsigned int lightX, unsigned int lightY)
+{
+    sf::Image image = this->_zone.getTexture().copyToImage();
+    sf::Color color;
+
+    // Loop through every pixel and apply lighting
+    for (unsigned int y = 0; y < image.getSize().y; ++y) {
+        for (unsigned int x = 0; x < image.getSize().x; ++x) {
+            color = image.getPixel(x, y);
+
+            // Calculate the distance from the light source (lightX, lightY)
+            float dx = static_cast<float>(x - lightX);
+            float dy = static_cast<float>(y - lightY);
+            float distance = std::sqrt(dx * dx + dy * dy);  // Euclidean distance, works in all directions
+
+            // Calculate the intensity of the light at this distance
+            // The intensity should diminish as the distance increases
+            float intensity = std::max(0.0f, 1.0f - (distance / strength)); // Light intensity diminishes with distance
+
+            // Apply the light intensity to the pixel color
+            int newR = static_cast<int>(color.r + (255 - color.r) * intensity);  // Increase towards white (255)
+            int newG = static_cast<int>(color.g + (255 - color.g) * intensity);
+            int newB = static_cast<int>(color.b + (255 - color.b) * intensity);
+
+            // Clamp values to the 0-255 range
+            newR = std::clamp(newR, 0, 255);
+            newG = std::clamp(newG, 0, 255);
+            newB = std::clamp(newB, 0, 255);
+
+            // Set the new color at the pixel position
+            sf::Color newColor(newR, newG, newB, color.a);
+            image.setPixel(x, y, newColor);
+        }
+    }
+
+    // Create a new texture from the illuminated image
+    sf::Texture final;
+    final.loadFromImage(image);
+
+    // Clear the previous content and draw the image with lighting effect
+    this->_zone.clear(sf::Color::Transparent);
+    this->_zone.draw(sf::Sprite(final));
+}

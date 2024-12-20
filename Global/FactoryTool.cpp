@@ -18,6 +18,8 @@
 #include "../Core/ToolText.hpp"
 #include "../Core/ToolImage.hpp"
 #include "../Core/ToolSelection.hpp"
+#include "../Core/ToolFunnyHammer.hpp"
+
 
 
 FactoryTool::FactoryTool()
@@ -34,6 +36,8 @@ FactoryTool::FactoryTool()
     _allTools["Text"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolText>(); };
     _allTools["BrushImage"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolImage>(); };
     _allTools["Selection"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolSelection>(); };
+    _allTools["FunnyHammer"] = [&]() -> std::unique_ptr<EpiGimp::ITool> { return std::make_unique<EpiGimp::ToolFunnyHammer>(); };
+
 }
 
 FactoryTool &FactoryTool::GetInstance()

@@ -52,6 +52,8 @@
                 void invert();
                 void changeLighting(float f);
                 void changeContrast(float f);
+                void castShadows(float strength, float orientationX, float orientationY);
+                void castLightAtPoint(float strength, unsigned int lightX, unsigned int lightY);
 
                 void clear();
 

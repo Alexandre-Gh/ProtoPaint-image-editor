@@ -50,5 +50,5 @@ add_executable(epigimp
     ${SRC_FILES}
 )
 
-target_link_libraries(epigimp PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML)
+target_link_libraries(epigimp PRIVATE sfml-graphics sfml-audio ImGui-SFML::ImGui-SFML)
 target_compile_features(epigimp PRIVATE cxx_std_17)

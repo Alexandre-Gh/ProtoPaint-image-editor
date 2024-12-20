@@ -23,6 +23,7 @@ FactorySprite::FactorySprite()
     _textures["Text"].loadFromFile("./assets/icons.png", {iconUnit * 9, 0, 28, 28});
     _textures["BrushImage"].loadFromFile("./assets/icons.png", {iconUnit * 10, 0, 28, 28});
     _textures["Selection"].loadFromFile("./assets/icons.png", {iconUnit * 11, 0, 28, 28});
+    _textures["FunnyHammer"].loadFromFile("./assets/icons.png", {iconUnit * 12, 0, 28, 28});
 
     _allSprites["Brush"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Brush"]); };
     _allSprites["Eraser"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Eraser"]); };
@@ -36,6 +37,7 @@ FactorySprite::FactorySprite()
     _allSprites["Text"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Text"]); };
     _allSprites["BrushImage"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["BrushImage"]); };
     _allSprites["Selection"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["Selection"]); };
+    _allSprites["FunnyHammer"] = [&]() -> std::unique_ptr<sf::Sprite> { return std::make_unique<sf::Sprite>(_textures["FunnyHammer"]); };
 }
 
 FactorySprite &FactorySprite::GetInstance()

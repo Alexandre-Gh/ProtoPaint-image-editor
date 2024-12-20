@@ -18,18 +18,20 @@
             {
                 NONE = 0,
 
-                TOOL_BRUSH = 1,
-                TOOL_ERASER = 2,
-                TOOL_BUCKET = 3,
-                TOOL_COLORPICKER = 4,
-                TOOL_PENCIL = 5,
-                TOOL_SPRAY = 6,
-                TOOL_RECT = 7,
-                TOOL_CIRCLE = 8,
-                TOOL_LINE = 9,
-                TOOL_TEXT = 10,
-                TOOL_IMAGE = 11,
-                TOOL_SELECTION = 12,
+                TOOL_BRUSH,
+                TOOL_ERASER,
+                TOOL_BUCKET,
+                TOOL_COLORPICKER,
+                TOOL_PENCIL,
+                TOOL_SPRAY,
+                TOOL_RECT,
+                TOOL_CIRCLE,
+                TOOL_LINE,
+                TOOL_TEXT,
+                TOOL_IMAGE,
+                TOOL_SELECTION,
+
+                TOOL_FUNNY_HAMMER,
             };
 
             enum varAction
