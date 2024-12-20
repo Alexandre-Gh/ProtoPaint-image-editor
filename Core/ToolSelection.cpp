@@ -25,6 +25,29 @@ void EpiGimp::ToolSelection::action(std::shared_ptr<Graphic::Window> win, std::s
     this->_isInCanvas = zone->isInZone(win->getMousePosition());
     this->_isFirstInCanvas = zone->isInZone(this->_firstPos);
 
+    if (win->isKeyPressed(sf::Keyboard::LControl) && win->isKeyJustPressed(sf::Keyboard::V)) {
+        std::cout << "Paste\n";
+        sf::RectangleShape bgColorShape = this->_shape;
+        bgColorShape.setOutlineThickness(0);
+
+        sf::Texture text(*GlobalData.getCopy().getTexture());
+        sf::IntRect rect;
+        rect.left = 0;
+        rect.top = 0;
+        rect.width = GlobalData.getCopy().getTextureRect().getSize().x;
+        rect.height = GlobalData.getCopy().getTextureRect().getSize().y;
+        _shape.setSize({rect.width, rect.height});
+        _shape.setPosition({rect.left, rect.top});
+        std::cout << rect.left << " | " << rect.top << " | " << rect.width << " | " << rect.height << std::endl;
+        sf::Sprite s(text, rect);
+        sf::Vector2f selectSize(rect.width, rect.height);
+        _selectionContent.setSize(selectSize);
+        _selectionContent.setPosition(0, 0);
+        _selectionContent.setDraw(s);
+        this->_selecting = true;
+        this->_used = true;
+    }
+
     if (this->_selecting && this->_used) {
         if (this->_changingSize && (win->isLeftMouseJustReleased() || !win->isKeyPressed(sf::Keyboard::LControl)))
         {
@@ -33,8 +56,23 @@ void EpiGimp::ToolSelection::action(std::shared_ptr<Graphic::Window> win, std::s
         }
         if (win->isKeyJustPressed(sf::Keyboard::LShift)) {
             _selectionContent.rotate(90);
+            _shape.setSize(_selectionContent.getSize());
             return;
         }
+        if (win->isKeyPressed(sf::Keyboard::LControl)
+                && win->isKeyJustPressed(sf::Keyboard::C)) {
+                    std::cout << "Copy\n";
+                    sf::Image img = _selectionContent.getSprite().getTexture()->copyToImage();
+                    sf::Texture textureCopy;
+                    if (!textureCopy.loadFromImage(img)) {
+                        std::cerr << "Failed to load texture from image!" << std::endl;
+                        return; // Handle the error, maybe return or throw an exception
+                    }  // Create a new texture copy
+                    sf::Sprite copy(textureCopy);    // Create sprite with the new texture
+                    
+                    // Ensure textureCopy is stored and remains valid. You can either store the texture or sprite in GlobalData
+                    GlobalData.setCopy(copy, textureCopy);  // Store sprite, make sure textureCopy remains valid
+                }
         if (win->isLeftMousePressed()) {
             if (win->isKeyPressed(sf::Keyboard::LControl)) {
                 this->_changingSize = true;

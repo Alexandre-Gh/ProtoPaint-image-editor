@@ -49,6 +49,10 @@
                 const sf::Vector2f &getSize();
                 bool isInZone(sf::Vector2f pos);
 
+                void invert();
+                void changeLighting(float f);
+                void changeContrast(float f);
+
                 void clear();
 
                 std::shared_ptr<Graphic::DrawZone> clone() const {

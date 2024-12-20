@@ -41,6 +41,8 @@ EpiGimp::Core::Core()
     this->_navBar = std::make_unique<GUI::NavBar>();
     this->_layersWindow = std::make_unique<GUI::LayersWin>(this->_canvasLayers);
     this->_colorHistoryWindow = std::make_unique<GUI::ColorHistoryWin>();
+    this->_lightWindow = std::make_unique<GUI::LightWin>();
+    this->_contrastWindow = std::make_unique<GUI::ContrastWin>();
 
     this->_currentLayerIndex = 0;
     this->_currentStateIndex = 0;
@@ -87,6 +89,7 @@ EpiGimp::Core::~Core()
 
 void EpiGimp::Core::loop()
 {
+
     std::shared_ptr<EpiGimp::Layer> currentLayer;
     while (this->_window->isOpen()) {
         this->_window->resetRender();
@@ -113,6 +116,12 @@ void EpiGimp::Core::loop()
             this->_tools[GlobalData.getCurrentTool()]->action(this->_window, currentLayer->getDrawZone());
         }
 
+        if (this->_window->isKeyPressed(sf::Keyboard::LControl) && this->_window->isKeyJustPressed(sf::Keyboard::V)) {
+            std::cout << "Paste\n";
+            GlobalData.setCurrentTool(EpiGimp::TOOL_SELECTION);
+
+        }
+
         this->_window->drawSprite(this->_canvasBG->getSprite());
         for (auto const &e: this->_canvasLayers) {
             if (e->isVisible())
@@ -131,6 +140,8 @@ void EpiGimp::Core::loop()
         this->_colorHistoryWindow->display();
 
         this->_sizeWindow->display();
+        this->_lightWindow->display();
+        this->_contrastWindow->display();
         this->_layersWindow->display();
         this->_navBar->display();
 
@@ -197,7 +208,15 @@ void EpiGimp::Core::handleAction()
             this->_window->getCamera()->setPosition(GlobalData.getCanvasSize() * 0.5f);
             this->_window->getCamera()->resetZoom();
             break;
+        case EpiGimp::varAction::LIGHT: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->changeLighting(this->_lightWindow->getValue());
+                                        this->addState(this->_canvasLayers); break;
+        case EpiGimp::varAction::INVERT: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->invert();
+                                            this->addState(this->_canvasLayers); break;
+        case EpiGimp::varAction::CONTRAST: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->changeContrast(this->_contrastWindow->getValue());
+                                        this->addState(this->_canvasLayers); break;
         case EpiGimp::varAction::WIN_RESIZE: this->_sizeWindow->setVisible(true); break;
+        case EpiGimp::varAction::WIN_LIGHT: this->_lightWindow->setValue(0); this->_lightWindow->setVisible(true); break;
+        case EpiGimp::varAction::WIN_CONTRAST: this->_contrastWindow->setValue(0); this->_contrastWindow->setVisible(true); break;
     }
     if (action != EpiGimp::varAction::NO_ACTION && this->_infoTexts.count(action) != 0) {
         this->_navBar->setDisplayedText(this->_infoTexts[action]);
@@ -240,7 +259,7 @@ void EpiGimp::Core::handleShortcuts()
 void EpiGimp::Core::resetCanvas()
 {
     if (GlobalData.getCurrentAction() == EpiGimp::NEW) {
-        if (system("zenity --question --text=\"Are you sure you want to reset the canvas?\n\nCurrent progress will be lost if you didn't save\"")) {
+        if (system("zenity --question --text=\"Are you sure you want to reset the canvas?\n\nCurrent progress will be lost if you didn't save\" --width=400 --height=200")) {
             return;
         }
     }

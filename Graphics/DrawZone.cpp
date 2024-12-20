@@ -6,6 +6,7 @@
 */
 
 #include "DrawZone.hpp"
+#include <algorithm>
 
 Graphic::DrawZone::DrawZone(unsigned int w, unsigned int h)
 {
@@ -272,5 +273,83 @@ void Graphic::DrawZone::reset(int w, int h)
     this->_displayer.setTexture(this->_zone.getTexture(), true);
     this->setSize(w, h);
     this->fill({0, 0}, sf::Color::Transparent);
+}
+
+void Graphic::DrawZone::invert()
+{
+    sf::Image image = this->_zone.getTexture().copyToImage();
+    sf::Color color;
+
+    for (unsigned int y = 0; y < image.getSize().y; ++y) {
+        for (unsigned int x = 0; x < image.getSize().x; ++x) {
+            color = image.getPixel(x, y);
+
+            color.r = 255 - color.r;
+            color.g = 255 - color.g;
+            color.b = 255 - color.b;
+
+            image.setPixel(x, y, color);
+        }
+    }
+    sf::Texture final;
+    final.loadFromImage(image);
+    this->_zone.clear(sf::Color::Transparent);
+    this->_zone.draw(sf::Sprite(final));
+}
+
+
+void Graphic::DrawZone::changeLighting(float f)
+{
+    sf::Image image = this->_zone.getTexture().copyToImage();
+    sf::Color color;
+    float factor;
+
+    for (unsigned int y = 0; y < image.getSize().y; ++y) {
+        for (unsigned int x = 0; x < image.getSize().x; ++x) {
+            color = image.getPixel(x, y);
+
+            float factor = f / 10.0f;  // Normalized to a range from -1.0 to 1.0
+
+            color.r = static_cast<sf::Uint8>(std::clamp(color.r + (color.r) * factor, 0.0f, 255.0f));
+            color.g = static_cast<sf::Uint8>(std::clamp(color.g + (color.g) * factor, 0.0f, 255.0f));
+            color.b = static_cast<sf::Uint8>(std::clamp(color.b + (color.b) * factor, 0.0f, 255.0f));
+
+            image.setPixel(x, y, color);
+        }
+    }
+    sf::Texture final;
+    final.loadFromImage(image);
+    this->_zone.clear(sf::Color::Transparent);
+    this->_zone.draw(sf::Sprite(final));
+}
+
+void Graphic::DrawZone::changeContrast(float f)
+{
+    sf::Image image = this->_zone.getTexture().copyToImage();
+    sf::Color color;
+    float factor = f / 10.0f;  // Normalize the factor (range -1 to 1)
+    const float midpoint = 128.0f;  // Midpoint for contrast calculation
+
+    // Adjust contrast for each pixel
+    for (unsigned int y = 0; y < image.getSize().y; ++y) {
+        for (unsigned int x = 0; x < image.getSize().x; ++x) {
+            color = image.getPixel(x, y);
+
+            // Adjust contrast for each channel using a linear formula
+            color.r = static_cast<sf::Uint8>(std::clamp(midpoint + (color.r - midpoint) * factor, 0.0f, 255.0f));
+            color.g = static_cast<sf::Uint8>(std::clamp(midpoint + (color.g - midpoint) * factor, 0.0f, 255.0f));
+            color.b = static_cast<sf::Uint8>(std::clamp(midpoint + (color.b - midpoint) * factor, 0.0f, 255.0f));
+
+            image.setPixel(x, y, color);
+        }
+    }
+
+    // Create a new texture from the modified image
+    sf::Texture final;
+    final.loadFromImage(image);
+
+    // Clear the previous content and draw the new adjusted image
+    this->_zone.clear(sf::Color::Transparent);
+    this->_zone.draw(sf::Sprite(final));
 }
 

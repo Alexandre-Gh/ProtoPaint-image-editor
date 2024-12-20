@@ -50,6 +50,13 @@ void GUI::NavBar::content()
         if (ImGui::MenuItem("Reset View", "Ctrl+R")) GlobalData.setCurrentAction(EpiGimp::REPOSITION);
         ImGui::EndMenu();
     }
+    if (ImGui::BeginMenu("Effect"))
+    {
+        if (ImGui::MenuItem("Invert Colors")) GlobalData.setCurrentAction(EpiGimp::INVERT);
+        if (ImGui::MenuItem("Affect Lighting")) GlobalData.setCurrentAction(EpiGimp::WIN_LIGHT);
+        // if (ImGui::MenuItem("Affect Contrast")) GlobalData.setCurrentAction(EpiGimp::WIN_CONTRAST);
+        ImGui::EndMenu();
+    }
     if (ImGui::BeginMenu("Options"))
     {
         if (ImGui::MenuItem("Dark Mode", "", &this->_darkMode)) {

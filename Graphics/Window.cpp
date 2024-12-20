@@ -61,7 +61,7 @@ void Graphic::Window::resetRender()
         switch (this->_event.type) {
             case sf::Event::Resized: checkResize(); break;
             case sf::Event::Closed:
-            if (!system("zenity --question --text=\"Are you sure you want to exit?\n\nCurrent progress will be lost if you didn't save\"")) {
+            if (!system("zenity --question --text=\"Are you sure you want to exit?\n\nCurrent progress will be lost if you didn't save\" --width=400 --height=200")) {
                 checkClose(); break;
             }
             case sf::Event::MouseWheelScrolled: checkZoom(); break;

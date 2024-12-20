@@ -17,6 +17,8 @@
     #include "../Global/FactoryTool.hpp"
     #include "../Gui/LayersWin.hpp"
     #include "../Gui/SizeWin.hpp"
+    #include "../Gui/LightWin.hpp"
+    #include "../Gui/ContrastWin.hpp"
     #include "../Gui/NavBar.hpp"
     #include "../Gui/ColorHistoryWin.hpp"
     #include "Layer.hpp"
@@ -69,6 +71,8 @@
                 std::unique_ptr<GUI::NavBar> _navBar;
                 std::unique_ptr<GUI::LayersWin> _layersWindow;
                 std::unique_ptr<GUI::ColorHistoryWin> _colorHistoryWindow;
+                std::unique_ptr<GUI::LightWin> _lightWindow;
+                std::unique_ptr<GUI::ContrastWin> _contrastWindow;
 
                 std::vector<std::shared_ptr<EpiGimp::Layer>> _undoCanvas;
                 std::vector<EpiGimp::varAction> _actionsWithWarning;

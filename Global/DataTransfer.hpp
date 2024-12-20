@@ -54,10 +54,15 @@
                 ROTATE_FULL,
                 SAVE_IMAGE_ACTIVE,
                 REPOSITION,
+                INVERT,
+                LIGHT,
+                CONTRAST,
 
                 WIN_RESIZE,
                 WIN_IMPORT,
                 WIN_WARNING,
+                WIN_LIGHT,
+                WIN_CONTRAST,
             };
         };
 
@@ -93,6 +98,9 @@
                 const std::vector<std::string> &getFonts() { return _fonts; };
                 const std::vector<std::string> &getFontFilepaths() { return _fontFilepaths; };
 
+                const sf::Sprite &getCopy() { _copy.setTexture(_copyTexture, true); return _copy; };
+                void setCopy(const sf::Sprite &copy, const sf::Texture &text) { _copy = copy; _copyTexture = text; };
+
                 const std::string &getImageBrushFilepath() { return _currentImageBrushFilepath; }
                 void setImageBrushFilepath(std::string filepath) { _currentImageBrushFilepath = filepath; }
 
@@ -120,6 +128,9 @@
 
                 std::vector<std::string> _fonts;
                 std::vector<std::string> _fontFilepaths;
+
+                sf::Sprite _copy;
+                sf::Texture _copyTexture;
 
                 //=====================
         };
