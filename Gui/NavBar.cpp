@@ -54,7 +54,8 @@ void GUI::NavBar::content()
     {
         if (ImGui::MenuItem("Invert Colors")) GlobalData.setCurrentAction(EpiGimp::INVERT);
         if (ImGui::MenuItem("Affect Lighting")) GlobalData.setCurrentAction(EpiGimp::WIN_LIGHT);
-        // if (ImGui::MenuItem("Affect Contrast")) GlobalData.setCurrentAction(EpiGimp::WIN_CONTRAST);
+        if (ImGui::MenuItem("Affect Contrast")) GlobalData.setCurrentAction(EpiGimp::WIN_CONTRAST);
+        if (ImGui::MenuItem("Cast Shadow")) GlobalData.setCurrentAction(EpiGimp::WIN_SHADOW);
         ImGui::EndMenu();
     }
     if (ImGui::BeginMenu("Options"))

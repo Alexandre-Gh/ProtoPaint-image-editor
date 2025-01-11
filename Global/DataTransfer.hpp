@@ -59,12 +59,14 @@
                 INVERT,
                 LIGHT,
                 CONTRAST,
+                SHADOW,
 
                 WIN_RESIZE,
                 WIN_IMPORT,
                 WIN_WARNING,
                 WIN_LIGHT,
                 WIN_CONTRAST,
+                WIN_SHADOW,
             };
         };
 

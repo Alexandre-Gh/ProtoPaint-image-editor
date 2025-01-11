@@ -45,6 +45,7 @@ EpiGimp::Core::Core()
     this->_colorHistoryWindow = std::make_unique<GUI::ColorHistoryWin>();
     this->_lightWindow = std::make_unique<GUI::LightWin>();
     this->_contrastWindow = std::make_unique<GUI::ContrastWin>();
+    this->_shadowWin = std::make_unique<GUI::ShadowWin>();
 
     this->_currentLayerIndex = 0;
     this->_currentStateIndex = 0;
@@ -144,6 +145,7 @@ void EpiGimp::Core::loop()
         this->_sizeWindow->display();
         this->_lightWindow->display();
         this->_contrastWindow->display();
+        this->_shadowWin->display();
         this->_layersWindow->display();
         this->_navBar->display();
 
@@ -216,9 +218,12 @@ void EpiGimp::Core::handleAction()
                                             this->addState(this->_canvasLayers); break;
         case EpiGimp::varAction::CONTRAST: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->changeContrast(this->_contrastWindow->getValue());
                                         this->addState(this->_canvasLayers); break;
+        case EpiGimp::varAction::SHADOW: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->castShadows(1, this->_shadowWin->getValue(), 1);
+                                        this->addState(this->_canvasLayers); break;
         case EpiGimp::varAction::WIN_RESIZE: this->_sizeWindow->setVisible(true); break;
         case EpiGimp::varAction::WIN_LIGHT: this->_lightWindow->setValue(0); this->_lightWindow->setVisible(true); break;
         case EpiGimp::varAction::WIN_CONTRAST: this->_contrastWindow->setValue(0); this->_contrastWindow->setVisible(true); break;
+        case EpiGimp::varAction::WIN_SHADOW: this->_shadowWin->setValue(0); this->_shadowWin->setVisible(true); break;
     }
     if (action != EpiGimp::varAction::NO_ACTION && this->_infoTexts.count(action) != 0) {
         this->_navBar->setDisplayedText(this->_infoTexts[action]);
