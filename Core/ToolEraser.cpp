@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -10,17 +9,17 @@
 #include "BrushCircle.hpp"
 #include "BrushSquare.hpp"
 
-EpiGimp::ToolEraser::ToolEraser()
+ProtoPaint::ToolEraser::ToolEraser()
 {
     this->_gui = std::make_unique<GUI::EraserWin>();
 
     this->_values["size"] = 4;
 
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
+    this->_brushes.push_back(std::make_unique<ProtoPaint::BrushCircle>());
+    this->_brushes.push_back(std::make_unique<ProtoPaint::BrushSquare>());
 }
 
-void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     int index = this->_values["brush"];
     if (win->isLeftMouseJustReleased() && this->_used) {
@@ -45,14 +44,14 @@ void EpiGimp::ToolEraser::action(std::shared_ptr<Graphic::Window> win, std::shar
     this->drawLine(zone, lastPos, pos);
 }
 
-void EpiGimp::ToolEraser::drawPreview(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolEraser::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     int index = this->_values["brush"];
     this->_brushes[index]->setSize(this->_values["size"]);
     this->_brushes[index]->drawPreview(win, win->getMousePosition());
 }
 
-void EpiGimp::ToolEraser::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
+void ProtoPaint::ToolEraser::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
 {
     int index = this->_values["brush"];
     sf::Vector2f delta = end - start;

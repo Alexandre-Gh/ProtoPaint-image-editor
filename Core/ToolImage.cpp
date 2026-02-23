@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -10,7 +9,7 @@
 #include "BrushCircle.hpp"
 #include "BrushSquare.hpp"
 
-EpiGimp::ToolImage::ToolImage()
+ProtoPaint::ToolImage::ToolImage()
 {
     this->_gui = std::make_unique<GUI::ImageWin>();
 
@@ -22,7 +21,7 @@ EpiGimp::ToolImage::ToolImage()
     this->_sprite.setOrigin(size);
 }
 
-void EpiGimp::ToolImage::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolImage::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     if (this->_currentFilepath != GlobalData.getImageBrushFilepath()) {
         this->_currentFilepath = GlobalData.getImageBrushFilepath();
@@ -53,13 +52,13 @@ void EpiGimp::ToolImage::action(std::shared_ptr<Graphic::Window> win, std::share
     this->drawLine(zone, lastPos, pos);
 }
 
-void EpiGimp::ToolImage::drawPreview(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolImage::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     this->_sprite.setPosition(win->getMousePosition());
     win->drawSprite(this->_sprite);
 }
 
-void EpiGimp::ToolImage::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
+void ProtoPaint::ToolImage::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
 {
     sf::Vector2f delta = end - start;
     float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);

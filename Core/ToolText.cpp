@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -8,7 +7,7 @@
 #include "../Gui/TextWin.hpp"
 #include "ToolText.hpp"
 
-EpiGimp::ToolText::ToolText()
+ProtoPaint::ToolText::ToolText()
 {
     this->_gui = std::make_unique<GUI::TextWin>();
 
@@ -45,7 +44,7 @@ EpiGimp::ToolText::ToolText()
     this->_styles.push_back(sf::Text::Style::StrikeThrough);
 }
 
-void EpiGimp::ToolText::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolText::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     sf::Vector2f mousePos = win->getMousePosition();
     if (win->isLeftMouseJustPressed() && this->_used) {
@@ -91,7 +90,7 @@ void EpiGimp::ToolText::action(std::shared_ptr<Graphic::Window> win, std::shared
 
 }
 
-void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
 {
     if (this->_used) {
         this->_previewZone->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
@@ -132,7 +131,7 @@ void EpiGimp::ToolText::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
     }
 }
 
-void EpiGimp::ToolText::drawPreview(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolText::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     if (!this->_used) {
         sf::Vector2f size = {1, (float)this->_values["size"] / 2};

@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -24,12 +23,12 @@
                 void content(); //Actual function to modify in inherited classes
 
             private:
-                std::map<EpiGimp::varTool, std::unique_ptr<sf::Sprite>> _buttonSprites;
-                std::map<EpiGimp::varTool, std::string> _ids;
+                std::map<ProtoPaint::varTool, std::unique_ptr<sf::Sprite>> _buttonSprites;
+                std::map<ProtoPaint::varTool, std::string> _ids;
                 sf::Color _bgColor;
 
-                void setCurrentTool(EpiGimp::varTool toolType) { GlobalData.setCurrentTool(toolType); }
-                const EpiGimp::varTool &getCurrentTool() { return GlobalData.getCurrentTool(); }
+                void setCurrentTool(ProtoPaint::varTool toolType) { GlobalData.setCurrentTool(toolType); }
+                const ProtoPaint::varTool &getCurrentTool() { return GlobalData.getCurrentTool(); }
         };
     }
 

@@ -1,18 +1,17 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
 
 #include "ToolColorPicker.hpp"
 
-EpiGimp::ToolColorPicker::ToolColorPicker()
+ProtoPaint::ToolColorPicker::ToolColorPicker()
 {
 
 }
 
-void EpiGimp::ToolColorPicker::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolColorPicker::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     if (!win->isLeftMouseJustPressed() || !zone->getSprite().getGlobalBounds().contains(win->getMousePosition())) {
         return;

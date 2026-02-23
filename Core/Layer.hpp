@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** OOP
 */
@@ -10,7 +9,7 @@
 
     #include "../Graphics/DrawZone.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
         class Layer
         {

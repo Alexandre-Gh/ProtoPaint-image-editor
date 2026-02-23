@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -10,7 +9,7 @@
 #include "BrushCircle.hpp"
 #include "BrushSquare.hpp"
 
-EpiGimp::ToolFunnyHammer::ToolFunnyHammer()
+ProtoPaint::ToolFunnyHammer::ToolFunnyHammer()
 {
     this->_gui = std::make_unique<GUI::FunnyHammerWin>();
 
@@ -36,7 +35,7 @@ EpiGimp::ToolFunnyHammer::ToolFunnyHammer()
     this->_values["rotate"] = false;
 }
 
-void EpiGimp::ToolFunnyHammer::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolFunnyHammer::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     if (win->isLeftMouseJustPressed() && zone->isInZone(win->getMousePosition())) {
         if (this->_values["rotate"]) {
@@ -52,7 +51,7 @@ void EpiGimp::ToolFunnyHammer::action(std::shared_ptr<Graphic::Window> win, std:
     }
 }
 
-void EpiGimp::ToolFunnyHammer::drawPreview(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolFunnyHammer::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     this->_hammerSprite.setScale(sf::Vector2f{(float)this->_values["size"] / 10, (float)this->_values["size"] / 10});
     if (win->isLeftMousePressed()) {

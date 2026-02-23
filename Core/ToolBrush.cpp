@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -11,7 +10,7 @@
 #include "BrushSquare.hpp"
 #include "BrushLine.hpp"
 
-EpiGimp::ToolBrush::ToolBrush()
+ProtoPaint::ToolBrush::ToolBrush()
 {
     this->_gui = std::make_unique<GUI::BrushWin>();
 
@@ -22,13 +21,13 @@ EpiGimp::ToolBrush::ToolBrush()
     this->_values["symetricalHor"] = false;
     this->_values["symetricalVert"] = false;
 
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(45));
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(-45));
+    this->_brushes.push_back(std::make_unique<ProtoPaint::BrushCircle>());
+    this->_brushes.push_back(std::make_unique<ProtoPaint::BrushSquare>());
+    this->_brushes.push_back(std::make_unique<ProtoPaint::BrushLine>(45));
+    this->_brushes.push_back(std::make_unique<ProtoPaint::BrushLine>(-45));
 }
 
-void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     int index = this->_values["brush"];
     if (win->isLeftMouseJustReleased() && this->_used) {
@@ -68,14 +67,14 @@ void EpiGimp::ToolBrush::action(std::shared_ptr<Graphic::Window> win, std::share
 
 }
 
-void EpiGimp::ToolBrush::drawPreview(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolBrush::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     int index = this->_values["brush"];
     this->_brushes[index]->setSize(this->_values["size"]);
     this->_brushes[index]->drawPreview(win, win->getMousePosition());
 }
 
-void EpiGimp::ToolBrush::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
+void ProtoPaint::ToolBrush::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
 {
     int index = this->_values["brush"];
     sf::Vector2f delta = end - start;
@@ -104,7 +103,7 @@ void EpiGimp::ToolBrush::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::V
     }
 }
 
-sf::Color EpiGimp::ToolBrush::getRainbowColor(const sf::Color& currentColor) {
+sf::Color ProtoPaint::ToolBrush::getRainbowColor(const sf::Color& currentColor) {
     sf::Color nextColor = currentColor;
 
     if (currentColor.r == 255 && currentColor.g < 255) {

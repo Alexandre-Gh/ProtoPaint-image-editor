@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -8,7 +7,7 @@
 #include "../Gui/RectWin.hpp"
 #include "ToolRect.hpp"
 
-EpiGimp::ToolRect::ToolRect() :
+ProtoPaint::ToolRect::ToolRect() :
     _previewZone(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y)
 {
     this->_gui = std::make_unique<GUI::RectWin>();
@@ -23,7 +22,7 @@ EpiGimp::ToolRect::ToolRect() :
     this->_shape.setOrigin(0, 0);
 }
 
-void EpiGimp::ToolRect::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolRect::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     this->_isInCanvas = zone->isInZone(win->getMousePosition());
     this->_isFirstInCanvas = zone->isInZone(this->_firstPos);
@@ -52,7 +51,7 @@ void EpiGimp::ToolRect::action(std::shared_ptr<Graphic::Window> win, std::shared
     this->_shape.setOutlineThickness(this->_values["thickness"]);
 }
 
-void EpiGimp::ToolRect::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolRect::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
 {
     if (this->_used && this->_isFirstInCanvas) {
         this->_previewZone.setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);

@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** OOP
 */
@@ -11,9 +10,9 @@
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
-        class ToolRect: public EpiGimp::ATool
+        class ToolRect: public ProtoPaint::ATool
         {
             public:
                 ToolRect();

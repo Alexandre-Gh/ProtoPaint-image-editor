@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -11,7 +10,7 @@
 #include "BrushSquare.hpp"
 #include "BrushLine.hpp"
 
-EpiGimp::ToolSpray::ToolSpray()
+ProtoPaint::ToolSpray::ToolSpray()
 {
     this->_gui = std::make_unique<GUI::SprayWin>();
 
@@ -20,13 +19,13 @@ EpiGimp::ToolSpray::ToolSpray()
     this->_values["gradient"] = false;
     this->_values["rainbow"] = false;
 
-    this->_brushes.push_back(std::make_unique<EpiGimp::BrushCircle>());
-    // this->_brushes.push_back(std::make_unique<EpiGimp::BrushSquare>());
-    // this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(45));
-    // this->_brushes.push_back(std::make_unique<EpiGimp::BrushLine>(-45));
+    this->_brushes.push_back(std::make_unique<ProtoPaint::BrushCircle>());
+    // this->_brushes.push_back(std::make_unique<ProtoPaint::BrushSquare>());
+    // this->_brushes.push_back(std::make_unique<ProtoPaint::BrushLine>(45));
+    // this->_brushes.push_back(std::make_unique<ProtoPaint::BrushLine>(-45));
 }
 
-void EpiGimp::ToolSpray::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolSpray::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     int index = this->_values["brush"];
     if (win->isLeftMouseJustReleased() && this->_used) {
@@ -63,14 +62,14 @@ void EpiGimp::ToolSpray::action(std::shared_ptr<Graphic::Window> win, std::share
 
 }
 
-void EpiGimp::ToolSpray::drawPreview(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolSpray::drawPreview(std::shared_ptr<Graphic::Window> win)
 {
     int index = this->_values["brush"];
     this->_brushes[index]->setSize(this->_values["size"]);
     this->_brushes[index]->drawPreview(win, win->getMousePosition());
 }
 
-void EpiGimp::ToolSpray::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
+void ProtoPaint::ToolSpray::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
 {
     int index = this->_values["brush"];
     sf::Vector2f delta = end - start;
@@ -87,7 +86,7 @@ void EpiGimp::ToolSpray::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::V
     }
 }
 
-sf::Color EpiGimp::ToolSpray::getRainbowColor(const sf::Color& currentColor) {
+sf::Color ProtoPaint::ToolSpray::getRainbowColor(const sf::Color& currentColor) {
     sf::Color nextColor = currentColor;
 
     if (currentColor.r == 255 && currentColor.g < 255) {
@@ -116,7 +115,7 @@ sf::Color EpiGimp::ToolSpray::getRainbowColor(const sf::Color& currentColor) {
 }
 
 
-sf::Vector2f EpiGimp::ToolSpray::getRandomPositionInRadius(const sf::Vector2f& center, float radius) {
+sf::Vector2f ProtoPaint::ToolSpray::getRandomPositionInRadius(const sf::Vector2f& center, float radius) {
     // Random number generation setup
     std::random_device rd; // Obtain a random number from hardware
     std::mt19937 gen(rd()); // Seed the generator

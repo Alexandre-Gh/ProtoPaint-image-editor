@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -23,7 +22,7 @@ void GUI::ContrastWin::content()
     }
     ImGui::SameLine();
     if (ImGui::Button("Apply")) {
-        GlobalData.setCurrentAction(EpiGimp::varAction::CONTRAST);
+        GlobalData.setCurrentAction(ProtoPaint::varAction::CONTRAST);
         this->_isVisible = false;
     }
 }

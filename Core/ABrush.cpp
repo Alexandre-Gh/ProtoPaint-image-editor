@@ -1,30 +1,29 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
 
 #include "ABrush.hpp"
 
-EpiGimp::ABrush::ABrush()
+ProtoPaint::ABrush::ABrush()
 {
 
 }
 
-EpiGimp::ABrush::~ABrush()
+ProtoPaint::ABrush::~ABrush()
 {
 
 }
 
-void EpiGimp::ABrush::drawPreview(std::shared_ptr<Graphic::Window> win, sf::Vector2f pos)
+void ProtoPaint::ABrush::drawPreview(std::shared_ptr<Graphic::Window> win, sf::Vector2f pos)
 {
     sf::CircleShape shape;
     shape.setPosition(pos);
     win->drawShape(shape);
 }
 
-void EpiGimp::ABrush::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos, bool add)
+void ProtoPaint::ABrush::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos, bool add)
 {
     sf::CircleShape shape;
     shape.setPosition(pos);
@@ -35,22 +34,22 @@ void EpiGimp::ABrush::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f
     }
 }
 
-void EpiGimp::ABrush::setSize(float size)
+void ProtoPaint::ABrush::setSize(float size)
 {
     this->_size = size;
 }
 
-const float &EpiGimp::ABrush::getSize()
+const float &ProtoPaint::ABrush::getSize()
 {
     return this->_size;
 }
 
-void EpiGimp::ABrush::setColor(sf::Color color)
+void ProtoPaint::ABrush::setColor(sf::Color color)
 {
     this->_color = color;
 }
 
-const sf::Color &EpiGimp::ABrush::getColor()
+const sf::Color &ProtoPaint::ABrush::getColor()
 {
     return this->_color;
 }

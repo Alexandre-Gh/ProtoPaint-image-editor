@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -8,7 +7,7 @@
 #include "../Gui/RectWin.hpp"
 #include "ToolSelection.hpp"
 
-EpiGimp::ToolSelection::ToolSelection() :
+ProtoPaint::ToolSelection::ToolSelection() :
     _previewZone(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y),
     _selectionContent(1, 1)
 {
@@ -20,7 +19,7 @@ EpiGimp::ToolSelection::ToolSelection() :
     this->_shape.setOrigin(0, 0);
 }
 
-void EpiGimp::ToolSelection::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolSelection::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     this->_isInCanvas = zone->isInZone(win->getMousePosition());
     this->_isFirstInCanvas = zone->isInZone(this->_firstPos);
@@ -139,7 +138,7 @@ void EpiGimp::ToolSelection::action(std::shared_ptr<Graphic::Window> win, std::s
     }
 }
 
-void EpiGimp::ToolSelection::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolSelection::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
 {
     if (this->_used) {
         this->_previewZone.setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);

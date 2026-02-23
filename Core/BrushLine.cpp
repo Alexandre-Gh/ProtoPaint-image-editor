@@ -1,13 +1,12 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
 
 #include "BrushLine.hpp"
 
-EpiGimp::BrushLine::BrushLine(float angle)
+ProtoPaint::BrushLine::BrushLine(float angle)
 {
     this->_previewBrush.setOutlineColor(sf::Color::Black);
     this->_previewBrush.setFillColor(sf::Color::Black);
@@ -15,18 +14,18 @@ EpiGimp::BrushLine::BrushLine(float angle)
     this->_brush.rotate(angle);
 }
 
-EpiGimp::BrushLine::~BrushLine()
+ProtoPaint::BrushLine::~BrushLine()
 {
 
 }
 
-void EpiGimp::BrushLine::drawPreview(std::shared_ptr<Graphic::Window> win, sf::Vector2f pos)
+void ProtoPaint::BrushLine::drawPreview(std::shared_ptr<Graphic::Window> win, sf::Vector2f pos)
 {
     this->_previewBrush.setPosition(pos);
     win->drawShape(this->_previewBrush);
 }
 
-void EpiGimp::BrushLine::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos, bool add)
+void ProtoPaint::BrushLine::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos, bool add)
 {
     this->_brush.setPosition(pos);
     if (add) {
@@ -36,7 +35,7 @@ void EpiGimp::BrushLine::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vecto
     }
 }
 
-void EpiGimp::BrushLine::setSize(float size)
+void ProtoPaint::BrushLine::setSize(float size)
 {
     sf::RectangleShape vect;
     this->_brush.setSize({size, 2});
@@ -46,7 +45,7 @@ void EpiGimp::BrushLine::setSize(float size)
     this->_size = size;
 }
 
-void EpiGimp::BrushLine::setColor(sf::Color color)
+void ProtoPaint::BrushLine::setColor(sf::Color color)
 {
     this->_brush.setFillColor(color);
     this->_color = color;

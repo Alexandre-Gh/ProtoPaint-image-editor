@@ -1,8 +1,8 @@
 /*
-** EPITECH PROJECT, 2024
+
 ** Cpp-Project-Template
 ** File description:
-EpiGimp
+ProtoPaint
 */
 
 #ifndef HEADERS_H_

@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** ErrorException
 */
@@ -13,7 +12,7 @@
     #include "../Graphics/Window.hpp"
     #include "../Graphics/DrawZone.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
         class ITool
         {

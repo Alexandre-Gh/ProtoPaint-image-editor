@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -11,10 +10,10 @@
 #include "../Global/FactorySprite.hpp"
 
 
-EpiGimp::Core::Core()
+ProtoPaint::Core::Core()
 {
-    this->_window = std::make_shared<Graphic::Window>("EpiGimp", 1600, 900);
-    this->_canvasLayers.push_back(std::make_shared<EpiGimp::Layer>("Layer 1", 400, 300));
+    this->_window = std::make_shared<Graphic::Window>("ProtoPaint", 1600, 900);
+    this->_canvasLayers.push_back(std::make_shared<ProtoPaint::Layer>("Layer 1", 400, 300));
     this->_canvasLayers[0]->getDrawZone()->setPosition(0, 0);
     this->addState(this->_canvasLayers);
     this->_canvasBG = std::make_unique<Graphic::DrawZone>(400, 300);
@@ -23,19 +22,19 @@ EpiGimp::Core::Core()
     this->_window->getCamera()->setPosition(200, 150);
     this->_guiCore = std::make_shared<GUI::GUICore>(this->_window);
 
-    this->_tools[EpiGimp::TOOL_BRUSH] = FactoryTool::GetInstance().createTool("Brush");
-    this->_tools[EpiGimp::TOOL_ERASER] = FactoryTool::GetInstance().createTool("Eraser");
-    this->_tools[EpiGimp::TOOL_BUCKET] = FactoryTool::GetInstance().createTool("Bucket");
-    this->_tools[EpiGimp::TOOL_COLORPICKER] = FactoryTool::GetInstance().createTool("ColorPicker");
-    this->_tools[EpiGimp::TOOL_PENCIL] = FactoryTool::GetInstance().createTool("Pencil");
-    this->_tools[EpiGimp::TOOL_SPRAY] = FactoryTool::GetInstance().createTool("Spray");
-    this->_tools[EpiGimp::TOOL_RECT] = FactoryTool::GetInstance().createTool("Rect");
-    this->_tools[EpiGimp::TOOL_CIRCLE] = FactoryTool::GetInstance().createTool("Circle");
-    this->_tools[EpiGimp::TOOL_LINE] = FactoryTool::GetInstance().createTool("Line");
-    this->_tools[EpiGimp::TOOL_TEXT] = FactoryTool::GetInstance().createTool("Text");
-    this->_tools[EpiGimp::TOOL_IMAGE] = FactoryTool::GetInstance().createTool("BrushImage");
-    this->_tools[EpiGimp::TOOL_SELECTION] = FactoryTool::GetInstance().createTool("Selection");
-    this->_tools[EpiGimp::TOOL_FUNNY_HAMMER] = FactoryTool::GetInstance().createTool("FunnyHammer");
+    this->_tools[ProtoPaint::TOOL_BRUSH] = FactoryTool::GetInstance().createTool("Brush");
+    this->_tools[ProtoPaint::TOOL_ERASER] = FactoryTool::GetInstance().createTool("Eraser");
+    this->_tools[ProtoPaint::TOOL_BUCKET] = FactoryTool::GetInstance().createTool("Bucket");
+    this->_tools[ProtoPaint::TOOL_COLORPICKER] = FactoryTool::GetInstance().createTool("ColorPicker");
+    this->_tools[ProtoPaint::TOOL_PENCIL] = FactoryTool::GetInstance().createTool("Pencil");
+    this->_tools[ProtoPaint::TOOL_SPRAY] = FactoryTool::GetInstance().createTool("Spray");
+    this->_tools[ProtoPaint::TOOL_RECT] = FactoryTool::GetInstance().createTool("Rect");
+    this->_tools[ProtoPaint::TOOL_CIRCLE] = FactoryTool::GetInstance().createTool("Circle");
+    this->_tools[ProtoPaint::TOOL_LINE] = FactoryTool::GetInstance().createTool("Line");
+    this->_tools[ProtoPaint::TOOL_TEXT] = FactoryTool::GetInstance().createTool("Text");
+    this->_tools[ProtoPaint::TOOL_IMAGE] = FactoryTool::GetInstance().createTool("BrushImage");
+    this->_tools[ProtoPaint::TOOL_SELECTION] = FactoryTool::GetInstance().createTool("Selection");
+    this->_tools[ProtoPaint::TOOL_FUNNY_HAMMER] = FactoryTool::GetInstance().createTool("FunnyHammer");
 
 
     this->_toolWindow = std::make_unique<GUI::ToolsWin>();
@@ -51,49 +50,49 @@ EpiGimp::Core::Core()
     this->_currentStateIndex = 0;
 
     this->_shortcutCTRL = {
-        { sf::Keyboard::Z, []() { GlobalData.setCurrentAction(EpiGimp::varAction::UNDO); } },
-        { sf::Keyboard::Y, []() { GlobalData.setCurrentAction(EpiGimp::varAction::REDO); } },
-        { sf::Keyboard::O, [this]() { if (!this->_loadFile) GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE); } },
-        { sf::Keyboard::S, [this]() { if (!this->_saveFile) GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE); } },
-        { sf::Keyboard::N, []() { GlobalData.setCurrentAction(EpiGimp::varAction::NEW); } },
-        { sf::Keyboard::R, []() { GlobalData.setCurrentAction(EpiGimp::varAction::REPOSITION); } }
+        { sf::Keyboard::Z, []() { GlobalData.setCurrentAction(ProtoPaint::varAction::UNDO); } },
+        { sf::Keyboard::Y, []() { GlobalData.setCurrentAction(ProtoPaint::varAction::REDO); } },
+        { sf::Keyboard::O, [this]() { if (!this->_loadFile) GlobalData.setCurrentAction(ProtoPaint::varAction::IMPORT_IMAGE); } },
+        { sf::Keyboard::S, [this]() { if (!this->_saveFile) GlobalData.setCurrentAction(ProtoPaint::varAction::SAVE_IMAGE); } },
+        { sf::Keyboard::N, []() { GlobalData.setCurrentAction(ProtoPaint::varAction::NEW); } },
+        { sf::Keyboard::R, []() { GlobalData.setCurrentAction(ProtoPaint::varAction::REPOSITION); } }
     };
     this->_shortcutCTRLShift = {
-        { sf::Keyboard::S, []() { GlobalData.setCurrentAction(EpiGimp::varAction::SAVE_IMAGE_ACTIVE); } },
-        { sf::Keyboard::R, []() { GlobalData.setCurrentAction(EpiGimp::varAction::WIN_RESIZE); } },
-        { sf::Keyboard::O, []() { GlobalData.setCurrentAction(EpiGimp::varAction::IMPORT_IMAGE_LAYER); } },
+        { sf::Keyboard::S, []() { GlobalData.setCurrentAction(ProtoPaint::varAction::SAVE_IMAGE_ACTIVE); } },
+        { sf::Keyboard::R, []() { GlobalData.setCurrentAction(ProtoPaint::varAction::WIN_RESIZE); } },
+        { sf::Keyboard::O, []() { GlobalData.setCurrentAction(ProtoPaint::varAction::IMPORT_IMAGE_LAYER); } },
     };
 
-    this->_infoTexts[EpiGimp::IMPORT_IMAGE] = "Imported a new image into the project";
-    this->_infoTexts[EpiGimp::IMPORT_IMAGE_LAYER] = "Imported a new image as a layer into the project";
-    this->_infoTexts[EpiGimp::IMPORT_IMAGE_CURRENT] = "Imported the current image into the project";
-    this->_infoTexts[EpiGimp::SAVE_IMAGE] = "Saved the current image to disk";
-    this->_infoTexts[EpiGimp::UNDO] = "Action undo-ed";
-    this->_infoTexts[EpiGimp::REDO] = "Action redo-ed";
-    this->_infoTexts[EpiGimp::NEW] = "Created a new, empty project";
-    this->_infoTexts[EpiGimp::RESIZE] = "Resized the image";
-    this->_infoTexts[EpiGimp::RESIZE_CANVAS] = "Resized the canvas without changing image size";
-    this->_infoTexts[EpiGimp::FLIP_HOR] = "Flipped the current layer horizontally";
-    this->_infoTexts[EpiGimp::FLIP_VERT] = "Flipped the current layer vertically";
-    this->_infoTexts[EpiGimp::FLIP_ALL_HOR] = "Flipped all layers horizontally";
-    this->_infoTexts[EpiGimp::FLIP_ALL_VERT] = "Flipped all layers vertically";
-    this->_infoTexts[EpiGimp::ROTATE_LEFT] = "Rotated the image 90 degrees counterclockwise";
-    this->_infoTexts[EpiGimp::ROTATE_RIGHT] = "Rotated the image 90 degrees clockwise";
-    this->_infoTexts[EpiGimp::ROTATE_FULL] = "Rotated the image by 180 degrees";
-    this->_infoTexts[EpiGimp::SAVE_IMAGE_ACTIVE] = "Saved the active image layers";
-    this->_infoTexts[EpiGimp::REPOSITION] = "Reseted camera";
+    this->_infoTexts[ProtoPaint::IMPORT_IMAGE] = "Imported a new image into the project";
+    this->_infoTexts[ProtoPaint::IMPORT_IMAGE_LAYER] = "Imported a new image as a layer into the project";
+    this->_infoTexts[ProtoPaint::IMPORT_IMAGE_CURRENT] = "Imported the current image into the project";
+    this->_infoTexts[ProtoPaint::SAVE_IMAGE] = "Saved the current image to disk";
+    this->_infoTexts[ProtoPaint::UNDO] = "Action undo-ed";
+    this->_infoTexts[ProtoPaint::REDO] = "Action redo-ed";
+    this->_infoTexts[ProtoPaint::NEW] = "Created a new, empty project";
+    this->_infoTexts[ProtoPaint::RESIZE] = "Resized the image";
+    this->_infoTexts[ProtoPaint::RESIZE_CANVAS] = "Resized the canvas without changing image size";
+    this->_infoTexts[ProtoPaint::FLIP_HOR] = "Flipped the current layer horizontally";
+    this->_infoTexts[ProtoPaint::FLIP_VERT] = "Flipped the current layer vertically";
+    this->_infoTexts[ProtoPaint::FLIP_ALL_HOR] = "Flipped all layers horizontally";
+    this->_infoTexts[ProtoPaint::FLIP_ALL_VERT] = "Flipped all layers vertically";
+    this->_infoTexts[ProtoPaint::ROTATE_LEFT] = "Rotated the image 90 degrees counterclockwise";
+    this->_infoTexts[ProtoPaint::ROTATE_RIGHT] = "Rotated the image 90 degrees clockwise";
+    this->_infoTexts[ProtoPaint::ROTATE_FULL] = "Rotated the image by 180 degrees";
+    this->_infoTexts[ProtoPaint::SAVE_IMAGE_ACTIVE] = "Saved the active image layers";
+    this->_infoTexts[ProtoPaint::REPOSITION] = "Reseted camera";
 
 }
 
-EpiGimp::Core::~Core()
+ProtoPaint::Core::~Core()
 {
 
 }
 
-void EpiGimp::Core::loop()
+void ProtoPaint::Core::loop()
 {
 
-    std::shared_ptr<EpiGimp::Layer> currentLayer;
+    std::shared_ptr<ProtoPaint::Layer> currentLayer;
     while (this->_window->isOpen()) {
         this->_window->resetRender();
         this->_guiCore->update();
@@ -121,7 +120,7 @@ void EpiGimp::Core::loop()
 
         if (this->_window->isKeyPressed(sf::Keyboard::LControl) && this->_window->isKeyJustPressed(sf::Keyboard::V)) {
             std::cout << "Paste\n";
-            GlobalData.setCurrentTool(EpiGimp::TOOL_SELECTION);
+            GlobalData.setCurrentTool(ProtoPaint::TOOL_SELECTION);
 
         }
 
@@ -154,7 +153,7 @@ void EpiGimp::Core::loop()
     }
 }
 
-void EpiGimp::Core::moveCamera()
+void ProtoPaint::Core::moveCamera()
 {
     bool hor = this->_window->isKeyPressed(sf::Keyboard::LControl);
     bool ver = this->_window->isKeyPressed(sf::Keyboard::LShift);
@@ -174,7 +173,7 @@ void EpiGimp::Core::moveCamera()
     }
 }
 
-void EpiGimp::Core::handleTool()
+void ProtoPaint::Core::handleTool()
 {
     if (GlobalData.wasCurrentToolValueModified()) {
         this->_tools[GlobalData.getCurrentTool()]->setValue(GlobalData.getCurrentToolValue());
@@ -185,53 +184,53 @@ void EpiGimp::Core::handleTool()
     this->_tools[GlobalData.getCurrentTool()]->displayGUI();
 }
 
-void EpiGimp::Core::handleAction()
+void ProtoPaint::Core::handleAction()
 {
-    EpiGimp::varAction action = GlobalData.getCurrentAction();
+    ProtoPaint::varAction action = GlobalData.getCurrentAction();
     switch (action) {
-        case EpiGimp::varAction::NO_ACTION: break;
+        case ProtoPaint::varAction::NO_ACTION: break;
 
-        case EpiGimp::varAction::SAVE_IMAGE: this->_saveFile = true; break;
-        case EpiGimp::varAction::IMPORT_IMAGE: this->_loadFile = true; break;
-        case EpiGimp::varAction::IMPORT_IMAGE_CURRENT: this->_loadFile = true; this->_loadOnLayer = true; break;
-        case EpiGimp::varAction::IMPORT_IMAGE_LAYER: this->_loadFile = true; this->_loadAsLayer = true; break;
-        case EpiGimp::varAction::UNDO: this->undo(); break;
-        case EpiGimp::varAction::REDO: this->redo(); break;
-        case EpiGimp::varAction::NEW: this->resetCanvas(); break;
-        case EpiGimp::varAction::RESIZE: this->reposition(); this->addState(this->_canvasLayers); break;
-        case EpiGimp::varAction::RESIZE_CANVAS: this->reposition(); this->addState(this->_canvasLayers); break;
-        case EpiGimp::varAction::FLIP_HOR: this->flipCurrent(false); break;
-        case EpiGimp::varAction::FLIP_VERT: this->flipCurrent(true); break;
-        case EpiGimp::varAction::FLIP_ALL_HOR: this->flipAll(false); break;
-        case EpiGimp::varAction::FLIP_ALL_VERT: this->flipAll(true); break;
-        case EpiGimp::varAction::ROTATE_LEFT: this->rotateCanvas(90); break;
-        case EpiGimp::varAction::ROTATE_RIGHT: this->rotateCanvas(270); break;
-        case EpiGimp::varAction::ROTATE_FULL: this->rotateCanvas(180); break;
-        case EpiGimp::varAction::SAVE_IMAGE_ACTIVE: this->_saveFile = true; this->_saveActiveOnly = true; break;
-        case EpiGimp::varAction::REPOSITION:
+        case ProtoPaint::varAction::SAVE_IMAGE: this->_saveFile = true; break;
+        case ProtoPaint::varAction::IMPORT_IMAGE: this->_loadFile = true; break;
+        case ProtoPaint::varAction::IMPORT_IMAGE_CURRENT: this->_loadFile = true; this->_loadOnLayer = true; break;
+        case ProtoPaint::varAction::IMPORT_IMAGE_LAYER: this->_loadFile = true; this->_loadAsLayer = true; break;
+        case ProtoPaint::varAction::UNDO: this->undo(); break;
+        case ProtoPaint::varAction::REDO: this->redo(); break;
+        case ProtoPaint::varAction::NEW: this->resetCanvas(); break;
+        case ProtoPaint::varAction::RESIZE: this->reposition(); this->addState(this->_canvasLayers); break;
+        case ProtoPaint::varAction::RESIZE_CANVAS: this->reposition(); this->addState(this->_canvasLayers); break;
+        case ProtoPaint::varAction::FLIP_HOR: this->flipCurrent(false); break;
+        case ProtoPaint::varAction::FLIP_VERT: this->flipCurrent(true); break;
+        case ProtoPaint::varAction::FLIP_ALL_HOR: this->flipAll(false); break;
+        case ProtoPaint::varAction::FLIP_ALL_VERT: this->flipAll(true); break;
+        case ProtoPaint::varAction::ROTATE_LEFT: this->rotateCanvas(90); break;
+        case ProtoPaint::varAction::ROTATE_RIGHT: this->rotateCanvas(270); break;
+        case ProtoPaint::varAction::ROTATE_FULL: this->rotateCanvas(180); break;
+        case ProtoPaint::varAction::SAVE_IMAGE_ACTIVE: this->_saveFile = true; this->_saveActiveOnly = true; break;
+        case ProtoPaint::varAction::REPOSITION:
             this->_window->getCamera()->setPosition(GlobalData.getCanvasSize() * 0.5f);
             this->_window->getCamera()->resetZoom();
             break;
-        case EpiGimp::varAction::LIGHT: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->changeLighting(this->_lightWindow->getValue());
+        case ProtoPaint::varAction::LIGHT: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->changeLighting(this->_lightWindow->getValue());
                                         this->addState(this->_canvasLayers); break;
-        case EpiGimp::varAction::INVERT: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->invert();
+        case ProtoPaint::varAction::INVERT: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->invert();
                                             this->addState(this->_canvasLayers); break;
-        case EpiGimp::varAction::CONTRAST: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->changeContrast(this->_contrastWindow->getValue());
+        case ProtoPaint::varAction::CONTRAST: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->changeContrast(this->_contrastWindow->getValue());
                                         this->addState(this->_canvasLayers); break;
-        case EpiGimp::varAction::SHADOW: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->castShadows(1, this->_shadowWin->getValue(), 1);
+        case ProtoPaint::varAction::SHADOW: this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->castShadows(1, this->_shadowWin->getValue(), 1);
                                         this->addState(this->_canvasLayers); break;
-        case EpiGimp::varAction::WIN_RESIZE: this->_sizeWindow->setVisible(true); break;
-        case EpiGimp::varAction::WIN_LIGHT: this->_lightWindow->setValue(0); this->_lightWindow->setVisible(true); break;
-        case EpiGimp::varAction::WIN_CONTRAST: this->_contrastWindow->setValue(0); this->_contrastWindow->setVisible(true); break;
-        case EpiGimp::varAction::WIN_SHADOW: this->_shadowWin->setValue(0); this->_shadowWin->setVisible(true); break;
+        case ProtoPaint::varAction::WIN_RESIZE: this->_sizeWindow->setVisible(true); break;
+        case ProtoPaint::varAction::WIN_LIGHT: this->_lightWindow->setValue(0); this->_lightWindow->setVisible(true); break;
+        case ProtoPaint::varAction::WIN_CONTRAST: this->_contrastWindow->setValue(0); this->_contrastWindow->setVisible(true); break;
+        case ProtoPaint::varAction::WIN_SHADOW: this->_shadowWin->setValue(0); this->_shadowWin->setVisible(true); break;
     }
-    if (action != EpiGimp::varAction::NO_ACTION && this->_infoTexts.count(action) != 0) {
+    if (action != ProtoPaint::varAction::NO_ACTION && this->_infoTexts.count(action) != 0) {
         this->_navBar->setDisplayedText(this->_infoTexts[action]);
     }
-    GlobalData.setCurrentAction(EpiGimp::varAction::NO_ACTION);
+    GlobalData.setCurrentAction(ProtoPaint::varAction::NO_ACTION);
 }
 
-void EpiGimp::Core::handleFileDialog()
+void ProtoPaint::Core::handleFileDialog()
 {
     if (this->_loadFile) {
         if (!this->_loadAsLayer && system("zenity --question --text=\"Are you sure you want to open a new file?\n\nCurrent progress will be lost if you didn't save\"")) {
@@ -248,7 +247,7 @@ void EpiGimp::Core::handleFileDialog()
     }
 }
 
-void EpiGimp::Core::handleShortcuts()
+void ProtoPaint::Core::handleShortcuts()
 {
     if (this->_window->isKeyPressed(sf::Keyboard::LControl)) {
         for (const auto& [key, action] : _shortcutCTRL)
@@ -263,15 +262,15 @@ void EpiGimp::Core::handleShortcuts()
     }
 }
 
-void EpiGimp::Core::resetCanvas()
+void ProtoPaint::Core::resetCanvas()
 {
-    if (GlobalData.getCurrentAction() == EpiGimp::NEW) {
+    if (GlobalData.getCurrentAction() == ProtoPaint::NEW) {
         if (system("zenity --question --text=\"Are you sure you want to reset the canvas?\n\nCurrent progress will be lost if you didn't save\" --width=400 --height=200")) {
             return;
         }
     }
     this->_canvasLayers.clear();
-    this->_canvasLayers.push_back(std::make_shared<EpiGimp::Layer>("Layer 1", 400, 300));
+    this->_canvasLayers.push_back(std::make_shared<ProtoPaint::Layer>("Layer 1", 400, 300));
     GlobalData.setCanvasSize(400, 300);
     this->_currentLayerIndex = 0;
     this->_layersWindow = std::make_unique<GUI::LayersWin>(this->_canvasLayers);
@@ -282,7 +281,7 @@ void EpiGimp::Core::resetCanvas()
     this->_currentStateIndex = 0;
 }
 
-void EpiGimp::Core::saveFile()
+void ProtoPaint::Core::saveFile()
 {
     // std::string filepath = this->_guiCore->getFilePath();
     std::string filepath = this->getFilePathSave();
@@ -305,7 +304,7 @@ void EpiGimp::Core::saveFile()
     this->_saveActiveOnly = false;
 }
 
-void EpiGimp::Core::openFile()
+void ProtoPaint::Core::openFile()
 {
     // std::string filepath = this->_guiCore->getFilePath();
     std::string filepath = this->getFilePathLoad();
@@ -351,7 +350,7 @@ void EpiGimp::Core::openFile()
     this->_loadAsLayer = false;
 }
 
-void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers)
+void ProtoPaint::Core::addState(const std::vector<std::shared_ptr<ProtoPaint::Layer>>& layers)
 {
     if (this->_currentStateIndex + 1 < this->_canvasHistory.size()) {
         std::cout << "Override history at " << this->_currentStateIndex + 1 << std::endl;
@@ -361,7 +360,7 @@ void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>&
         this->_canvasHistory[this->_currentStateIndex] = this->_undoCanvas;
     }
 
-    std::vector<std::shared_ptr<EpiGimp::Layer>> clonedLayers;
+    std::vector<std::shared_ptr<ProtoPaint::Layer>> clonedLayers;
     for (const auto& layer : layers) {
         clonedLayers.push_back(layer->clone());
     }
@@ -376,7 +375,7 @@ void EpiGimp::Core::addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>&
     std::cout << "New State at: " << this->_canvasHistory.size() << std::endl;
 }
 
-void EpiGimp::Core::undo()
+void ProtoPaint::Core::undo()
 {
     if (this->_currentStateIndex > 0) {
         this->_currentStateIndex--;
@@ -398,7 +397,7 @@ void EpiGimp::Core::undo()
     }
 }
 
-void EpiGimp::Core::redo()
+void ProtoPaint::Core::redo()
 {
     if (this->_currentStateIndex + 1 < this->_canvasHistory.size()) {
         this->_currentStateIndex++;
@@ -420,10 +419,10 @@ void EpiGimp::Core::redo()
     }
 }
 
-void EpiGimp::Core::reposition()
+void ProtoPaint::Core::reposition()
 {
     for (auto const &e: this->_canvasLayers) {
-        e->getDrawZone()->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y, GlobalData.getCurrentAction() == EpiGimp::varAction::RESIZE);
+        e->getDrawZone()->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y, GlobalData.getCurrentAction() == ProtoPaint::varAction::RESIZE);
         e->getDrawZone()->setPosition(0, 0);
     }
     this->_canvasBG->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
@@ -434,7 +433,7 @@ void EpiGimp::Core::reposition()
     this->_sizeWindow->setSize(newSize.x, newSize.y);
 }
 
-void EpiGimp::Core::flipAll(bool vertical)
+void ProtoPaint::Core::flipAll(bool vertical)
 {
     for (auto const &e: this->_canvasLayers) {
         e->getDrawZone()->flip(vertical);
@@ -442,13 +441,13 @@ void EpiGimp::Core::flipAll(bool vertical)
     this->addState(this->_canvasLayers);
 }
 
-void EpiGimp::Core::flipCurrent(bool vertical)
+void ProtoPaint::Core::flipCurrent(bool vertical)
 {
     this->_canvasLayers[this->_currentLayerIndex]->getDrawZone()->flip(vertical);
     this->addState(this->_canvasLayers);
 }
 
-void EpiGimp::Core::rotateCanvas(float angle)
+void ProtoPaint::Core::rotateCanvas(float angle)
 {
     for (auto const &e: this->_canvasLayers) {
         e->getDrawZone()->rotate(angle);
@@ -460,7 +459,7 @@ void EpiGimp::Core::rotateCanvas(float angle)
     this->addState(this->_canvasLayers);
 }
 
-std::string EpiGimp::Core::getFilePathLoad()
+std::string ProtoPaint::Core::getFilePathLoad()
 {
     std::string command = "zenity --file-selection --file-filter='PNG files | *.png' --file-filter='JPG files | *.jpg' --file-filter='Bitmap files | *.bmp' --title='Select a file'";
     std::string res = "";
@@ -485,7 +484,7 @@ std::string EpiGimp::Core::getFilePathLoad()
     return res;
 }
 
-std::string EpiGimp::Core::getFilePathSave()
+std::string ProtoPaint::Core::getFilePathSave()
 {
     std::string command = "zenity --file-selection --save --file-filter='PNG files | *.png' --file-filter='JPG files | *.jpg' --file-filter='Bitmap files | *.bmp' --title='Save As'";
 

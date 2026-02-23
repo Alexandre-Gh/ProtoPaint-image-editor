@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** ErrorException
 */
@@ -12,7 +11,7 @@
 
         #include "../includes/Headers.hpp"
 
-        namespace EpiGimp
+        namespace ProtoPaint
         {
             enum varTool
             {
@@ -83,8 +82,8 @@
                 const sf::Color &getSecondColor() { return _secondColor; }
                 void setSecondColor(sf::Color color) { _secondColor = color; }
 
-                const EpiGimp::varTool &getCurrentTool() { return _currentTool; }
-                void setCurrentTool(EpiGimp::varTool toolType) { _currentTool = toolType; }
+                const ProtoPaint::varTool &getCurrentTool() { return _currentTool; }
+                void setCurrentTool(ProtoPaint::varTool toolType) { _currentTool = toolType; }
 
                 const sf::Vector2f &getCanvasSize() { return _canvasSize; }
                 void setCanvasSize(float w, float h) { _canvasSize = {w, h}; }
@@ -93,8 +92,8 @@
                 const std::pair<std::string, int> &getCurrentToolValue();
                 bool wasCurrentToolValueModified();
 
-                const EpiGimp::varAction &getCurrentAction();
-                void setCurrentAction(EpiGimp::varAction action);
+                const ProtoPaint::varAction &getCurrentAction();
+                void setCurrentAction(ProtoPaint::varAction action);
 
                 const bool &getAddState() { return _nextStateState; };
                 void setAddState(bool value) { _nextStateState = value; };
@@ -118,13 +117,13 @@
                 //======GLOBAL DATA======
                 sf::Color _mainColor = sf::Color::Red;
                 sf::Color _secondColor = sf::Color::White;
-                EpiGimp::varTool _currentTool = EpiGimp::TOOL_BRUSH;
+                ProtoPaint::varTool _currentTool = ProtoPaint::TOOL_BRUSH;
                 std::string _currentImageBrushFilepath = "";
 
                 bool _wasModified = false;
 
                 std::pair<std::string, int> _lastModifiedValue;
-                EpiGimp::varAction _currentAction = EpiGimp::varAction::NO_ACTION;
+                ProtoPaint::varAction _currentAction = ProtoPaint::varAction::NO_ACTION;
 
                 sf::Vector2f _canvasSize = {400, 300};
 

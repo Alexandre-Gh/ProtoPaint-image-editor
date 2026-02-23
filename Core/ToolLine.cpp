@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -8,7 +7,7 @@
 #include "../Gui/LineWin.hpp"
 #include "ToolLine.hpp"
 
-EpiGimp::ToolLine::ToolLine()
+ProtoPaint::ToolLine::ToolLine()
 {
     this->_gui = std::make_unique<GUI::LineWin>();
 
@@ -24,7 +23,7 @@ EpiGimp::ToolLine::ToolLine()
     this->_shape.setOrigin(0, 0);
 }
 
-void EpiGimp::ToolLine::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolLine::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     this->_isInCanvas = zone->isInZone(win->getMousePosition());
     this->_isFirstInCanvas = zone->isInZone(this->_firstPos);
@@ -60,7 +59,7 @@ void EpiGimp::ToolLine::action(std::shared_ptr<Graphic::Window> win, std::shared
     this->_shape.setPosition(this->_firstPos);
 }
 
-void EpiGimp::ToolLine::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
+void ProtoPaint::ToolLine::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Window> win)
 {
     if (this->_used && this->_isFirstInCanvas) {
         this->_previewZone->setSize(GlobalData.getCanvasSize().x, GlobalData.getCanvasSize().y);
@@ -71,7 +70,7 @@ void EpiGimp::ToolLine::drawPreviewInCurrentCanvas(std::shared_ptr<Graphic::Wind
     }
 }
 
-void EpiGimp::ToolLine::drawBorders(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos1, sf::Vector2f pos2)
+void ProtoPaint::ToolLine::drawBorders(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos1, sf::Vector2f pos2)
 {
     if (this->_values["rounded"]) {
         this->_border.setFillColor(this->getMainColor());

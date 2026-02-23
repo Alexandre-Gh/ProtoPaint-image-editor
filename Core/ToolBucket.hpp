@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** OOP
 */
@@ -10,9 +9,9 @@
 
     #include "ATool.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
-        class ToolBucket: public EpiGimp::ATool
+        class ToolBucket: public ProtoPaint::ATool
         {
             public:
                 ToolBucket();

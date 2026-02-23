@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -14,9 +13,9 @@
     #include "../Interfaces/IGUIWindow.hpp"
     #include "../Interfaces/ITool.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
-        class ATool : public EpiGimp::ITool
+        class ATool : public ProtoPaint::ITool
         {
             public:
                 ATool();

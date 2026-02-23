@@ -1,18 +1,17 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
 
 #include "ToolPencil.hpp"
 
-EpiGimp::ToolPencil::ToolPencil()
+ProtoPaint::ToolPencil::ToolPencil()
 {
 
 }
 
-void EpiGimp::ToolPencil::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
+void ProtoPaint::ToolPencil::action(std::shared_ptr<Graphic::Window> win, std::shared_ptr<Graphic::DrawZone> zone)
 {
     if (win->isLeftMouseJustReleased() && this->_used) {
         GlobalData.setAddState(true);
@@ -31,7 +30,7 @@ void EpiGimp::ToolPencil::action(std::shared_ptr<Graphic::Window> win, std::shar
     this->drawLine(zone, lastPos, pos);
 }
 
-void EpiGimp::ToolPencil::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
+void ProtoPaint::ToolPencil::drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end)
 {
     sf::Vector2f delta = end - start;
     float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y);

@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -12,34 +11,34 @@
 GUI::ToolsWin::ToolsWin() :
     AGUIWindow("Tools")
 {
-    this->_buttonSprites[EpiGimp::TOOL_BRUSH] = FactorySprite::GetInstance().createSprite("Brush");
-    this->_buttonSprites[EpiGimp::TOOL_ERASER] = FactorySprite::GetInstance().createSprite("Eraser");
-    this->_buttonSprites[EpiGimp::TOOL_BUCKET] = FactorySprite::GetInstance().createSprite("Bucket");
-    this->_buttonSprites[EpiGimp::TOOL_COLORPICKER] = FactorySprite::GetInstance().createSprite("ColorPicker");
-    this->_buttonSprites[EpiGimp::TOOL_PENCIL] = FactorySprite::GetInstance().createSprite("Pencil");
-    this->_buttonSprites[EpiGimp::TOOL_SPRAY] = FactorySprite::GetInstance().createSprite("Spray");
-    this->_buttonSprites[EpiGimp::TOOL_RECT] = FactorySprite::GetInstance().createSprite("Rect");
-    this->_buttonSprites[EpiGimp::TOOL_CIRCLE] = FactorySprite::GetInstance().createSprite("Circle");
-    this->_buttonSprites[EpiGimp::TOOL_LINE] = FactorySprite::GetInstance().createSprite("Line");
-    this->_buttonSprites[EpiGimp::TOOL_TEXT] = FactorySprite::GetInstance().createSprite("Text");
-    this->_buttonSprites[EpiGimp::TOOL_IMAGE] = FactorySprite::GetInstance().createSprite("BrushImage");
-    this->_buttonSprites[EpiGimp::TOOL_SELECTION] = FactorySprite::GetInstance().createSprite("Selection");
-    this->_buttonSprites[EpiGimp::TOOL_FUNNY_HAMMER] = FactorySprite::GetInstance().createSprite("FunnyHammer");
+    this->_buttonSprites[ProtoPaint::TOOL_BRUSH] = FactorySprite::GetInstance().createSprite("Brush");
+    this->_buttonSprites[ProtoPaint::TOOL_ERASER] = FactorySprite::GetInstance().createSprite("Eraser");
+    this->_buttonSprites[ProtoPaint::TOOL_BUCKET] = FactorySprite::GetInstance().createSprite("Bucket");
+    this->_buttonSprites[ProtoPaint::TOOL_COLORPICKER] = FactorySprite::GetInstance().createSprite("ColorPicker");
+    this->_buttonSprites[ProtoPaint::TOOL_PENCIL] = FactorySprite::GetInstance().createSprite("Pencil");
+    this->_buttonSprites[ProtoPaint::TOOL_SPRAY] = FactorySprite::GetInstance().createSprite("Spray");
+    this->_buttonSprites[ProtoPaint::TOOL_RECT] = FactorySprite::GetInstance().createSprite("Rect");
+    this->_buttonSprites[ProtoPaint::TOOL_CIRCLE] = FactorySprite::GetInstance().createSprite("Circle");
+    this->_buttonSprites[ProtoPaint::TOOL_LINE] = FactorySprite::GetInstance().createSprite("Line");
+    this->_buttonSprites[ProtoPaint::TOOL_TEXT] = FactorySprite::GetInstance().createSprite("Text");
+    this->_buttonSprites[ProtoPaint::TOOL_IMAGE] = FactorySprite::GetInstance().createSprite("BrushImage");
+    this->_buttonSprites[ProtoPaint::TOOL_SELECTION] = FactorySprite::GetInstance().createSprite("Selection");
+    this->_buttonSprites[ProtoPaint::TOOL_FUNNY_HAMMER] = FactorySprite::GetInstance().createSprite("FunnyHammer");
 
 
-    this->_ids[EpiGimp::TOOL_BRUSH] = "Brush";
-    this->_ids[EpiGimp::TOOL_ERASER] = "Eraser";
-    this->_ids[EpiGimp::TOOL_BUCKET] = "Bucket";
-    this->_ids[EpiGimp::TOOL_COLORPICKER] = "ColorPicker";
-    this->_ids[EpiGimp::TOOL_PENCIL] = "Pencil";
-    this->_ids[EpiGimp::TOOL_SPRAY] = "Spray";
-    this->_ids[EpiGimp::TOOL_RECT] = "Rect";
-    this->_ids[EpiGimp::TOOL_CIRCLE] = "Circle";
-    this->_ids[EpiGimp::TOOL_LINE] = "Line";
-    this->_ids[EpiGimp::TOOL_TEXT] = "Text";
-    this->_ids[EpiGimp::TOOL_IMAGE] = "Image Bush";
-    this->_ids[EpiGimp::TOOL_SELECTION] = "Selection";
-    this->_ids[EpiGimp::TOOL_FUNNY_HAMMER] = "Funny Hammer";
+    this->_ids[ProtoPaint::TOOL_BRUSH] = "Brush";
+    this->_ids[ProtoPaint::TOOL_ERASER] = "Eraser";
+    this->_ids[ProtoPaint::TOOL_BUCKET] = "Bucket";
+    this->_ids[ProtoPaint::TOOL_COLORPICKER] = "ColorPicker";
+    this->_ids[ProtoPaint::TOOL_PENCIL] = "Pencil";
+    this->_ids[ProtoPaint::TOOL_SPRAY] = "Spray";
+    this->_ids[ProtoPaint::TOOL_RECT] = "Rect";
+    this->_ids[ProtoPaint::TOOL_CIRCLE] = "Circle";
+    this->_ids[ProtoPaint::TOOL_LINE] = "Line";
+    this->_ids[ProtoPaint::TOOL_TEXT] = "Text";
+    this->_ids[ProtoPaint::TOOL_IMAGE] = "Image Bush";
+    this->_ids[ProtoPaint::TOOL_SELECTION] = "Selection";
+    this->_ids[ProtoPaint::TOOL_FUNNY_HAMMER] = "Funny Hammer";
 }
 
 void GUI::ToolsWin::content()

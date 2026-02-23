@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -24,7 +23,7 @@ void GUI::LightWin::content()
     ImGui::SameLine();
     std::string info = this->_f < 0 ? "Darken" : "Brighten";
     if (ImGui::Button(info.c_str())) {
-        GlobalData.setCurrentAction(EpiGimp::varAction::LIGHT);
+        GlobalData.setCurrentAction(ProtoPaint::varAction::LIGHT);
         this->_isVisible = false;
     }
 }

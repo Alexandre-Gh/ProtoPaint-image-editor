@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** main
 */
@@ -12,7 +11,7 @@ int main(int argc, char* argv[])
 {
     try {
         //PROGRAM START
-        EpiGimp::Core core;
+        ProtoPaint::Core core;
         core.loop();
 
     } catch (const std::exception& e) {

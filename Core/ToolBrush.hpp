@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** OOP
 */
@@ -11,9 +10,9 @@
     #include "ATool.hpp"
     #include "../Interfaces/IBrush.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
-        class ToolBrush: public EpiGimp::ATool
+        class ToolBrush: public ProtoPaint::ATool
         {
             public:
                 ToolBrush();
@@ -22,7 +21,7 @@
                 void drawPreview(std::shared_ptr<Graphic::Window> win);
 
             private:
-                std::vector<std::unique_ptr<EpiGimp::IBrush>> _brushes;
+                std::vector<std::unique_ptr<ProtoPaint::IBrush>> _brushes;
 
                 sf::Color getRainbowColor(const sf::Color& currentColor);
                 void drawLine(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f start, sf::Vector2f end);

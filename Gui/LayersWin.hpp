@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -20,17 +19,17 @@
         class LayersWin : public GUI::AGUIWindow
         {
             public:
-                LayersWin(std::vector<std::shared_ptr<EpiGimp::Layer>> layers);
+                LayersWin(std::vector<std::shared_ptr<ProtoPaint::Layer>> layers);
                 ~LayersWin() = default;
 
                 void content(); //Actual function to modify in inherited classes
-                std::vector<std::shared_ptr<EpiGimp::Layer>> getLayers();
-                void setLayers(std::vector<std::shared_ptr<EpiGimp::Layer>> layers, unsigned int index);
+                std::vector<std::shared_ptr<ProtoPaint::Layer>> getLayers();
+                void setLayers(std::vector<std::shared_ptr<ProtoPaint::Layer>> layers, unsigned int index);
                 const unsigned int &getCurrentLayerIndex();
                 void addLayer();
 
             private:
-                 std::vector<std::shared_ptr<EpiGimp::Layer>> _layers;
+                 std::vector<std::shared_ptr<ProtoPaint::Layer>> _layers;
                  unsigned int _currentLayerIndex;
 
 

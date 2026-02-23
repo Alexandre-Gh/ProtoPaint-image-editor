@@ -1,13 +1,12 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
 
 #include "LayersWin.hpp"
 
-GUI::LayersWin::LayersWin(std::vector<std::shared_ptr<EpiGimp::Layer>> layers) :
+GUI::LayersWin::LayersWin(std::vector<std::shared_ptr<ProtoPaint::Layer>> layers) :
     AGUIWindow("Layer Manager")
 {
     this->_layers = layers;
@@ -59,7 +58,7 @@ void GUI::LayersWin::content()
     ImGui::BeginChild("Layers", ImVec2(0, 200), true, ImGuiWindowFlags_AlwaysUseWindowPadding);
 
     for (size_t i = 0; i < this->_layers.size(); ++i) {
-        std::shared_ptr<EpiGimp::Layer>& layer = this->_layers[i];
+        std::shared_ptr<ProtoPaint::Layer>& layer = this->_layers[i];
 
         ImGui::PushID(i);
 
@@ -112,12 +111,12 @@ void GUI::LayersWin::content()
     }
 }
 
-std::vector<std::shared_ptr<EpiGimp::Layer>> GUI::LayersWin::getLayers()
+std::vector<std::shared_ptr<ProtoPaint::Layer>> GUI::LayersWin::getLayers()
 {
     return this->_layers;
 }
 
-void GUI::LayersWin::setLayers(std::vector<std::shared_ptr<EpiGimp::Layer>> layers, unsigned int index)
+void GUI::LayersWin::setLayers(std::vector<std::shared_ptr<ProtoPaint::Layer>> layers, unsigned int index)
 {
     this->_layers = layers;
     this->_currentLayerIndex = index;
@@ -139,7 +138,7 @@ void GUI::LayersWin::addLayer()
     int oldPos = this->_currentLayerIndex;
     std::string name = "Layer " + std::to_string(this->_layers.size() + 1);
     sf::Vector2f size = GlobalData.getCanvasSize();
-    this->_layers.push_back(std::make_shared<EpiGimp::Layer>(name, size.x, size.y));
+    this->_layers.push_back(std::make_shared<ProtoPaint::Layer>(name, size.x, size.y));
     this->_currentLayerIndex = this->_layers.size() - 1;
     this->_layers[this->_currentLayerIndex]->getDrawZone()->setPosition(0, 0);
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) {

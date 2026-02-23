@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -59,7 +58,7 @@ void GUI::SizeWin::content()
         this->_y = std::max(1, this->_y);
         GlobalData.setCanvasSize(_x, _y);
         this->_percent = 100;
-        GlobalData.setCurrentAction(this->_resizeContent ? EpiGimp::varAction::RESIZE : EpiGimp::varAction::RESIZE_CANVAS);
+        GlobalData.setCurrentAction(this->_resizeContent ? ProtoPaint::varAction::RESIZE : ProtoPaint::varAction::RESIZE_CANVAS);
         this->_isVisible = false;
     }
 }

@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -12,9 +11,9 @@
 
     #include "ABrush.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
-        class BrushLine : public EpiGimp::ABrush
+        class BrushLine : public ProtoPaint::ABrush
         {
             public:
                 BrushLine(float angle);

@@ -1,31 +1,30 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
 
 #include "BrushSquare.hpp"
 
-EpiGimp::BrushSquare::BrushSquare()
+ProtoPaint::BrushSquare::BrushSquare()
 {
     this->_previewBrush.setOutlineColor(sf::Color::Black);
     this->_previewBrush.setOutlineThickness(0.5f);
     this->_previewBrush.setFillColor(sf::Color::Transparent);
 }
 
-EpiGimp::BrushSquare::~BrushSquare()
+ProtoPaint::BrushSquare::~BrushSquare()
 {
 
 }
 
-void EpiGimp::BrushSquare::drawPreview(std::shared_ptr<Graphic::Window> win, sf::Vector2f pos)
+void ProtoPaint::BrushSquare::drawPreview(std::shared_ptr<Graphic::Window> win, sf::Vector2f pos)
 {
     this->_previewBrush.setPosition(pos);
     win->drawShape(this->_previewBrush);
 }
 
-void EpiGimp::BrushSquare::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos, bool add)
+void ProtoPaint::BrushSquare::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vector2f pos, bool add)
 {
     this->_brush.setPosition(pos);
     if (add) {
@@ -35,7 +34,7 @@ void EpiGimp::BrushSquare::draw(std::shared_ptr<Graphic::DrawZone> zone, sf::Vec
     }
 }
 
-void EpiGimp::BrushSquare::setSize(float size)
+void ProtoPaint::BrushSquare::setSize(float size)
 {
     sf::Vector2f vect(size, size);
     this->_brush.setSize(vect);
@@ -45,7 +44,7 @@ void EpiGimp::BrushSquare::setSize(float size)
     this->_size = size;
 }
 
-void EpiGimp::BrushSquare::setColor(sf::Color color)
+void ProtoPaint::BrushSquare::setColor(sf::Color color)
 {
     this->_brush.setFillColor(color);
     this->_color = color;

@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -23,7 +22,7 @@ void GUI::ShadowWin::content()
     }
     ImGui::SameLine();
     if (ImGui::Button("Apply")) {
-        GlobalData.setCurrentAction(EpiGimp::varAction::SHADOW);
+        GlobalData.setCurrentAction(ProtoPaint::varAction::SHADOW);
         this->_isVisible = false;
     }
 }

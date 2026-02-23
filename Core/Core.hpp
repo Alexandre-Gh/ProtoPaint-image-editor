@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -25,7 +24,7 @@
     #include "Layer.hpp"
 
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
         class Core
         {
@@ -44,7 +43,7 @@
 
                 void reposition();
 
-                void addState(const std::vector<std::shared_ptr<EpiGimp::Layer>>& layers);
+                void addState(const std::vector<std::shared_ptr<ProtoPaint::Layer>>& layers);
                 void undo();
                 void redo();
                 void flipAll(bool vertical);
@@ -62,10 +61,10 @@
                 std::shared_ptr<Graphic::Window> _window;
 
                 std::unique_ptr<Graphic::DrawZone> _canvasBG;
-                std::vector<std::shared_ptr<EpiGimp::Layer>> _canvasLayers;
-                std::vector<std::vector<std::shared_ptr<EpiGimp::Layer>>> _canvasHistory;
+                std::vector<std::shared_ptr<ProtoPaint::Layer>> _canvasLayers;
+                std::vector<std::vector<std::shared_ptr<ProtoPaint::Layer>>> _canvasHistory;
 
-                std::map<EpiGimp::varTool, std::unique_ptr<EpiGimp::ITool>> _tools;
+                std::map<ProtoPaint::varTool, std::unique_ptr<ProtoPaint::ITool>> _tools;
 
                 std::unique_ptr<GUI::IGUIWindow> _toolWindow;
                 std::unique_ptr<GUI::SizeWin> _sizeWindow;
@@ -76,9 +75,9 @@
                 std::unique_ptr<GUI::ContrastWin> _contrastWindow;
                 std::unique_ptr<GUI::ShadowWin> _shadowWin;
 
-                std::vector<std::shared_ptr<EpiGimp::Layer>> _undoCanvas;
-                std::vector<EpiGimp::varAction> _actionsWithWarning;
-                std::map<EpiGimp::varAction, std::string> _infoTexts;
+                std::vector<std::shared_ptr<ProtoPaint::Layer>> _undoCanvas;
+                std::vector<ProtoPaint::varAction> _actionsWithWarning;
+                std::map<ProtoPaint::varAction, std::string> _infoTexts;
 
                 std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRL;
                 std::map<sf::Keyboard::Key, std::function<void()>> _shortcutCTRLShift;

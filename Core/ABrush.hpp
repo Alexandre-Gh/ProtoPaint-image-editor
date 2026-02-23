@@ -1,6 +1,5 @@
 /*
-** EPITECH PROJECT, 2024
-** EpiGimp
+** ProtoPaint
 ** File description:
 ** Core
 */
@@ -13,9 +12,9 @@
     #include "../includes/Headers.hpp"
     #include "../Interfaces/IBrush.hpp"
 
-    namespace EpiGimp
+    namespace ProtoPaint
     {
-        class ABrush : public EpiGimp::IBrush
+        class ABrush : public ProtoPaint::IBrush
         {
             public:
                 ABrush();
